@@ -24,8 +24,8 @@ client.on('connect', function(connection) {
     function sendNumber() {
         if (connection.connected) {
             var number = Math.round(Math.random() * 0xFFFFFF);
-            connection.sendUTF(number.toString());
-            setTimeout(sendNumber, 1000);
+            connection.sendUTF("{}");
+            setTimeout(sendNumber, 2000);
         }
     }
     sendNumber();
