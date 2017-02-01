@@ -1,0 +1,5 @@
+{ "dependencies" :
+  { "nodejs-websocket" : "latest",
+    "websocket": "latest"
+  }
+}
