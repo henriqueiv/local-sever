@@ -1,6 +1,0 @@
-{ "dependencies" :
-  { "nodejs-websocket" : "latest",
-    "websocket": "latest",
-    "i2c": "latest"
-  }
-}
