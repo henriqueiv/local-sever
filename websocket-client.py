@@ -2,10 +2,6 @@ import websocket
 import threading
 import thread
 import time
-import smbus
-
-bus = smbus.SMBus(1)
-address = 0x04
 
 def on_message(ws, message):
 	print message
