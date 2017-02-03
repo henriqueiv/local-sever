@@ -2,6 +2,10 @@ import websocket
 import threading
 import thread
 import time
+import smbus
+
+bus = smbus.SMBus(1)
+address = 0x04
 
 def on_message(ws, message):
 	print message
@@ -17,7 +21,6 @@ def on_open(ws):
     	ws.send("{\"register\": \"aaa\"}")
         #ws.close()
     thread.start_new_thread(run, ())
-
 
 if __name__ == "__main__":
 	websocket.enableTrace(True)
