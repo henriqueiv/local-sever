@@ -44,4 +44,4 @@ while True:
 
 
 	print data
-	time.sleep(1)
+	time.sleep(30)
