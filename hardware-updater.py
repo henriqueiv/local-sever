@@ -71,7 +71,7 @@ while True:
 	data_log.insert_one({"timestamp": ts, "type": 1, "value": temperature})
 	result = data_log.insert_one({"timestamp": ts, "type": 2, "value":	 co2})
 
-	cursor = data_log.find({"_id": result.insrted_id})
+	cursor = data_log.find({"_id": result.inserted_id})
 	for document in cursor:
 		pprint(document)
 
