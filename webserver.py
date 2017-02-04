@@ -2,6 +2,7 @@ from tornado import websocket, web, ioloop
 import json
 import time
 import os
+import smbus
 import pymongo
 from pymongo import MongoClient
 
