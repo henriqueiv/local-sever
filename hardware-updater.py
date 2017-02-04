@@ -67,9 +67,11 @@ while True:
 
 	data_log.insert_one({"timestamp": ts, "type": 0, "value": humidity})
 	data_log.insert_one({"timestamp": ts, "type": 1, "value": temperature})
-	inserted_id = data_log.insert_one({"timestamp": ts, "type": 2, "value": co2})
+	inserted_id = data_log.insert_one({"timestamp": ts, "type": 2, "value":	 co2})
 
-	print data_log.find({"_id": inserted_id})
+	cursor = data_log.find({"_id": inserted_id})
+	for document in cursor:
+		print document
 
 	print data
 	time.sleep(30)
