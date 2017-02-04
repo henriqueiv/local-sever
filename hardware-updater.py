@@ -4,6 +4,8 @@ import time
 import pymongo
 from pymongo import MongoClient
 
+from pprint import pprint
+
 def StringToBytes(val):
   retVal = []
   for c in val:
@@ -71,7 +73,7 @@ while True:
 
 	cursor = data_log.find({"_id": inserted_id})
 	for document in cursor:
-		print document
+		pprint(document)
 
 	print data
 	time.sleep(30)
