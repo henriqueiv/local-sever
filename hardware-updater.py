@@ -67,12 +67,14 @@ while True:
 	co2 = items[3]
 	ts = time.time()
 
+	cursor = accessories.find_one({"_id": AccessoryTypeCO2})
+	print cursor
+	print cursor["_id"]
+
+	
 	data_log.insert_one({"timestamp": ts, "type": 0, "value": humidity})
 	data_log.insert_one({"timestamp": ts, "type": 1, "value": temperature})
-	result = data_log.insert_one({"timestamp": ts, "type": 2, "value":	 co2})
-
-	cursor = data_log.find_one({"_id": result.inserted_id})
-	print cursor
+	data_log.insert_one({"timestamp": ts, "type": 2, "value":	 co2})
 
 	print data
 	time.sleep(30)
