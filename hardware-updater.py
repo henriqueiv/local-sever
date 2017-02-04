@@ -72,7 +72,7 @@ while True:
 	result = data_log.insert_one({"timestamp": ts, "type": 2, "value":	 co2})
 
 	cursor = data_log.find_one({"_id": result.inserted_id})
-	print cursor["_id"]
+	print cursor.id
 
 	print data
 	time.sleep(30)
