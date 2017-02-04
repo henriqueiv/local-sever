@@ -3,6 +3,7 @@ import time
 
 import pymongo
 from pymongo import MongoClient
+from pymongo import ObjectId
 
 from pprint import pprint
 
@@ -71,7 +72,7 @@ while True:
 	print cursor
 	print cursor["_id"]
 
-	
+
 	data_log.insert_one({"timestamp": ts, "type": 0, "value": humidity})
 	data_log.insert_one({"timestamp": ts, "type": 1, "value": temperature})
 	data_log.insert_one({"timestamp": ts, "type": 2, "value":	 co2})
