@@ -25,6 +25,33 @@ address = 0x04
 client = MongoClient('localhost', 27017)
 db = client['420bits']
 data_log = db.data_log
+accessories = db.accessories
+
+
+
+Types = [
+	"humidity",
+	"temperature",
+	"co2"
+]
+
+DefaultHumidityAccessoryID = 0
+DefaultTemperatureAccessoryID = 1
+DefaultCO2AccessoryID = 2
+
+AccessoryTypeHumidity = 0
+AccessoryTypeTemperature = 1
+AccessoryTypeCO2 = 2
+
+if accessories.count({_id: DefaultHumidityAccessoryID}) == 0:
+	accessories.insert_one({"_id": DefaultHumidityAccessoryID, "name": "Humidity", "type": AccessoryTypeTemperature})
+
+if accessories.count({_id: DefaultTemperatureAccessoryID}) == 0:
+	accessories.insert_one({"_id": DefaultTemperatureAccessoryID, "name": "Temperature"})
+
+if accessories.count({_id: DefaultCO2AccessoryID}) == 0:
+	accessories.insert_one({"_id": DefaultCO2AccessoryID, "name": "CO2"})
+
 
 while True:
 	bytes = bus.read_i2c_block_data(address, 0)
@@ -40,8 +67,9 @@ while True:
 
 	data_log.insert_one({"timestamp": ts, "type": 0, "value": humidity})
 	data_log.insert_one({"timestamp": ts, "type": 1, "value": temperature})
-	data_log.insert_one({"timestamp": ts, "type": 2, "value": co2})
+	inserted_id = data_log.insert_one({"timestamp": ts, "type": 2, "value": co2})
 
+	print data_log.find({"_id": inserted_id})
 
 	print data
 	time.sleep(30)

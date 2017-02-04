@@ -89,9 +89,8 @@ class TimerHandler(web.RequestHandler):
     @web.asynchronous
     def get(self, *args):
         self.finish()
-        print "Arguments:"
+        print "Received get request.'from' get request param value: "
         print self.get_query_argument("from")
-        print "Received get request"
 
 app = web.Application([
     (r'/ws', SocketHandler),
