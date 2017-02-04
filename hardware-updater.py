@@ -72,10 +72,7 @@ while True:
 	result = data_log.insert_one({"timestamp": ts, "type": 2, "value":	 co2})
 
 	cursor = data_log.find_one({"_id": result.inserted_id})
-	print cursor
-	for document in cursor:
-		print document
-		#pprint(document)
+	print cursor["_id"]
 
 	print data
 	time.sleep(30)
