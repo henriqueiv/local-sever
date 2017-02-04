@@ -67,8 +67,14 @@ class SocketHandler(websocket.WebSocketHandler):
                 print readBus()
 
             elif action == "read":
-                self.write_message("Read")
-                print "read"
+                bytes = bus.read_i2c_block_data(address, 0)
+
+                data = "".join(map(chr, bytes)).strip("\xff")
+
+                items = data.split("|")
+
+                self.write_message(data)
+                print data
 
         except:
             print("error parsing message:" + str(message))
