@@ -24,7 +24,7 @@ def readBus():
   data = ""
   for i in range(0, 1):
           data += chr(bus.read_byte(address));
-  print data
+  return data
 
 def notify_all_clients(data):
     for c in cl:
@@ -46,26 +46,32 @@ class SocketHandler(websocket.WebSocketHandler):
     def on_message(self, message):
         print "Received messaged: " + message
 
-        if message == "read":
-            print "just read"
-        else:
-            try:
-                receivedObject = json.loads(message)
+        try:
+            receivedObject = json.loads(message)
+            if not receivedObject.has_key("action"):
+                print "Key action not found"
+                return
 
-                if receivedObject.has_key("turn_on"):
-                    deviceToTurnOn = receivedObject["turn_on"]
-                    message = deviceToTurnOn + "1"
-                    bus.write_i2c_block_data(address, 0, StringToBytes(message))
-                    print message
+            action = receivedObject["action"]
 
-                elif receivedObject.has_key("turn_off"):
-                    deviceToTurnOff = receivedObject["turn_off"]
-                    message = deviceToTurnOff + "0"
-                    bus.write_i2c_block_data(address, 0, StringToBytes(message))
-                    print message
+            if action == "turn_on":
+                deviceToTurnOn = receivedObject["id"]
+                message = deviceToTurnOn + "1"
+                bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                print readBus()
 
-            except:
-                print("error parsing message:" + str(message))
+            elif action == "turn_off":
+                deviceToTurnOff = receivedObject["id"]
+                message = deviceToTurnOff + "0"
+                bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                print readBus()
+
+            elif action == "read":
+                self.write_message("Read")
+                print "read"
+
+        except:
+            print("error parsing message:" + str(message))
 
 
 class TimerHandler(web.RequestHandler):
