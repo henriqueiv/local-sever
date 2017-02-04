@@ -74,7 +74,7 @@ while True:
 	cursor = data_log.find_one({"_id": result.inserted_id})
 	print cursor
 	for document in cursor:
-		print document.["_id"]
+		print document["_id"]
 		#pprint(document)
 
 	print data
