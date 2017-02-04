@@ -54,11 +54,15 @@ class SocketHandler(websocket.WebSocketHandler):
 
                 if receivedObject.has_key("turn_on"):
                     deviceToTurnOn = receivedObject["turn_on"]
-                    print deviceToTurnOn
+                    message = deviceToTurnOn + "1"
+                    bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                    print message
 
                 elif receivedObject.has_key("turn_off"):
                     deviceToTurnOff = receivedObject["turn_off"]
-                    print deviceToTurnOff
+                    message = deviceToTurnOff + "0"
+                    bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                    print message
 
             except:
                 print("error parsing message:" + str(message))
