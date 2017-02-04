@@ -43,13 +43,13 @@ AccessoryTypeHumidity = 0
 AccessoryTypeTemperature = 1
 AccessoryTypeCO2 = 2
 
-if accessories.count({_id: DefaultHumidityAccessoryID}) == 0:
+if accessories.count({"_id": DefaultHumidityAccessoryID}) == 0:
 	accessories.insert_one({"_id": DefaultHumidityAccessoryID, "name": "Humidity", "type": AccessoryTypeTemperature})
 
-if accessories.count({_id: DefaultTemperatureAccessoryID}) == 0:
+if accessories.count({"_id": DefaultTemperatureAccessoryID}) == 0:
 	accessories.insert_one({"_id": DefaultTemperatureAccessoryID, "name": "Temperature"})
 
-if accessories.count({_id: DefaultCO2AccessoryID}) == 0:
+if accessories.count({"_id": DefaultCO2AccessoryID}) == 0:
 	accessories.insert_one({"_id": DefaultCO2AccessoryID, "name": "CO2"})
 
 
