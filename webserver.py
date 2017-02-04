@@ -51,8 +51,14 @@ class SocketHandler(websocket.WebSocketHandler):
         else:
             try:
                 receivedObject = json.loads(message)
-                if receivedObject.has_key("timer_interval"):
-                    print "aa"
+
+                if receivedObject.has_key("turn_on"):
+                    deviceToTurnOn = receivedObject["turn_on"]
+                    print deviceToTurnOn
+
+                elif receivedObject.has_key("turn_off"):
+                    deviceToTurnOff = receivedObject["turn_off"]
+                    print deviceToTurnOff
 
             except:
                 print("error parsing message:" + str(message))
