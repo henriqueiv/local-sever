@@ -49,7 +49,11 @@ class SocketHandler(websocket.WebSocketHandler):
             c.write_message(data)
 
     def update_self_client():
-        self.write_message(json.dumps(self.accessory_manager.get_accessories_json()))
+        print "1"
+        data = json.dumps(self.accessory_manager.get_accessories_json())
+        print "2"
+        self.write_message()
+        print "3"
 
     def on_message(self, message):
         print "Received messaged: " + message
