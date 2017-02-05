@@ -28,4 +28,4 @@ class ArduinoAccessories:
 class AccessoryManager:
 	device = ArduinoAccessories()
 	def get_accessories(self):
-		return sef.device.get_accessories()
+		return self.device.get_accessories()
