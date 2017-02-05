@@ -1,3 +1,5 @@
+import json
+
 AccessoryTypeUndefined = -1
 AccessoryTypeHumidity = 0
 AccessoryTypeTemperature = 1
