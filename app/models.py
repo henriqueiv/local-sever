@@ -7,7 +7,9 @@ class Accessory:
 	type = AccessoryTypeUndefined
 	id = 0
 	name = ""
-	def __init__(self, name, id, type):
+	value = None
+	def __init__(self, name, id, type, value):
 		self.type = type
 		self.name = name
 		self.id = id
+		self.value = value

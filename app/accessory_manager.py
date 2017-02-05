@@ -19,11 +19,10 @@ class ArduinoAccessories:
 		co2 = items[3]
 
 		accessories = [
-			Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity),
-			Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature),
-			Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2)
+			Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
+			Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature, temperature),
+			Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2)
 		]
-		print "a"
 		return accessories
 
 class AccessoryManager:

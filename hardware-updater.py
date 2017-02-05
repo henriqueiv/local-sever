@@ -23,14 +23,14 @@ data_log = db.data_log
 accessories = db.accessories
 
 
-if accessories.count({"_id": DefaultHumidityAccessoryID}) == 0:
-	accessories.insert_one({"_id": DefaultHumidityAccessoryID, "name": "Humidity", "type": AccessoryTypeTemperature})
+# if accessories.count({"_id": DefaultHumidityAccessoryID}) == 0:
+# 	accessories.insert_one({"_id": DefaultHumidityAccessoryID, "name": "Humidity", "type": AccessoryTypeTemperature})
 
-if accessories.count({"_id": DefaultTemperatureAccessoryID}) == 0:
-	accessories.insert_one({"_id": DefaultTemperatureAccessoryID, "name": "Temperature"})
+# if accessories.count({"_id": DefaultTemperatureAccessoryID}) == 0:
+# 	accessories.insert_one({"_id": DefaultTemperatureAccessoryID, "name": "Temperature"})
 
-if accessories.count({"_id": DefaultCO2AccessoryID}) == 0:
-	accessories.insert_one({"_id": DefaultCO2AccessoryID, "name": "CO2"})
+# if accessories.count({"_id": DefaultCO2AccessoryID}) == 0:
+# 	accessories.insert_one({"_id": DefaultCO2AccessoryID, "name": "CO2"})
 
 
 accessory_manager = AccessoryManager()
