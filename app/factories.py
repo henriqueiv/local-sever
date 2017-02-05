@@ -2,7 +2,7 @@ from models import Accessory, AccessoryLog
 import pymongo
 from pymongo import MongoClient
 
-class AccessoryFactory:
+class AbstractFactory(object):
 	client = None
 	db = None
 	table = None
@@ -10,22 +10,21 @@ class AccessoryFactory:
 	def __init__(self):
 		self.client = MongoClient('localhost', 27017)
 		self.db = self.client['420bits']
+		
+
+class AccessoryFactory(AbstractFactory):
+	def __init__(self):
+		AbstractFactory.__init__(self)
 		self.table = self.db.accessories
 
 	def insert_or_update(self, accessory):
 		accessory_dictionary = accessory.to_db_json()
-
 		self.table.update({"_id": accessory.id}, accessory_dictionary,True)
 
 
-class AccessoryLogFactory:
-	client = None
-	db = None
-	table = None
-
+class AccessoryLogFactory(AbstractFactory):
 	def __init__(self):
-		self.client = MongoClient('localhost', 27017)
-		self.db = self.client['420bits']
+		AbstractFactory.__init__(self)
 		self.table = self.db.data_log
 
 	def insert(self, accessory_log):
