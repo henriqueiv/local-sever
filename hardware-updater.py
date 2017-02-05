@@ -40,8 +40,12 @@ while True:
 	
 	ts = time.time()
 	accessories = accessory_manager.get_accessories()
+
 	for accessory in accessories:
-		accessories_db.update({"_id": accessory.id}, {"_id": accessory.id, "name": accessory.name, "type": accessory.type},True)
+		accessory_dictionary = {"_id": accessory.id, "name": accessory.name, "type": accessory.type}
+		accessories_db.update({"_id": accessory.id}, accessory_dictionary,True)
+		data_log.insert_one({"timestamp": ts, "value": humidity, "accessory": accessories.find_one({"_id": DefaultHumidityAccessoryID})})
+
 		print accessory
 
 	# data_log.insert_one({"timestamp": ts, "type": AccessoryTypeHumidity, "value": humidity, "accessory": accessories.find_one({"_id": DefaultHumidityAccessoryID})})
