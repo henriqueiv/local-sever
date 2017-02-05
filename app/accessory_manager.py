@@ -31,7 +31,7 @@ class ArduinoAccessories:
 		]
 		return accessories
 
-	def turn_on_accessory(self):
+	def turn_on_accessory(self, accessory_id):
 		print "Hello"
 
 	# def turn_on_accessory(self,accessory_id):
