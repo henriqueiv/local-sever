@@ -28,10 +28,6 @@ def readBus():
           data += chr(bus.read_byte(address));
   return data
 
-def notify_all_clients(data):
-    for c in cl:
-        c.write_message(data)
-
 class SocketHandler(websocket.WebSocketHandler):
 
     accessory_manager = AccessoryManager()
@@ -47,6 +43,14 @@ class SocketHandler(websocket.WebSocketHandler):
         if self in cl:
             cl.remove(self)
 
+    def update_all_clients():
+        data = json.dumps(self.accessory_manager.get_accessories_json())
+        for c in cl:
+            c.write_message(data)
+
+    def update_self_client():
+        self.write_message(json.dumps(self.accessory_manager.get_accessories_json()))
+
     def on_message(self, message):
         print "Received messaged: " + message
 
@@ -61,26 +65,20 @@ class SocketHandler(websocket.WebSocketHandler):
             if action == "turn_on":
                 deviceToTurnOn = receivedObject["id"]
                 self.accessory_manager.turn_on_accessory(deviceToTurnOn)
-                # Notify all clients
+                self.update_all_clients()
+
                 print "Turn on: " + str(deviceToTurnOn)
 
             elif action == "turn_off":
                 deviceToTurnOff = receivedObject["id"]
                 self.accessory_manager.turn_off_accessory(deviceToTurnOff)
-                # Notify all clients
+                self.update_all_clients()
+
                 print "Turn off: " + str(deviceToTurnOff)
 
             elif action == "read":
-                #self.write_message(data)
-                accessories = self.accessory_manager.get_accessories()
-                accessories_json = []
-                for accessory in accessories:
-                    accessories_json.append(accessory.to_json())
-
-                self.write_message(json.dumps(accessories_json))
-                self.write_message(json.dumps(accessories))
-
-                print data
+                self.update_self_client()
+                print "Read"
 
         except:
             print("error parsing message:" + str(message))
