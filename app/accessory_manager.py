@@ -1,4 +1,4 @@
-from arduino_accessories import ArduinoAccessories
+import arduino_accessories
 
 class AccessoryManager:
 	device = ArduinoAccessories()
