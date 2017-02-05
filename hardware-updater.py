@@ -1,6 +1,7 @@
 import time
 from app.accessory_manager import AccessoryManager
 from app.factories import AccessoryFactory, AccessoryLogFactory
+from app.models import AccessoryLog
 
 accessory_manager = AccessoryManager()
 accessory_factory = AccessoryFactory()
