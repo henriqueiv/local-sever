@@ -20,7 +20,7 @@ class AccessoryFactory:
 		self.client = MongoClient('localhost', 27017)
 		self.db = client['420bits']
 
-	def insert_or_update(accessory):
+	def insert_or_update(self, accessory):
 		accessory_dictionary = accessory.to_db_json()
 
 		accessories_db = self.db.accessories
