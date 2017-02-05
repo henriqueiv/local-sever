@@ -45,7 +45,7 @@ while True:
 		accessory_dictionary = accessory.to_json()
 
 		accessories_db.update({"_id": accessory.id}, accessory.to_json(),True)
-		data_log.insert_one({"timestamp": ts, "value": humidity, "accessory": accessory_dictionary})
+		data_log.insert_one({"timestamp": ts, "accessory": accessory_dictionary})
 
 		print accessory
 
