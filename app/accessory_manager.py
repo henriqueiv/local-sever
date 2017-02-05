@@ -23,6 +23,7 @@ class ArduinoAccessories:
 			Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature),
 			Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2)
 		]
+		print "a"
 		return accessories
 
 class AccessoryManager:
