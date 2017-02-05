@@ -33,7 +33,10 @@ class ArduinoAccessories:
 
 	def turn_on_accessory(self, accessory_id):
 		message = accessory_id + "1"
+		print "message"
+		print message
 		self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
+		print "aaa"
 
 	def turn_off_accessory(self, accessory_id):
 		message = accessory_id + "0"
