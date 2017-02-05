@@ -1,7 +1,7 @@
 import app.models
 import app.accessory_manager
 
-# manager = AccessoryManager()
+manager = app.AccessoryManager()
 # manager.name = "william"
 
 # print manager.name
