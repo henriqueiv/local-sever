@@ -43,5 +43,5 @@ class SocketMessage:
                 self.id = message_object["id"]
 
         except:
-            print("error parsing message:" + str(message))
+            print("error parsing message:" + str(socket_message))
             return
