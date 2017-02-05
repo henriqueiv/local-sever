@@ -63,21 +63,21 @@ class SocketHandler(websocket.WebSocketHandler):
 
 
 
-class TimerHandler(web.RequestHandler):
-
+class AccessoriesHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
         pass
 
     @web.asynchronous
     def get(self, *args):
+        self.write("Hello")
         self.finish()
         print "Received get request.'from' get request param value: "
         print self.get_query_argument("from")
 
 app = web.Application([
     (r'/ws', SocketHandler),
-    (r'/timer', TimerHandler),
+    (r'/accessories_log', AccessoriesHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
