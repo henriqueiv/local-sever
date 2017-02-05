@@ -31,6 +31,10 @@ class SocketHandler(websocket.WebSocketHandler):
             print "Error: Action property not received in message: " + message
             return
 
+        self.dispatch(socket_message)
+        
+
+    def dispatch(self, socket_message):
         if socket_message.action == SocketMessageActionTurnOn and socket_message.id is not None:
             self.accessory_manager.turn_on_accessory(socket_message.id)
             self.update_all_clients(self.accessory_manager.get_accessories_json())
