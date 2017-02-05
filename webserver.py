@@ -60,14 +60,13 @@ class SocketHandler(websocket.WebSocketHandler):
 
             if action == "turn_on":
                 deviceToTurnOn = receivedObject["id"]
-                print deviceToTurnOn
-                self.accessory_manager.turn_on(deviceToTurnOn)
+                self.accessory_manager.turn_on_accessory(deviceToTurnOn)
                 # Notify all clients
                 print readBus()
 
             elif action == "turn_off":
                 deviceToTurnOff = receivedObject["id"]
-                self.accessory_manager.turn_off(deviceToTurnOff)
+                self.accessory_manager.turn_off_accessory(deviceToTurnOff)
                 # Notify all clients
                 print readBus()
 
