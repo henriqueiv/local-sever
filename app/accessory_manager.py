@@ -1,4 +1,4 @@
-from models import Accessory
+import models
 import smbus
 
 DefaultHumidityAccessoryID = 1
