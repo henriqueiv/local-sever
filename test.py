@@ -1,4 +1,3 @@
-import app.models
 from app.accessory_manager import AccessoryManager
 
 manager = AccessoryManager()
