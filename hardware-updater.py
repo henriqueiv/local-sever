@@ -1,4 +1,3 @@
-import smbus
 import time
 
 import pymongo
@@ -18,32 +17,11 @@ def readBus():
           data += chr(bus.read_byte(address));
   print data
 
-
-bus = smbus.SMBus(1)
-address = 0x04
-
-#bus.write_i2c_block_data(address, 0, StringToBytes("Hello World"))
-
 client = MongoClient('localhost', 27017)
 db = client['420bits']
 data_log = db.data_log
 accessories = db.accessories
 
-
-
-Types = [
-	"humidity",
-	"temperature",
-	"co2"
-]
-
-DefaultHumidityAccessoryID = 0
-DefaultTemperatureAccessoryID = 1
-DefaultCO2AccessoryID = 2
-
-AccessoryTypeHumidity = 0
-AccessoryTypeTemperature = 1
-AccessoryTypeCO2 = 2
 
 if accessories.count({"_id": DefaultHumidityAccessoryID}) == 0:
 	accessories.insert_one({"_id": DefaultHumidityAccessoryID, "name": "Humidity", "type": AccessoryTypeTemperature})
@@ -55,21 +33,18 @@ if accessories.count({"_id": DefaultCO2AccessoryID}) == 0:
 	accessories.insert_one({"_id": DefaultCO2AccessoryID, "name": "CO2"})
 
 
+accessory_manager = AccessoryManager()
+
 while True:
-	bytes = bus.read_i2c_block_data(address, 0)
-
-	data = "".join(map(chr, bytes)).strip("\xff")
-
-	items = data.split("|")
-
-	humidity = items[0]
-	temperature = items[1]
-	co2 = items[3]
+	
 	ts = time.time()
+	accessories = accessory_manager.get_accessories()
+	for accessory in accessories:
+		print accessory
 
-	data_log.insert_one({"timestamp": ts, "type": AccessoryTypeHumidity, "value": humidity, "accessory": accessories.find_one({"_id": DefaultHumidityAccessoryID})})
-	data_log.insert_one({"timestamp": ts, "type": AccessoryTypeTemperature, "value": temperature, "accessory": accessories.find_one({"_id": DefaultTemperatureAccessoryID})})
-	data_log.insert_one({"timestamp": ts, "type": AccessoryTypeCO2, "value": co2, "accessory": accessories.find_one({"_id": DefaultCO2AccessoryID})})
+	# data_log.insert_one({"timestamp": ts, "type": AccessoryTypeHumidity, "value": humidity, "accessory": accessories.find_one({"_id": DefaultHumidityAccessoryID})})
+	# data_log.insert_one({"timestamp": ts, "type": AccessoryTypeTemperature, "value": temperature, "accessory": accessories.find_one({"_id": DefaultTemperatureAccessoryID})})
+	# data_log.insert_one({"timestamp": ts, "type": AccessoryTypeCO2, "value": co2, "accessory": accessories.find_one({"_id": DefaultCO2AccessoryID})})
 
-	print data
+	# print data
 	time.sleep(30)
