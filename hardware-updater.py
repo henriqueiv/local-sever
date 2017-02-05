@@ -20,7 +20,13 @@ class AccessoryFactory:
 		self.client = MongoClient('localhost', 27017)
 		self.db = client['420bits']
 
-factory = AccessoryFactory()
+	def insert_or_update(accessory):
+		accessory_dictionary = accessory.to_db_json()
+
+		accessories_db = self.db.accessories
+		accessories_db.update({"_id": accessory.id}, accessory_dictionary,True)
+
+accessory_factory = AccessoryFactory()
 
 while True:
 	
@@ -30,7 +36,7 @@ while True:
 	for accessory in accessories:
 		accessory_dictionary = accessory.to_db_json()
 
-		accessories_db.update({"_id": accessory.id}, accessory_dictionary,True)
+		accessory_factory.insert_or_update(accessory)
 		data_log.insert_one({"timestamp": ts, "accessory": accessory_dictionary})
 
 		print accessory
