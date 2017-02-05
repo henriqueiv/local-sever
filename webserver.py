@@ -1,5 +1,5 @@
 from app.accessory_manager import AccessoryManager
-from app.models import SocketMessage
+from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
 from tornado import websocket, web, ioloop
 import json
 import time
@@ -31,22 +31,19 @@ class SocketHandler(websocket.WebSocketHandler):
             print "Error: Action property not received in message: " + message
             return
 
-
-        if socket_message.action == "turn_on" and socket_message.id is not None:
-            deviceToTurnOn = socket_message.id
-            self.accessory_manager.turn_on_accessory(deviceToTurnOn)
+        if socket_message.action == SocketMessageActionTurnOn and socket_message.id is not None:
+            self.accessory_manager.turn_on_accessory(socket_message.id)
             self.update_all_clients(self.accessory_manager.get_accessories_json())
 
-            print "Turn on: " + str(deviceToTurnOn)
+            print "Turn on: " + str(socket_message.id)
 
-        elif socket_message.action == "turn_off" and socket_message.id is not None:
-            deviceToTurnOff = socket_message.id
-            self.accessory_manager.turn_off_accessory(deviceToTurnOff)
+        elif socket_message.action == SocketMessageActionTurnOff and socket_message.id is not None:
+            self.accessory_manager.turn_off_accessory(socket_message.id)
             self.update_all_clients(self.accessory_manager.get_accessories_json())
 
-            print "Turn off: " + str(deviceToTurnOff)
+            print "Turn off: " + str(socket_message.id)
 
-        elif socket_message.action == "read":
+        elif socket_message.action == SocketMessageActionRead:
             self.update_self_client(self.accessory_manager.get_accessories_json())
             print "Read"
 

@@ -30,6 +30,11 @@ class AccessoryLog:
 		self.accessory = accessory
 		self.timestamp = timestamp
 
+
+SocketMessageActionRead = "read"
+SocketMessageActionTurnOn = "turn_on"
+SocketMessageActionTurnOf = "turn_off"
+
 class SocketMessage:
     action = None
     id = None
