@@ -5,8 +5,6 @@ DefaultHumidityAccessoryID = 1
 DefaultTemperatureAccessoryID = 2
 DefaultCO2AccessoryID = 3
 
-print "b"
-
 class ArduinoAccessories:
 	i2cbus = smbus.SMBus(1)
 	address = 0x04
