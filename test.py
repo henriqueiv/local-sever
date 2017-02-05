@@ -1,3 +1,4 @@
+import models
 import smbus
 
 AccessoryTypeUndefined = -1
@@ -8,15 +9,6 @@ AccessoryTypeCO2 = 2
 DefaultHumidityAccessoryID = 1
 DefaultTemperatureAccessoryID = 2
 DefaultCO2AccessoryID = 3
-
-class Accessory:
-	type = AccessoryTypeUndefined
-	id = 0
-	name = ""
-	def __init__(self, name, id, type):
-		self.type = type
-		self.name = name
-		self.id = id
 
 class AccessoryManager:
 	device = ArduinoAccessories()
