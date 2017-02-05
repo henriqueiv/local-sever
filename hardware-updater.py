@@ -4,34 +4,10 @@ from app.accessory_manager import AccessoryManager
 import pymongo
 from pymongo import MongoClient
 
-from pprint import pprint
-
-def StringToBytes(val):
-  retVal = []
-  for c in val:
-    retVal.append(ord(c))
-  return retVal
-
-def readBus():
-  data = ""
-  for i in range(0, 1):
-          data += chr(bus.read_byte(address));
-  print data
-
 client = MongoClient('localhost', 27017)
 db = client['420bits']
 data_log = db.data_log
 accessories_db = db.accessories
-
-
-# if accessories.count({"_id": DefaultHumidityAccessoryID}) == 0:
-# 	accessories.insert_one({"_id": DefaultHumidityAccessoryID, "name": "Humidity", "type": AccessoryTypeTemperature})
-
-# if accessories.count({"_id": DefaultTemperatureAccessoryID}) == 0:
-# 	accessories.insert_one({"_id": DefaultTemperatureAccessoryID, "name": "Temperature"})
-
-# if accessories.count({"_id": DefaultCO2AccessoryID}) == 0:
-# 	accessories.insert_one({"_id": DefaultCO2AccessoryID, "name": "CO2"})
 
 
 accessory_manager = AccessoryManager()
@@ -44,7 +20,7 @@ while True:
 	for accessory in accessories:
 		accessory_dictionary = accessory.to_json()
 
-		accessories_db.update({"_id": accessory.id}, accessory.to_json(),True)
+		accessories_db.update({"_id": accessory.id}, accessory_dictionary,True)
 		data_log.insert_one({"timestamp": ts, "accessory": accessory_dictionary})
 
 		print accessory
