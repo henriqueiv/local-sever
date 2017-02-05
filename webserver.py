@@ -78,7 +78,12 @@ class SocketHandler(websocket.WebSocketHandler):
                 items = data.split("|")
 
                 #self.write_message(data)
-                self.write_message(self.accessory_manager.get_accessories())
+                accessories = self.accessory_manager.get_accessories()
+                accessories_json = []
+                for accessory in accessories:
+                    accessories_json.append(accessory.to_json())
+
+                self.write_message(accessories_json)
 
                 print data
 
