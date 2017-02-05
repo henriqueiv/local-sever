@@ -30,14 +30,14 @@ class ArduinoAccessories:
 			Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2)
 		]
 		return accessories
+		
+	# def turn_on_accessory(self,accessory_id):
+	# 	message = accessory_id + "1"
+ #        self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
 
-	def turn_on_accessory(self,accessory_id):
-		message = accessory_id + "1"
-        self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
-
-	def turn_off_accessory(self,accessory_id):
-		message = accessory_id + "0"
-        self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
+	# def turn_off_accessory(self,accessory_id):
+	# 	message = accessory_id + "0"
+ #        self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
 
 class AccessoryManager:
 	device = ArduinoAccessories()
