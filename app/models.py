@@ -13,3 +13,6 @@ class Accessory:
 		self.name = name
 		self.id = id
 		self.value = value
+
+	def to_json(self):
+		return {"_id": self.id, "name": self.name, "type": self.type, "value": self.value}
