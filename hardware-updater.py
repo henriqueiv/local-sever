@@ -45,7 +45,7 @@ class AccessoryLogFactory:
 		self.db = client['420bits']
 		self.table = self.db.data_log
 
-	def insert(accessory_log):
+	def insert(self, accessory_log):
 		data_log.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
 
 
@@ -53,7 +53,6 @@ accessory_factory = AccessoryFactory()
 accessory_log_factory = AccessoryLogFactory()
 
 while True:
-	
 	ts = time.time()
 	accessories = accessory_manager.get_accessories()
 	for accessory in accessories:
