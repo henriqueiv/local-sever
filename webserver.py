@@ -35,31 +35,31 @@ class SocketHandler(websocket.WebSocketHandler):
             if action == "turn_on":
                 deviceToTurnOn = receivedObject["id"]
                 self.accessory_manager.turn_on_accessory(deviceToTurnOn)
-                self.update_all_clients()
+                self.update_all_clients(self.accessory_manager.get_accessories_json())
 
                 print "Turn on: " + str(deviceToTurnOn)
 
             elif action == "turn_off":
                 deviceToTurnOff = receivedObject["id"]
                 self.accessory_manager.turn_off_accessory(deviceToTurnOff)
-                self.update_all_clients()
+                self.update_all_clients(self.accessory_manager.get_accessories_json())
 
                 print "Turn off: " + str(deviceToTurnOff)
 
             elif action == "read":
-                self.update_self_client()
+                self.update_self_client(self.accessory_manager.get_accessories_json())
                 print "Read"
 
         except:
             print("error parsing message:" + str(message))
 
-    def update_all_clients(self):
-        data = json.dumps(self.accessory_manager.get_accessories_json())
+    def update_all_clients(self, object):
+        data = json.dumps(object)
         for c in cl:
             c.write_message(data)
 
-    def update_self_client(self):
-        data = json.dumps(self.accessory_manager.get_accessories_json())
+    def update_self_client(self, object):
+        data = json.dumps(object)
         self.write_message(data)
 
 
