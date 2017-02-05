@@ -4,11 +4,6 @@ DefaultHumidityAccessoryID = 1
 DefaultTemperatureAccessoryID = 2
 DefaultCO2AccessoryID = 3
 
-class AccessoryManager:
-	device = ArduinoAccessories()
-	def get_accessories(self):
-		return sef.device.get_accessories()
-
 class ArduinoAccessories:
 	i2cbus = smbus.SMBus(1)
 	address = 0x04
@@ -28,3 +23,8 @@ class ArduinoAccessories:
 			Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2)
 		]
 		return accessories
+
+class AccessoryManager:
+	device = ArduinoAccessories()
+	def get_accessories(self):
+		return sef.device.get_accessories()
