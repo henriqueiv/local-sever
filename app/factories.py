@@ -25,7 +25,7 @@ class AccessoryLogFactory:
 
 	def __init__(self):
 		self.client = MongoClient('localhost', 27017)
-		self.db = client['420bits']
+		self.db = self.client['420bits']
 		self.table = self.db.data_log
 
 	def insert(self, accessory_log):
