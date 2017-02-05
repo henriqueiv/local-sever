@@ -35,7 +35,7 @@ class ArduinoAccessories:
 		message = accessory_id + "1"
         self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
 
-    def turn_off_accessory(self,accessory_id):
+	def turn_off_accessory(self,accessory_id):
 		message = accessory_id + "0"
         self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
 
@@ -46,7 +46,7 @@ class AccessoryManager:
 		return self.device.get_accessories()
 
 	def turn_on_accessory(self,accessory_id):
-		return self.device.turn_on_accessory(accessory_id)
+		self.device.turn_on_accessory(accessory_id)
 
     def turn_off_accessory(self,accessory_id):
-		return self.device.turn_off_accessory(accessory_id)
+		self.device.turn_off_accessory(accessory_id)
