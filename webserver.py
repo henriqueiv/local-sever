@@ -58,12 +58,14 @@ class SocketHandler(websocket.WebSocketHandler):
                 deviceToTurnOn = receivedObject["id"]
                 message = deviceToTurnOn + "1"
                 bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                # Notify all clients
                 print readBus()
 
             elif action == "turn_off":
                 deviceToTurnOff = receivedObject["id"]
                 message = deviceToTurnOff + "0"
                 bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                # Notify all clients
                 print readBus()
 
             elif action == "read":
