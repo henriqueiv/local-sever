@@ -6,6 +6,8 @@ import smbus
 import pymongo
 from pymongo import MongoClient
 
+from app.accessory_manager import AccessoryManager
+
 cl = []
 bus = smbus.SMBus(1)
 address = 0x04
@@ -32,6 +34,8 @@ def notify_all_clients(data):
 
 class SocketHandler(websocket.WebSocketHandler):
 
+    accessory_manager = AccessoryManager()
+
     def check_origin(self, origin):
         return True
 
@@ -56,15 +60,13 @@ class SocketHandler(websocket.WebSocketHandler):
 
             if action == "turn_on":
                 deviceToTurnOn = receivedObject["id"]
-                message = deviceToTurnOn + "1"
-                bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                self.accessory_manager.turn_on(deviceToTurnOn)
                 # Notify all clients
                 print readBus()
 
             elif action == "turn_off":
                 deviceToTurnOff = receivedObject["id"]
-                message = deviceToTurnOff + "0"
-                bus.write_i2c_block_data(address, 0, StringToBytes(message))
+                self.accessory_manager.turn_off(deviceToTurnOff)
                 # Notify all clients
                 print readBus()
 
