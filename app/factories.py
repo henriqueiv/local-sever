@@ -29,4 +29,4 @@ class AccessoryLogFactory:
 		self.table = self.db.data_log
 
 	def insert(self, accessory_log):
-		data_log.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
+		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
