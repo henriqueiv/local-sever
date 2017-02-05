@@ -19,3 +19,11 @@ class Accessory:
 
 	def to_json(self):
 		return {"id": self.id, "name": self.name, "type": self.type, "value": self.value}
+
+class AccessoryLog:
+	accessory = None
+	timestamp = 0
+
+	def __init__(self, accessory, timestamp):
+		self.accessory = accessory
+		self.timestamp = timestamp
