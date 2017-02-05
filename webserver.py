@@ -59,7 +59,7 @@ class SocketHandler(websocket.WebSocketHandler):
         self.write_message(data)
 
 
-def SocketMessage:
+class SocketMessage:
     action = None
     id = None
 
