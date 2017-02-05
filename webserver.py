@@ -43,12 +43,12 @@ class SocketHandler(websocket.WebSocketHandler):
         if self in cl:
             cl.remove(self)
 
-    def update_all_clients():
+    def update_all_clients(self):
         data = json.dumps(self.accessory_manager.get_accessories_json())
         for c in cl:
             c.write_message(data)
 
-    def update_self_client():
+    def update_self_client(self):
         print "1"
         data = json.dumps(self.accessory_manager.get_accessories_json())
         print "2"
