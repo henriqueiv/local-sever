@@ -71,12 +71,6 @@ class SocketHandler(websocket.WebSocketHandler):
                 print "Turn off: " + str(deviceToTurnOff)
 
             elif action == "read":
-                bytes = bus.read_i2c_block_data(address, 0)
-
-                data = "".join(map(chr, bytes)).strip("\xff")
-
-                items = data.split("|")
-
                 #self.write_message(data)
                 accessories = self.accessory_manager.get_accessories()
                 accessories_json = []
@@ -84,6 +78,7 @@ class SocketHandler(websocket.WebSocketHandler):
                     accessories_json.append(accessory.to_json())
 
                 self.write_message(json.dumps(accessories_json))
+                self.write_message(json.dumps(accessories))
 
                 print data
 
