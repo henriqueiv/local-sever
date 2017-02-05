@@ -3,6 +3,8 @@ AccessoryTypeHumidity = 0
 AccessoryTypeTemperature = 1
 AccessoryTypeCO2 = 2
 
+print "a"
+
 class Accessory:
 	type = AccessoryTypeUndefined
 	id = 0
