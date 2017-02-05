@@ -83,7 +83,7 @@ class SocketHandler(websocket.WebSocketHandler):
                 for accessory in accessories:
                     accessories_json.append(accessory.to_json())
 
-                self.write_message(accessories_json)
+                #self.write_message(accessories_json)
 
                 print data
 
