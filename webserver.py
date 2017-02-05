@@ -62,13 +62,13 @@ class SocketHandler(websocket.WebSocketHandler):
                 deviceToTurnOn = receivedObject["id"]
                 self.accessory_manager.turn_on_accessory(deviceToTurnOn)
                 # Notify all clients
-                print readBus()
+                print "Turn on: " + str(deviceToTurnOn)
 
             elif action == "turn_off":
                 deviceToTurnOff = receivedObject["id"]
                 self.accessory_manager.turn_off_accessory(deviceToTurnOff)
                 # Notify all clients
-                print readBus()
+                print "Turn off: " + str(deviceToTurnOff)
 
             elif action == "read":
                 bytes = bus.read_i2c_block_data(address, 0)
@@ -77,7 +77,9 @@ class SocketHandler(websocket.WebSocketHandler):
 
                 items = data.split("|")
 
-                self.write_message(data)
+                #self.write_message(data)
+                self.write_message(self.accessory_manager.get_accessories())
+
                 print data
 
         except:
