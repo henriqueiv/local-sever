@@ -29,3 +29,6 @@ class AccessoryLogFactory(AbstractFactory):
 
 	def insert(self, accessory_log):
 		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
+
+	def get_logs():
+		print self.table.find({})

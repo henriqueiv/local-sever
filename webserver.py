@@ -1,5 +1,6 @@
 from app.accessory_manager import AccessoryManager
 from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
+from app.factories import AccessoryLogFactory
 from tornado import websocket, web, ioloop
 import json
 import time
@@ -70,6 +71,10 @@ class AccessoriesHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
+
+        log_factory = AccessoryLogFactory()
+        log_factory.get_logs()
+        
         self.write("Hello")
         self.finish()
         print "Received get request.'from' get request param value: "
