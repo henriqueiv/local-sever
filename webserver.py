@@ -52,7 +52,7 @@ class SocketHandler(websocket.WebSocketHandler):
         print "1"
         data = json.dumps(self.accessory_manager.get_accessories_json())
         print "2"
-        self.write_message()
+        self.write_message(data)
         print "3"
 
     def on_message(self, message):
