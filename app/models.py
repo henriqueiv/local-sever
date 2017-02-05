@@ -33,7 +33,7 @@ class AccessoryLog:
 
 SocketMessageActionRead = "read"
 SocketMessageActionTurnOn = "turn_on"
-SocketMessageActionTurnOf = "turn_off"
+SocketMessageActionTurnOff = "turn_off"
 
 class SocketMessage:
     action = None
