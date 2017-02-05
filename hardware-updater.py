@@ -21,7 +21,7 @@ def readBus():
 client = MongoClient('localhost', 27017)
 db = client['420bits']
 data_log = db.data_log
-accessories = db.accessories
+accessories_db = db.accessories
 
 
 # if accessories.count({"_id": DefaultHumidityAccessoryID}) == 0:
@@ -41,6 +41,7 @@ while True:
 	ts = time.time()
 	accessories = accessory_manager.get_accessories()
 	for accessory in accessories:
+		accessories_db.update({"_id": accessory.id}, {"_id": accessory.id, "name": accessory.name, "type": accessory.type})
 		print accessory
 
 	# data_log.insert_one({"timestamp": ts, "type": AccessoryTypeHumidity, "value": humidity, "accessory": accessories.find_one({"_id": DefaultHumidityAccessoryID})})
