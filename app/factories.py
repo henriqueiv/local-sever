@@ -9,7 +9,7 @@ class AccessoryFactory:
 
 	def __init__(self):
 		self.client = MongoClient('localhost', 27017)
-		self.db = client['420bits']
+		self.db = self.client['420bits']
 		self.table = self.db.accessories
 
 	def insert_or_update(self, accessory):
