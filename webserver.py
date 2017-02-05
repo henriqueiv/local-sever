@@ -1,4 +1,5 @@
 from app.accessory_manager import AccessoryManager
+from app.models import SocketMessage
 from tornado import websocket, web, ioloop
 import json
 import time
@@ -57,26 +58,6 @@ class SocketHandler(websocket.WebSocketHandler):
     def update_self_client(self, object):
         data = json.dumps(object)
         self.write_message(data)
-
-
-class SocketMessage:
-    action = None
-    id = None
-
-    def __init__(self, socket_message):
-        try:
-            message_object = json.loads(socket_message)
-
-            if message_object.has_key("action"):
-                self.action = message_object["action"]
-
-            if message_object.has_key("id"):
-                self.id = message_object["id"]
-
-        except:
-            print("error parsing message:" + str(message))
-            return
-
 
 
 
