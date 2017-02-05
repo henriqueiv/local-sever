@@ -14,5 +14,8 @@ class Accessory:
 		self.id = id
 		self.value = value
 
-	def to_json(self):
+	def to_db_json(self):
 		return {"_id": self.id, "name": self.name, "type": self.type, "value": self.value}
+
+	def to_json(self):
+		return {"id": self.id, "name": self.name, "type": self.type, "value": self.value}
