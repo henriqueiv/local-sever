@@ -74,10 +74,11 @@ class AccessoriesHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
+
         limit = 10
         limit_query_param = self.get_query_argument("limit")
         if limit_query_param is not None:
-            limit = limit_query_param
+            limit = int(limit_query_param)
 
         from_timestamp = 0
         from_query_param = self.get_query_argument("from")
