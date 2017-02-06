@@ -31,10 +31,8 @@ class AccessoryLogFactory(AbstractFactory):
 		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
 
 	def get_logs(self, from_timestamp = 0, limit = 100):
-		find_object = {"timestamp": {"$gte": from_timestamp}}
-		find_object = {"timestamp": float(from_timestamp)}
+		find_object = {"timestamp": {"$gte": float(from_timestamp)}}
 		logs = self.table.find(find_object)
-
 
 		logs_json = []
 		for log in logs:
