@@ -75,8 +75,8 @@ class AccessoriesHandler(web.RequestHandler):
     @web.asynchronous
     def get(self, *args):
 
-        limit = self.get_query_argument("limit", 0)
-        from_timestamp = self.get_query_argument("from", 0)
+        limit = int(self.get_query_argument("limit", 0))
+        from_timestamp = float(self.get_query_argument("from", 0))
 
         log_factory = AccessoryLogFactory()
         self.write(dumps(log_factory.get_logs(from_timestamp,limit)))
