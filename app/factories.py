@@ -32,7 +32,7 @@ class AccessoryLogFactory(AbstractFactory):
 
 	def get_logs(self, from_timestamp = 0, limit = 100):
 		find_object = {"timestamp": {"$gte": from_timestamp}}
-		find_object = {}
+		find_object = {"timestamp": from_timestamp}
 		logs = self.table.find(find_object)
 
 
