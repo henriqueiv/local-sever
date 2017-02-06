@@ -76,9 +76,8 @@ class AccessoriesHandler(web.RequestHandler):
     def get(self, *args):
 
         log_factory = AccessoryLogFactory()
-        print dumps(log_factory.get_logs())
+        self.write(dumps(log_factory.get_logs()))
         
-        self.write("Hello")
         self.finish()
         print "Received get request.'from' get request param value: "
         print self.get_query_argument("from")
