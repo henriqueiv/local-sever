@@ -73,7 +73,7 @@ class AccessoriesHandler(web.RequestHandler):
     def get(self, *args):
 
         log_factory = AccessoryLogFactory()
-        print log_factory.get_logs()
+        print json.dumps(log_factory.get_logs())
         
         self.write("Hello")
         self.finish()

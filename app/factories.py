@@ -34,6 +34,5 @@ class AccessoryLogFactory(AbstractFactory):
 		logs_dictionary = []
 		logs = self.table.find({})
 		for log in logs:
-			print log
-			logs_dictionary.append({})
+			logs_dictionary.append(log)
 		return logs_dictionary
