@@ -18,7 +18,7 @@ class AccessoryFactory(AbstractFactory):
 		self.table = self.db.accessories
 
 	def insert_or_update(self, accessory):
-		accessory_dictionary = accessory.to_db_json()
+		accessory_dictionary = {"_id": accessory.id, "name": accessory.name, "type": accessory.type, "value": accessory.value}
 		self.table.update({"_id": accessory.id}, accessory_dictionary,True)
 
 
@@ -30,11 +30,14 @@ class AccessoryLogFactory(AbstractFactory):
 	def insert(self, accessory_log):
 		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
 
-	def get_logs(self):
-		logs_dictionary = []
-		logs = self.table.find({})
+	def get_logs(self, from_timestamp = 0, limit = 100):
+		find_object = {"timestamp": {"$gte": from_timestamp}}
+
+		logs = self.table.find(find_object)
+
+
+		logs_json = []
 		for log in logs:
 			log["_id"] = str(log["_id"]) 
-			logs_dictionary.append(log)
-
-		return logs_dictionary
+			logs_json.append(log)
+		return logs_json

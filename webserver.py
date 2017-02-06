@@ -75,8 +75,10 @@ class AccessoriesHandler(web.RequestHandler):
     @web.asynchronous
     def get(self, *args):
 
+        from_timestamp = self.get_query_argument("from")
+
         log_factory = AccessoryLogFactory()
-        self.write(dumps(log_factory.get_logs()))
+        self.write(dumps(log_factory.get_logs(from_timestamp)))
         
         self.finish()
         print "Received get request.'from' get request param value: "
