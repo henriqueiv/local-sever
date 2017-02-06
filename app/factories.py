@@ -30,11 +30,9 @@ class AccessoryLogFactory(AbstractFactory):
 	def insert(self, accessory_log):
 		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
 
-	def get_logs(self, from_timestamp = 0, limit = 100):
-		print "timestamp"
-		print from_timestamp
+	def get_logs(self, from_timestamp = 0, limit = 100):amp
 		find_object = {"timestamp": {"$gte": from_timestamp}}
-
+		find_object = {}
 		logs = self.table.find(find_object)
 
 
