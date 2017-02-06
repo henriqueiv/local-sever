@@ -6,9 +6,6 @@ import json
 import time
 import os
 
-from bson import Binary, Code
-from bson.json_util import dumps
-
 cl = []
 
 class SocketHandler(websocket.WebSocketHandler):
@@ -79,7 +76,7 @@ class AccessoriesHandler(web.RequestHandler):
         from_timestamp = float(self.get_query_argument("from", 0))
 
         log_factory = AccessoryLogFactory()
-        self.write(dumps(log_factory.get_logs(from_timestamp,limit)))
+        self.write(json.dumps(log_factory.get_logs_for_api(from_timestamp,limit)))
         
         self.finish()
         print "Received get request.'from' get request param value: "
