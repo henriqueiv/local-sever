@@ -36,7 +36,7 @@ class AccessoryLogFactory(AbstractFactory):
 
 		max_log_timestamp = 0.0
 		logs_json = []
-		for log in logs.limit(limit):
+		for log in logs.limit(limit).sort("timestamp", 1):
 			log["_id"] = str(log["_id"]) 
 			logs_json.append(log)
 			max_log_timestamp = max(max_log_timestamp, float(log["timestamp"]))
