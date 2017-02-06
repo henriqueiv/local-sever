@@ -6,6 +6,9 @@ import json
 import time
 import os
 
+from bson import Binary, Code
+from bson.json_util import dumps
+
 cl = []
 
 class SocketHandler(websocket.WebSocketHandler):
@@ -73,7 +76,7 @@ class AccessoriesHandler(web.RequestHandler):
     def get(self, *args):
 
         log_factory = AccessoryLogFactory()
-        print json.dumps(log_factory.get_logs())
+        print dumps(log_factory.get_logs())
         
         self.write("Hello")
         self.finish()
