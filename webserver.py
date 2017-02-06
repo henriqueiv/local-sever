@@ -75,7 +75,10 @@ class AccessoriesHandler(web.RequestHandler):
     @web.asynchronous
     def get(self, *args):
 
-        from_timestamp = self.get_query_argument("from")
+        from_timestamp = 0
+        from_query_param = self.get_query_argument("from")
+        if from_query_param is not None:
+            from_timestamp = from_query_param
 
         log_factory = AccessoryLogFactory()
         self.write(dumps(log_factory.get_logs(from_timestamp)))
