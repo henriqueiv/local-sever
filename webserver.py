@@ -74,6 +74,10 @@ class AccessoriesHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
+        limit = 10
+        limit_query_param = self.get_query_argument("limit")
+        if limit_query_param is not None:
+            limit = int(limit_query_param)
 
         from_timestamp = 0
         from_query_param = self.get_query_argument("from")
@@ -81,7 +85,7 @@ class AccessoriesHandler(web.RequestHandler):
             from_timestamp = from_query_param
 
         log_factory = AccessoryLogFactory()
-        self.write(dumps(log_factory.get_logs(from_timestamp)))
+        self.write(dumps(log_factory.get_logs(from_timestamp,limit)))
         
         self.finish()
         print "Received get request.'from' get request param value: "
