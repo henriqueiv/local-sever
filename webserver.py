@@ -92,12 +92,11 @@ class NotesHandler(web.RequestHandler):
             json_object = json.loads(str(self.request.body))
             errors = []
 
-            if "text" not in json_object:
+            if not json_object.has_key("text"):
                 errors.append({"message": "text field not found"})
-                #pass
 
-            if "accessory_log_id" not in json_object:
-                errors.append({"message": "accessory_log_id field not found"})
+            # if "accessory_log_id" not in json_object:
+            #     errors.append({"message": "accessory_log_id field not found"})
 
             text = json_object["text"]
             if len(text) == 0:
