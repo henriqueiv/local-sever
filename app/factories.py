@@ -18,9 +18,22 @@ class AccessoryFactory(AbstractFactory):
 		self.table = self.db.accessories
 
 	def insert_or_update(self, accessory):
-		accessory_dictionary = {"_id": accessory.id, "name": accessory.name, "type": accessory.type, "value": accessory.value}
-		self.table.update({"_id": accessory.id}, accessory_dictionary,True)
+		self.table.update({"_id": accessory.id}, accessory.mongo_json_representation(),True)
 
+
+class TimerTaskFactory(AbstractFactory):
+	def __init__(self):
+		AbstractFactory.__init__(self)
+		self.table = self.db.tasks
+
+	def get_tasks(self):
+		db_tasks = self.table.find({"timer": {"$exists": True}})
+		tasks = []
+		for db_task in db_tasks:
+			task = TimerTask(db_task)
+			tasks.append(task)
+
+		return tasks
 
 class AccessoryLogFactory(AbstractFactory):
 	def __init__(self):
@@ -28,8 +41,7 @@ class AccessoryLogFactory(AbstractFactory):
 		self.table = self.db.data_log
 
 	def insert(self, accessory_log):
-		accessory_dictionary = {"_id": accessory_log.accessory.id, "name": accessory_log.accessory.name, "type": accessory_log.accessory.type, "value": accessory_log.accessory.value}
-		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_dictionary})
+		self.table.insert_one(accessory_log.mongo_json_representation())
 
 	def get_logs_for_api(self, from_timestamp = 0, limit = 100):
 		find_object = {"timestamp": {"$gt": float(from_timestamp)}}
@@ -49,3 +61,6 @@ class AccessoryLogFactory(AbstractFactory):
 		}
 
 		return response
+
+factory = TimerTaskFactory()
+print factory.get_tasks()
