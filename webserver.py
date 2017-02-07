@@ -93,26 +93,26 @@ class NotesHandler(web.RequestHandler):
             errors = []
 
             if "text" not in json_object:
-                errors.append({"message": "text field not found"})
+                errors.append({"message": "'text' field not found"})
                 #pass
 
-            #if "accessory_log_id" not in json_object:
-                #errors.append({"message": "accessory_log_id field not found"})
+            if "accessory_log_id" not in json_object:
+                errors.append({"message": "'accessory_log_id' field not found"})
 
-            # text = json_object["text"]
-            # if not text:
-            #     errors.append({"message": "text field can not be empty"})
+            text = json_object["text"]
+            if len(text) == 0:
+                errors.append({"message": "text field can not be empty"})
 
-            # accessory_log_id = json_object["accessory_log_id"]
-            # if not accessory_log_id:
-            #     errors.append({"message": "accessory_log_id field can not be empty"})                
+            accessory_log_id = json_object["accessory_log_id"]
+            if len(accessory_log_id) == 0:
+                errors.append({"message": "accessory_log_id field can not be empty"})                
 
             if len(errors) > 0:
                 self.write(json.dumps({"errors": errors}))
             else:
                 #self.write("BodyJSON: " + str(json_object))
                 generated_object_id = 1
-                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": "text sent"}}))
+                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
 
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
