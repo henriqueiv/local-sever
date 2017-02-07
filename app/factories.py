@@ -26,9 +26,9 @@ class TimerTaskFactory(AbstractFactory):
 		AbstractFactory.__init__(self)
 		self.table = self.db.tasks
 
-		def insert(self, timer_task):
-			to_save = timer_task.mongo_json_representation()
-			self.table.insert_one(to_save)
+	def insert(self, timer_task):
+		to_save = timer_task.mongo_json_representation()
+		self.table.insert_one(to_save)
 
 
 	def get_tasks(self):
