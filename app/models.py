@@ -30,7 +30,10 @@ class Accessory(MongoDBModel):
 		self.value = value
 
 	def mongo_json_representation(self):
-		return {"_id": self.id, "name": self.name, "type": self.type, "value": self.value}
+		object = {"name": self.name, "type": self.type, "value": self.value}
+		if self.id is not None:
+			object["id"] = self.id
+		return object
 
 
 class AccessoryLog(MongoDBModel):
@@ -94,7 +97,10 @@ class Task(MongoDBModel):
 
 	def mongo_json_representation(self):
 		accessory = self.accessory.mongo_json_representation() if self.accessory is not None else {}
-		return {"_id": self.id, "status": self.status, "creation_date": self.creation_date, "action": self.action, "accessory": accessory, "name": self.name}
+		object = {"status": self.status, "creation_date": self.creation_date, "action": self.action, "accessory": accessory, "name": self.name}
+		if self.id is not None:
+			object["_id"] = self.id
+		return object
 
 
 class TimerTask(Task):
