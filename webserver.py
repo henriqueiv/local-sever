@@ -117,8 +117,7 @@ class NotesHandler(web.RequestHandler):
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
             print "Error loading json: " + str(e)
 
-        self.write("<br>")
-        self.write("Device: " + str(device_client))
+        print "Device: " + str(device_client)
         self.finish()
         
 
