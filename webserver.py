@@ -86,7 +86,10 @@ class AccessoryLogsHandler(web.RequestHandler):
     def post(self):
         device = self.request.headers.get("DEVICE")
 
+        self.write("Body: " + str(self.request.body))
+        self.write("<br>")        
         try:
+            print "Will load json: " + str(self.request.body)
             json = json.loads(str(self.request.body))
             self.write("BodyJSON: " + str(json))      
         except:
@@ -94,8 +97,6 @@ class AccessoryLogsHandler(web.RequestHandler):
 
         self.write("<br>")
         self.write("Device: " + str(device))
-        self.write("<br>")
-        self.write("Body: " + str(self.request.body))
         self.finish()
         
 
