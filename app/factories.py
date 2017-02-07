@@ -66,18 +66,3 @@ class AccessoryLogFactory(AbstractFactory):
 		}
 
 		return response
-
-factory = TimerTaskFactory()
-
-timer = Timer({})
-timer.year = 2017
-
-task = TimerTask({})
-task.timer = timer
-task.name = "WIlliam"
-task.action = "turn_on"
-task.accessory = Accessory("accs name",10,0,290.2)
-
-factory.insert(task)
-
-print factory.get_tasks()
