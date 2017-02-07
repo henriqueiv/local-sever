@@ -30,12 +30,8 @@ class Timer:
 
 	def is_valid():
 		now = datetime.now()
-		return (self.year is None or self.year == now.year) and
-				(self.month is None or self.month == now.month) and
-				(self.day is None or self.day == now.day) and
-				(self.hour is None or self.hour = now.hour) and
-				(self.minute is None or self.minute == now.minute) and
-				(self.seconds is None or self.seconds == now.seconds)
+
+		return (self.year is None or self.year == now.year)  and (self.month is None or self.month == now.month) and (self.day is None or self.day == now.day) and (self.hour is None or self.hour = now.hour) and (self.minute is None or self.minute == now.minute) and (self.seconds is None or self.seconds == now.seconds)
 
 
 class TimerTask(Task):
