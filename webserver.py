@@ -89,7 +89,8 @@ class AccessoryLogsHandler(web.RequestHandler):
 
 app = web.Application([
     (r'/ws', SocketHandler),
-    (r'/accessories_log', AccessoriesHandler),
+    (r'/accessories', AccessoriesHandler),
+    (r'/accessories_log', AccessoryLogsHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
