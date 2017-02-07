@@ -26,6 +26,11 @@ class TimerTaskFactory(AbstractFactory):
 		AbstractFactory.__init__(self)
 		self.table = self.db.tasks
 
+		def insert(self, timer_task):
+			to_save = timer_task.mongo_json_representation()
+			self.table.insert_one(to_save)
+
+
 	def get_tasks(self):
 		db_tasks = self.table.find({"timer": {"$exists": True}})
 		tasks = []
@@ -63,4 +68,16 @@ class AccessoryLogFactory(AbstractFactory):
 		return response
 
 factory = TimerTaskFactory()
+
+timer = Timer()
+timer.year = 2017
+
+task = TimerTask({})
+task.timer = timer
+task.name = "WIlliam"
+task.action = "turn_on"
+task.accessory = Accessory()
+
+factory.insert(task)
+
 print factory.get_tasks()

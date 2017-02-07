@@ -75,11 +75,13 @@ class Task(MongoDBModel):
 	accessory = None
 	status = None
 	creation_date = None
+	name = None
 
 	def __init__(self, json_object):
 		self.id = json_object["_id"] if json_object.has_key("_id") else None
 		self.action = json_object["action"] if json_object.has_key("action") else None
 		self.status = json_object["status"] if json_object.has_key("status") else None
+		self.name = json_object["name"] if json_object.has_key("name") else None
 		self.creation_date = json_object["creation_date"] if json_object.has_key("creation_date") else None
 
 		if json_object.has_key("accessory"):
@@ -90,7 +92,7 @@ class Task(MongoDBModel):
 
 	def mongo_json_representation(self):
 		accessory = self.accessory.mongo_json_representation() if self.accessory is not None else {}
-		return {"_id": self.id, "status": self.status, "creation_date": self.creation_date, "action": self.action, "accessory": accessory}
+		return {"_id": self.id, "status": self.status, "creation_date": self.creation_date, "action": self.action, "accessory": accessory, "name": self.name}
 
 
 class TimerTask(Task):
