@@ -103,8 +103,6 @@ class TimerTask(Task):
 		if json_object.has_key("timer"):
 			self.timer = Timer(json_object["timer"])
 
-		self.timer = timer
-
 	def can_execute(self):
 		return self.timer.is_on_time() or self.timer.is_late()
 
