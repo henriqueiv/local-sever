@@ -84,9 +84,16 @@ class AccessoriesHandler(web.RequestHandler):
 class AccessoryLogsHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
-        print "Action parameter:" + self.get_argument("action", "")
+        device = self.request.headers.get("DEVICE")
 
-        self.write("Headers: " + str(self.request.headers.get("DEVICE")))
+        try:
+            json = json.loads(str(self.request.body))
+            self.write("BodyJSON: " + str(json))      
+        except:
+            print "Error loading json"
+
+        self.write("<br>")
+        self.write("Device: " + str(device))
         self.write("<br>")
         self.write("Body: " + str(self.request.body))
         self.finish()
