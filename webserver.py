@@ -112,7 +112,7 @@ class NotesHandler(web.RequestHandler):
             else:
                 #self.write("BodyJSON: " + str(json_object))
                 generated_object_id = 1
-                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
+                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": "text sent"}}))
 
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
