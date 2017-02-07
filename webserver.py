@@ -114,9 +114,8 @@ class NotesHandler(web.RequestHandler):
             if len(errors) > 0:
                 self.write(json.dumps({"errors": errors}))
             else:
-                #generated_object_id = 1
-                #self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
-                self.write({"a":"b"})
+                generated_object_id = 1
+                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
 
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
