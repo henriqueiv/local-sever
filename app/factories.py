@@ -1,4 +1,4 @@
-from models import Accessory, AccessoryLog, Timer
+from models import Accessory, AccessoryLog, Timer, TimerTask
 import pymongo
 from pymongo import MongoClient
 
