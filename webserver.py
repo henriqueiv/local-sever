@@ -63,7 +63,6 @@ class SocketHandler(websocket.WebSocketHandler):
 
 
 
-
 class AccessoriesHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
@@ -81,6 +80,12 @@ class AccessoriesHandler(web.RequestHandler):
         self.finish()
         print "Received get request.'from' get request param value: "
         print self.get_query_argument("from")
+
+class AccessoryLogsHandler(web.RequestHandler):
+    @web.asynchronous
+    def post(self):
+        print "Action parameter:" + self.get_argument("action", "")
+        pass    
 
 app = web.Application([
     (r'/ws', SocketHandler),
