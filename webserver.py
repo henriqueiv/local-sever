@@ -96,16 +96,16 @@ class NotesHandler(web.RequestHandler):
                 #errors.append({"message": "text field not found"})
                 errors.append({"message": "field 'text' not found"})
 
-            # if "accessory_log_id" not in json_object:
-            #     errors.append({"message": "accessory_log_id field not found"})
+            if not json_object.has_key("accessory_log_id"):
+                errors.append({"message": "field 'accessory_log_id' not found"})
 
-            # text = json_object["text"]
-            # if len(text) == 0:
-            #     errors.append({"message": "'text' field can not be empty"})
+            text = json_object["text"]
+            if len(text) == 0:
+                errors.append({"message": "field 'text' can not be empty"})
 
-            # accessory_log_id = json_object["accessory_log_id"]
-            # if len(accessory_log_id) == 0:
-            #     errors.append({"message": "accessory_log_id field can not be empty"})                
+            accessory_log_id = json_object["accessory_log_id"]
+            if len(accessory_log_id) == 0:
+                errors.append({"message": "field 'accessory_log_id' can not be empty"})
 
             if len(errors) > 0:
                 self.write(json.dumps({"errors": errors}))
