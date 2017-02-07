@@ -87,8 +87,8 @@ class AccessoryLogsHandler(web.RequestHandler):
         print "Action parameter:" + self.get_argument("action", "")
 
         self.write("Headers: " + str(self.request.headers.get("DEVICE")))
-        self.write("{}")
         self.write("<br>")
+        self.write("Body: " + str(self.request.body))
         self.finish()
         
 
