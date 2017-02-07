@@ -23,12 +23,6 @@ class Accessory(MongoDBModel):
 	name = ""
 	value = None
 
-	def __init__(self, json_object):
-		self.id = json_object["_id"]
-		self.type = json_object["type"]
-		self.name = json_object["name"]
-		self.value = json_object["value"]
-
 	def __init__(self, name, id, type, value):
 		self.type = type
 		self.name = name
@@ -85,7 +79,13 @@ class Task(MongoDBModel):
 		self.creation_date = json_object["creation_date"] if json_object.has_key("creation_date") else None
 
 		if json_object.has_key("accessory"):
-			self.accessory = Accessory(json_object["accessory"])
+			accessory = json_object["accessory"]
+			id = accessory["_id"] if accessory.has_key("_id") else None
+			type = accessory["type"] if accessory.has_key("type") else None
+			name = accessory["name"] if accessory.has_key("name") else None
+			value = accessory["value"] if accessory.has_key("value") else None
+
+			self.accessory = Accessory(name, id, type, value)
 
 	def can_execute(self):
 		return False
