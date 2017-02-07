@@ -101,11 +101,11 @@ class NotesHandler(web.RequestHandler):
 
             text = json_object["text"]
             if len(text) == 0:
-                errors.append({"message": "text field can not be empty"})
+                errors.append({"message": "'text' field can not be empty"})
 
-            accessory_log_id = json_object["accessory_log_id"]
-            if len(accessory_log_id) == 0:
-                errors.append({"message": "accessory_log_id field can not be empty"})                
+            # accessory_log_id = json_object["accessory_log_id"]
+            # if len(accessory_log_id) == 0:
+            #     errors.append({"message": "accessory_log_id field can not be empty"})                
 
             if len(errors) > 0:
                 self.write(json.dumps({"errors": errors}))
