@@ -76,7 +76,7 @@ task = TimerTask({})
 task.timer = timer
 task.name = "WIlliam"
 task.action = "turn_on"
-task.accessory = Accessory("accs name",10,290.2)
+task.accessory = Accessory("accs name",10,0,290.2)
 
 factory.insert(task)
 
