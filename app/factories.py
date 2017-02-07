@@ -69,7 +69,7 @@ class AccessoryLogFactory(AbstractFactory):
 
 factory = TimerTaskFactory()
 
-timer = Timer()
+timer = Timer({})
 timer.year = 2017
 
 task = TimerTask({})
