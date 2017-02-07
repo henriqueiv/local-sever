@@ -81,29 +81,51 @@ class AccessoriesHandler(web.RequestHandler):
         print "Received get request.'from' get request param value: "
         print self.get_query_argument("from")
 
-class AccessoryLogsHandler(web.RequestHandler):
+class NotesHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
+        device_client = self.request.headers.get("CLIENT")
         device = self.request.headers.get("DEVICE")
+        # TODO: Validate device client
 
-        self.write("Body: " + str(self.request.body))
-        self.write("<br>")        
         try:
-            print "Will load json: " + str(self.request.body)
             json_object = json.loads(str(self.request.body))
-            self.write("BodyJSON: " + str(json_object))      
+            errors = []
+
+            if not json_object.has_key("text")
+                errors.append({"message": "`text` field not found"})
+
+            if not json_object.has_key("accessory_log_id")
+                errors.append({"message": "`accessory_log_id` field not found"})
+
+            text = json_object["text"]
+            if not text:
+                errors.append({"message": "`text` field can not be empty"})
+
+            accessory_log_id = json_object["accessory_log_id"]
+            if not accessory_log_id:
+                errors.append({"message": "`accessory_log_id` field can not be empty"})                
+
+            if errors.size:
+                self.write(json.dumps({"errors": errors}))
+
+            #self.write("BodyJSON: " + str(json_object))
+            generated_object_id = 1
+            self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
+
         except Exception as e:
+            self.write(json.dumps({"errors": [{"message": str(e)}]}))
             print "Error loading json: " + str(e)
 
         self.write("<br>")
-        self.write("Device: " + str(device))
+        self.write("Device: " + str(device_client))
         self.finish()
         
 
 app = web.Application([
     (r'/ws', SocketHandler),
-    (r'/accessories', AccessoriesHandler),
-    (r'/accessories_log', AccessoryLogsHandler),
+    (r'/accessories_log', AccessoriesHandler),
+    (r'/notes', NotesHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
