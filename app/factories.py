@@ -28,7 +28,8 @@ class AccessoryLogFactory(AbstractFactory):
 		self.table = self.db.data_log
 
 	def insert(self, accessory_log):
-		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_log.accessory.to_db_json()})
+		accessory_dictionary = {"_id": accessory_log.accessory.id, "name": accessory_log.accessory.name, "type": accessory_log.accessory.type, "value": accessory_log.accessory.value}
+		self.table.insert_one({"timestamp": accessory_log.timestamp, "accessory": accessory_dictionary})
 
 	def get_logs_for_api(self, from_timestamp = 0, limit = 100):
 		find_object = {"timestamp": {"$gt": float(from_timestamp)}}
