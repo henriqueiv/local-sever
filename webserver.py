@@ -85,7 +85,10 @@ class AccessoryLogsHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
         print "Action parameter:" + self.get_argument("action", "")
-        pass    
+
+        self.write("{}")
+        self.finish()
+        
 
 app = web.Application([
     (r'/ws', SocketHandler),
