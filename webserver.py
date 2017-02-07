@@ -107,7 +107,7 @@ class NotesHandler(web.RequestHandler):
             # if not accessory_log_id:
             #     errors.append({"message": "accessory_log_id field can not be empty"})                
 
-            if errors.size:
+            if len(errors.) > 0:
                 self.write(json.dumps({"errors": errors}))
             else:
                 #self.write("BodyJSON: " + str(json_object))
