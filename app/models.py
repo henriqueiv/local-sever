@@ -72,7 +72,9 @@ class Task(MongoDBModel):
 	name = None
 
 	def __init__(self, json_object):
-		self.id = json_object["_id"] if json_object.has_key("_id") else None
+		if json_object.has_key("_id"):
+			self.id = json_object["_id"]	
+
 		self.action = json_object["action"] if json_object.has_key("action") else None
 		self.status = json_object["status"] if json_object.has_key("status") else None
 		self.name = json_object["name"] if json_object.has_key("name") else None
