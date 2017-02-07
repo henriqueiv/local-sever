@@ -3,7 +3,7 @@ from app.accessory_manager import AccessoryManager
 from app.factories import AccessoryFactory, AccessoryLogFactory
 from app.models import AccessoryLog
 
-from datetime import datetime, date, time
+from datetime import datetime
 
 accessory_manager = AccessoryManager()
 accessory_factory = AccessoryFactory()
