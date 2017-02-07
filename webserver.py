@@ -92,7 +92,7 @@ class AccessoryLogsHandler(web.RequestHandler):
             print "Will load json: " + str(self.request.body)
             #json = json.loads(str(self.request.body))
             json = json.loads("{\"test\":\"William\"}")
-            self.write("BodyJSON: " + str(json))      
+            #self.write("BodyJSON: " + str(json))      
         except:
             print "Error loading json"
 
