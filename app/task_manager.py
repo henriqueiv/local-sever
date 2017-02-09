@@ -24,7 +24,7 @@ class TaskManager:
 				self.notify_socket_clients()
 				print "Did turn on"
 
-	def notify_socket_clients():
+	def notify_socket_clients(self):
 		requests.get("http://192.168.0.15:8888/update_clients")
 		
 
