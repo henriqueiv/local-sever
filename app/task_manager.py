@@ -1,6 +1,7 @@
 from models import TimerTask, TaskActionTurnOn, TaskActionTurnOff
 from factories import TimerTaskFactory
 from accessory_manager import AccessoryManager
+import requests
 
 class TaskManager:
 
@@ -16,8 +17,14 @@ class TaskManager:
 
 			if action == TaskActionTurnOn:
 				self.accessory_manager.turn_off_accessory(accessory.id)
+				self.notify_socket_clients()
 				print "Did turn on"
 			elif action == TaskActionTurnOn:
 				self.accessory_manager.turn_on_accessory(accessory.id)
+				self.notify_socket_clients()
 				print "Did turn on"
+
+	def notify_socket_clients():
+		requests.get("http://192.168.0.15:8888/update_clients")
+		
 
