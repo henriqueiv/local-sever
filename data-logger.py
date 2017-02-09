@@ -21,7 +21,7 @@ while True:
 
 		print accessory
 
-	TaskManager.runTasks(timer_task_factory.get_tasks())
+	TaskManager.run_tasks(timer_task_factory.get_tasks())
 	print "Ran"
 
 	time.sleep(30)
