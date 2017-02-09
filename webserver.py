@@ -149,6 +149,7 @@ class UpdateClientsHandler(web.RequestHandler):
 app = web.Application([
     (r'/ws', SocketHandler),
     (r'/accessories_log', AccessoriesHandler),
+    (r'/update_clients', UpdateClientsHandler),
     (r'/notes', NotesHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
