@@ -67,7 +67,7 @@ class SocketMessage:
             return
 
 
-class TimerTask(Task):
+class TimerTask(MongoDBModel):
 	timer = None
 	id = None
 	action = None
