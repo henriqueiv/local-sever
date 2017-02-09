@@ -66,7 +66,9 @@ class SocketMessage:
             print("error parsing message:" + str(socket_message))
             return
 
-class Task(MongoDBModel):
+
+class TimerTask(Task):
+	timer = None
 	id = None
 	action = None
 	accessory = None
@@ -92,22 +94,6 @@ class Task(MongoDBModel):
 
 			self.accessory = Accessory(name, id, type, value)
 
-	def can_execute(self):
-		return False
-
-	def mongo_json_representation(self):
-		accessory = self.accessory.mongo_json_representation() if self.accessory is not None else {}
-		object = {"status": self.status, "creation_date": self.creation_date, "action": self.action, "accessory": accessory, "name": self.name}
-		if self.id is not None:
-			object["_id"] = self.id
-		return object
-
-
-class TimerTask(Task):
-	timer = None
-
-	def __init__(self, json_object):
-		Task.__init__(self, json_object)
 		if json_object.has_key("timer"):
 			self.timer = Timer(json_object["timer"])
 
@@ -115,10 +101,14 @@ class TimerTask(Task):
 		return self.timer.is_on_time() or self.timer.is_late()
 
 	def mongo_json_representation(self):
-		data = Task.mongo_json_representation(self)
+		accessory = self.accessory.mongo_json_representation() if self.accessory is not None else {}
+		object = {"status": self.status, "creation_date": self.creation_date, "action": self.action, "accessory": accessory, "name": self.name}
+		if self.id is not None:
+			object["_id"] = self.id
+		
 		if self.timer is not None:
-			data["timer"] = self.timer.to_json()
-		return data
+			object["timer"] = self.timer.to_json()
+		return object
 
 class Timer:
 	year = None
