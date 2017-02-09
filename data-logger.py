@@ -22,6 +22,8 @@ while True:
 
 		print accessory
 
-	task_manager.run_tasks(timer_task_factory.get_tasks())
+	tasks = timer_task_factory.get_tasks()
+	print "Tasks: " + str(tasks) 
+	task_manager.run_tasks(tasks)
 
 	time.sleep(30)
