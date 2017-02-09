@@ -1,11 +1,15 @@
 import time
 from app.accessory_manager import AccessoryManager
-from app.factories import AccessoryFactory, AccessoryLogFactory
+from app.factories import AccessoryFactory, AccessoryLogFactory, TimerTaskFactory
 from app.models import AccessoryLog
+from app.task_manager import TaskManager
+
 
 accessory_manager = AccessoryManager()
+
 accessory_factory = AccessoryFactory()
 accessory_log_factory = AccessoryLogFactory()
+timer_task_factory = TimerTaskFactory()
 
 while True:
 	timestamp = time.time()
@@ -16,5 +20,8 @@ while True:
 		accessory_log_factory.insert(AccessoryLog(accessory, timestamp))
 
 		print accessory
+
+	TaskManager.runTasks(timer_task_factory.get_tasks())
+	print "Ran"
 
 	time.sleep(30)

@@ -21,6 +21,8 @@ class TaskManager:
 
 			if action == TaskActionTurnOn:
 				self.timerTaskFactory.turn_off_accessory(accessory.id)
+				print "Did turn on"
 			elif action == TaskActionTurnOn:
 				self.timerTaskFactory.turn_on_accessory(accessory.id)
+				print "Did turn on"
 
