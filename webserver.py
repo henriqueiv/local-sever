@@ -38,13 +38,13 @@ class SocketHandler(websocket.WebSocketHandler):
     def dispatch(self, socket_message):
         if socket_message.action == SocketMessageActionTurnOn and socket_message.id is not None:
             self.accessory_manager.turn_on_accessory(socket_message.id)
-            self.update_all_clients(self.accessory_manager.get_accessories_json())
+            SocketHandler.update_all_clients(self.accessory_manager.get_accessories_json())
 
             print "Turn on: " + str(socket_message.id)
 
         elif socket_message.action == SocketMessageActionTurnOff and socket_message.id is not None:
             self.accessory_manager.turn_off_accessory(socket_message.id)
-            self.update_all_clients(self.accessory_manager.get_accessories_json())
+            SocketHandler.update_all_clients(self.accessory_manager.get_accessories_json())
 
             print "Turn off: " + str(socket_message.id)
 
@@ -52,7 +52,7 @@ class SocketHandler(websocket.WebSocketHandler):
             self.update_self_client(self.accessory_manager.get_accessories_json())
             print "Read"
 
-    def update_all_clients(self, object):
+    def update_all_clients(object):
         data = json.dumps(object)
         for c in cl:
             c.write_message(data)
@@ -82,6 +82,20 @@ class AccessoriesHandler(web.RequestHandler):
         print self.get_query_argument("from")
 
 class NotesHandler(web.RequestHandler):
+
+    @web.asynchronous
+    def get(self, *args):
+        # TODO: Fetch notes
+        limit = int(self.get_query_argument("limit", 0))
+        from_timestamp = float(self.get_query_argument("from", 0))
+
+        log_factory = AccessoryLogFactory()
+        self.write(json.dumps(log_factory.get_logs_for_api(from_timestamp,limit)))
+        
+        self.finish()
+        print "Received get request.'from' get request param value: "
+        print self.get_query_argument("from")
+
     @web.asynchronous
     def post(self):
         device_client = self.request.headers.get("CLIENT")
@@ -124,6 +138,13 @@ class NotesHandler(web.RequestHandler):
         print "Device: " + str(device_client)
         self.finish()
         
+class UpdateClientsHandler(web.RequestHandler):
+    @web.asynchronous
+    def get(self, *args):
+        accessories = self.accessory_manager.get_accessories_json()
+        SocketHandler.update_all_clients(accessories)
+        self.write(json.dumps(accessories))
+        self.finish()
 
 app = web.Application([
     (r'/ws', SocketHandler),
