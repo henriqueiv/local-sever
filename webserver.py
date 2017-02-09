@@ -139,6 +139,9 @@ class NotesHandler(web.RequestHandler):
         self.finish()
         
 class UpdateClientsHandler(web.RequestHandler):
+
+    accessory_manager = AccessoryManager()    
+
     @web.asynchronous
     def get(self, *args):
         accessories = self.accessory_manager.get_accessories_json()
