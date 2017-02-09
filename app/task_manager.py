@@ -7,7 +7,7 @@ class TaskManager:
 	accessory_manager = AccessoryManager()
 	timerTaskFactory = TimerTaskFactory()
 
-	def run_tasks(tasks):
+	def run_tasks(self, tasks):
 
 		
 		tasks = self.timerTaskFactory.get_tasks()

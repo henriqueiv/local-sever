@@ -6,6 +6,7 @@ from app.task_manager import TaskManager
 
 
 accessory_manager = AccessoryManager()
+task_manager = TaskManager()
 
 accessory_factory = AccessoryFactory()
 accessory_log_factory = AccessoryLogFactory()
@@ -21,7 +22,6 @@ while True:
 
 		print accessory
 
-	TaskManager.run_tasks(timer_task_factory.get_tasks())
-	print "Ran"
+	task_manager.run_tasks(timer_task_factory.get_tasks())
 
 	time.sleep(30)
