@@ -5,6 +5,7 @@ AccessoryTypeUndefined = -1
 AccessoryTypeHumidity = 0
 AccessoryTypeTemperature = 1
 AccessoryTypeCO2 = 2
+AccessoryTypeRelay = 3
 
 SocketMessageActionRead = "read"
 SocketMessageActionTurnOn = "turn_on"

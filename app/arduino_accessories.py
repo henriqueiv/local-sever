@@ -36,8 +36,8 @@ class ArduinoAccessories:
 				Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
 				Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature, temperature),
 				Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2),
-				Accessory("Relay 1",DefaultRelay1AccessoryID, AccessoryTypeCO2, relay1),
-				Accessory("Relay 2",DefaultRelay2AccessoryID, AccessoryTypeCO2, relay2)
+				Accessory("Relay 1",DefaultRelay1AccessoryID, AccessoryTypeRelay, relay1),
+				Accessory("Relay 2",DefaultRelay2AccessoryID, AccessoryTypeRelay, relay2)
 			]
 			return accessories
 		except:
