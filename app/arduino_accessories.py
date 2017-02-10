@@ -4,6 +4,8 @@ import smbus
 DefaultHumidityAccessoryID = 1
 DefaultTemperatureAccessoryID = 2
 DefaultCO2AccessoryID = 3
+DefaultRelay1AccessoryID = 4
+DefaultRelay2AccessoryID = 5
 
 def StringToBytes(val):
   retVal = []
@@ -26,12 +28,16 @@ class ArduinoAccessories:
 
 			humidity = items[0]
 			temperature = items[1]
-			co2 = items[3]
+			co2 = items[2]
+			relay1 = items[3]
+			relay2 = items[4]
 
 			accessories = [
 				Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
 				Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature, temperature),
-				Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2)
+				Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2),
+				Accessory("Relay 1",DefaultRelay1AccessoryID, AccessoryTypeCO2, relay1),
+				Accessory("Relay 2",DefaultRelay2AccessoryID, AccessoryTypeCO2, relay2)
 			]
 			return accessories
 		except:
