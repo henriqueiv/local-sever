@@ -39,8 +39,14 @@ class ArduinoAccessories:
 
 	def turn_on_accessory(self, accessory_id):
 		message = str(accessory_id) + "1"
-		self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
+		try:
+			self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
+		except:
+			pass
 
 	def turn_off_accessory(self, accessory_id):
 		message = str(accessory_id) + "0"
-		self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
+		try:
+			self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
+		except:
+			pass
