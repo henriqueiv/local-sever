@@ -27,7 +27,7 @@ class TaskManager:
 				self.accessory_manager.turn_off_accessory(accessory.id)
 				self.notify_socket_clients()
 				print "Did turn on"
-			elif action == TaskActionTurnOn:
+			elif action == TaskActionTurnOff:
 				self.accessory_manager.turn_on_accessory(accessory.id)
 				self.notify_socket_clients()
 				print "Did turn on"
