@@ -20,7 +20,7 @@ class ArduinoAccessories:
 		data = "".join(map(chr, bytes)).strip("\xff")
 		items = data.split("|")
 
-		if count(items) == 0:
+		if len(items) == 0:
 			return []
 
 		humidity = items[0]
