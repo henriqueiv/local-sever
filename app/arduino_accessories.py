@@ -16,23 +16,26 @@ class ArduinoAccessories:
 	address = 0x04
 
 	def get_accessories(self):
-		bytes = self.i2cbus.read_i2c_block_data(self.address, 0)
-		data = "".join(map(chr, bytes)).strip("\xff")
-		items = data.split("|")
+		try:
+			bytes = self.i2cbus.read_i2c_block_data(self.address, 0)
+			data = "".join(map(chr, bytes)).strip("\xff")
+			items = data.split("|")
 
-		if len(items) == 0:
+			if len(items) == 0:
+				return []
+
+			humidity = items[0]
+			temperature = items[1]
+			co2 = items[3]
+
+			accessories = [
+				Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
+				Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature, temperature),
+				Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2)
+			]
+			return accessories
+		except:
 			return []
-
-		humidity = items[0]
-		temperature = items[1]
-		co2 = items[3]
-
-		accessories = [
-			Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
-			Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature, temperature),
-			Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2)
-		]
-		return accessories
 
 	def turn_on_accessory(self, accessory_id):
 		message = str(accessory_id) + "1"
