@@ -22,7 +22,7 @@ class ArduinoAccessories:
 
 		humidity = items[0]
 		temperature = items[1]
-		co2 = items[3]
+		co2 = items[2]
 
 		accessories = [
 			Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
