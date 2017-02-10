@@ -1,7 +1,4 @@
-import time
-from app.accessory_manager import AccessoryManager
-from app.factories import AccessoryFactory, AccessoryLogFactory, TimerTaskFactory
-from app.models import AccessoryLog
+from app.factories import TimerTaskFactory
 from app.task_manager import TaskManager
 from app.accessory_logger import AccessoryLogger
 
