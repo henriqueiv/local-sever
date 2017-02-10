@@ -20,13 +20,12 @@ class ArduinoAccessories:
 		data = "".join(map(chr, bytes)).strip("\xff")
 		items = data.split("|")
 
-		print bytes
-		print data
-		print items
+		if count(items) == 0:
+			return []
 
 		humidity = items[0]
 		temperature = items[1]
-		co2 = items[2]
+		co2 = items[3]
 
 		accessories = [
 			Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
