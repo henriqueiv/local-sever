@@ -8,8 +8,12 @@ class TaskManager:
 	accessory_manager = AccessoryManager()
 
 	def run_tasks(self, tasks):
+		print tasks
+		
 		for task in tasks:
 			if not task.can_execute() or task.accessory is None or task.accessory.id is None:
+				print "task can not run"
+				print task
 				continue
 
 			action = task.action
