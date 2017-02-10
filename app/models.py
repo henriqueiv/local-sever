@@ -32,7 +32,7 @@ class Accessory(MongoDBModel):
 	def mongo_json_representation(self):
 		object = {"name": self.name, "type": self.type, "value": self.value}
 		if self.id is not None:
-			object["id"] = self.id
+			object["_id"] = self.id
 		return object
 
 
