@@ -44,14 +44,14 @@ class ArduinoAccessories:
 			return []
 
 	def turn_on_accessory(self, accessory_id):
-		message = str(accessory_id) + "1"
+		message = str(int(accessory_id)) + "1"
 		try:
 			self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
 		except:
 			pass
 
 	def turn_off_accessory(self, accessory_id):
-		message = str(accessory_id) + "0"
+		message = str(int(accessory_id)) + "0"
 		try:
 			self.i2cbus.write_i2c_block_data(self.address, 0, StringToBytes(message))
 		except:
