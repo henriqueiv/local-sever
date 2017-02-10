@@ -20,6 +20,10 @@ class ArduinoAccessories:
 		data = "".join(map(chr, bytes)).strip("\xff")
 		items = data.split("|")
 
+		print bytes
+		print data
+		print items
+
 		humidity = items[0]
 		temperature = items[1]
 		co2 = items[2]
