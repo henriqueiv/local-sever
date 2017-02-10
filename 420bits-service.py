@@ -10,7 +10,7 @@ accessory_logger = AccessoryLogger()
 
 while True:
 	
-	accessory_logger.log()
 	task_manager.run_tasks(timer_task_factory.get_tasks())
+	accessory_logger.log()
 
 	time.sleep(30)
