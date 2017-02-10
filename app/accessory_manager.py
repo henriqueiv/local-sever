@@ -14,7 +14,7 @@ class AccessoryManager:
 		return self.device.get_accessories()
 
 	def turn_off_accessory(self, accessory_id):
-		return self.device.turn_off_accessory(accessory_id)
+		self.device.turn_off_accessory(accessory_id)
 
 	def turn_on_accessory(self, accessory_id):
-		return self.device.turn_on_accessory(accessory_id)
+		self.device.turn_on_accessory(accessory_id)

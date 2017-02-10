@@ -48,28 +48,9 @@ class AccessoryLog(MongoDBModel):
 		accessory_object = self.accessory.mongo_json_representation() if self.accessory is not None else {}
 		return {"timestamp": self.timestamp, "accessory": accessory_object}
 
-class SocketMessage:
-    action = None
-    id = None
-
-    def __init__(self, socket_message):
-        try:
-            message_object = json.loads(socket_message)
-
-            if message_object.has_key("action"):
-                self.action = message_object["action"]
-
-            if message_object.has_key("id"):
-                self.id = message_object["id"]
-
-        except:
-            print("error parsing message:" + str(socket_message))
-            return
-
-
 class TimerTask(MongoDBModel):
-	timer = None
 	id = None
+	timer = None
 	action = None
 	accessory = None
 	status = None
@@ -109,6 +90,25 @@ class TimerTask(MongoDBModel):
 		if self.timer is not None:
 			object["timer"] = self.timer.to_json()
 		return object
+
+class SocketMessage:
+    action = None
+    id = None
+
+    def __init__(self, socket_message):
+        try:
+            message_object = json.loads(socket_message)
+
+            if message_object.has_key("action"):
+                self.action = message_object["action"]
+
+            if message_object.has_key("id"):
+                self.id = message_object["id"]
+
+        except:
+            print("error parsing message:" + str(socket_message))
+            return
+
 
 class Timer:
 	year = None

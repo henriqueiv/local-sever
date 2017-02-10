@@ -4,26 +4,29 @@ from app.factories import AccessoryFactory, AccessoryLogFactory, TimerTaskFactor
 from app.models import AccessoryLog
 from app.task_manager import TaskManager
 
-
-accessory_manager = AccessoryManager()
 task_manager = TaskManager()
-
-accessory_factory = AccessoryFactory()
-accessory_log_factory = AccessoryLogFactory()
 timer_task_factory = TimerTaskFactory()
+accessory_logger = AccessoryLogger()
+
+class AccessoryLogger:
+
+	accessory_factory = AccessoryFactory()
+	accessory_log_factory = AccessoryLogFactory()
+	accessory_manager = AccessoryManager()
+
+	def log(self):
+		timestamp = time.time()
+		accessories = self.accessory_manager.get_accessories()
+		for accessory in accessories:
+			self.accessory_factory.insert_or_update(accessory)
+			self.accessory_log_factory.insert(AccessoryLog(accessory, timestamp))
+			print accessory
+		pass
+
 
 while True:
-	timestamp = time.time()
-	accessories = accessory_manager.get_accessories()
-	for accessory in accessories:
-
-		accessory_factory.insert_or_update(accessory)
-		accessory_log_factory.insert(AccessoryLog(accessory, timestamp))
-
-		print accessory
-
-	tasks = timer_task_factory.get_tasks()
-	print "Tasks: " + str(tasks) 
-	task_manager.run_tasks(tasks)
+	
+	accessory_logger.log()
+	task_manager.run_tasks(timer_task_factory.get_tasks())
 
 	time.sleep(30)
