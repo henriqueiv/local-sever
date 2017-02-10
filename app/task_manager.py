@@ -30,7 +30,7 @@ class TaskManager:
 			elif action == TaskActionTurnOff:
 				self.accessory_manager.turn_off_accessory(accessory.id)
 				self.notify_socket_clients()
-				print "Did turn on"
+				print "Did turn off"
 
 	def notify_socket_clients(self):
 		try:
