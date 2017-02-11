@@ -17,14 +17,18 @@ class Validator:
     def has_errors():
         return len(self.error_messages) > 0
 
-    def validate(self, json_object):
+    def validate(self, json_object, in_key = ""):
         self.error_messages = []
         for field in self.validate_fields:
             if not json_object.has_key(field):
-                self.error_messages.append("`" + str(field) + "` field not sent")
+                error_message = "`" + str(field) + "` field not sent"
+                if len(in_key) > 0:
+                    error_message = error_message + " in " + in_key + " key"
+                self.error_messages.append(error_message)
+
             elif sub_fields_map.has_key(field):
                 sub_validator = sub_fields_map[field]
-                sub_validator.validate(json_object[field])
+                sub_validator.validate(json_object[field], field)
                 self.error_messages.extend(sub_validator.error_messages)
 
 class TimerValidator(Validator):
@@ -227,17 +231,16 @@ class TasksHandler(web.RequestHandler):
         # TODO: Validate device client
 
         try:
-            # json_object = json.loads(str(self.request.body))
+            json_object = json.loads(str(self.request.body))
             
-            # task_handler_validator = TasksHandlerValidator()
-            # task_handler_validator.validate(json_object)
+            task_handler_validator = TasksHandlerValidator()
+            task_handler_validator.validate(json_object)
 
-            # if task_handler_validator.has_errors():
-            #     self.write(json.dumps({"errors": task_handler_validator.error_messages}))
-            # else:
-            #     generated_object_id = 1
-            #     self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
-            self.write("meh")
+            if task_handler_validator.has_errors():
+                self.write(json.dumps({"errors": task_handler_validator.error_messages}))
+            else:
+                generated_object_id = 1
+                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
     
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
