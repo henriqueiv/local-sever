@@ -76,7 +76,7 @@ class AccessoryLogFactory(AbstractFactory):
 
 		response = {
 			"max_log_timestamp": max_log_timestamp,
-			"total_results": logs.count(),
+			#"total_results": logs.count(),
 			"logs": logs_json
 		}
 
