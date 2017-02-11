@@ -29,9 +29,11 @@ class TimerTaskFactory(AbstractFactory):
 
 	def insert(self, timer_task):
 		to_save = timer_task.mongo_json_representation()
-		to_save["_id"] = ObjectId(to_save["_id"])
+
+		if to_save.has_key("_id"):
+			to_save["_id"] = ObjectId(to_save["_id"])
+
 		result = self.table.update(to_save,{"upsert": True})
-		print result
 		return None
 
 	def delete(self, task_id):
