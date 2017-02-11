@@ -65,11 +65,11 @@ class AccessoryLogFactory(AbstractFactory):
 
 	def get_logs_for_api(self, from_timestamp = 0, limit = 100):
 		find_object = {"timestamp": {"$gt": float(from_timestamp)}}
-		logs = self.table.find(find_object)
+		logs = self.table.find(find_object).limit(limit).sort("timestamp", 1)
 
 		max_log_timestamp = 0.0
 		logs_json = []
-		for log in logs.limit(limit).sort("timestamp", 1):
+		for log in logs:
 			log["_id"] = str(log["_id"]) 
 			logs_json.append(log)
 			max_log_timestamp = max(max_log_timestamp, float(log["timestamp"]))
