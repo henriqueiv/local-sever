@@ -34,7 +34,7 @@ class TimerTaskFactory(AbstractFactory):
 			return to_save["_id"]
 		else :
 			to_save.pop("_id",None)
-			return self.table.insert(to_save).insrted_id
+			return self.table.insert(to_save).inserted_id
 
 	def delete(self, task_id):
 		result = self.table.delete_many({"_id": ObjectId(task_id)})
