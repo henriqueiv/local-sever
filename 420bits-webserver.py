@@ -168,7 +168,7 @@ class TasksHandler(web.RequestHandler):
                 id = json_object["_id"]
                 if self.tasks_factory.delete(id):
                     self.write(json.dumps({"deleted": str(id)}))
-                else
+                else:
                     self.write(json.dumps({"errors": ["There is not any objetc with id = `" + str(id) + "`"]}))
         except:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
