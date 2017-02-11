@@ -61,10 +61,8 @@ class TaskValidator(Validator):
         "timer": TimerValidator()
     }
 
-class TasksHandlerValidator:
-    error_messages = []
+class TasksHandlerValidator(Validator):
     task_validator = TaskValidator()
-
     def validate(self, request_object):
         self.task_validator.validate(request_object)
         self.error_messages.extend(self.task_validator.error_messages)
