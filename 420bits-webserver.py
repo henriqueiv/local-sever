@@ -20,20 +20,18 @@ class Validator:
     def validate(self, json_object, in_key = ""):
         self.error_messages = []
         for field in self.validate_fields:
-
-            if self.sub_fields_map.has_key(field):
-                sub_validator = self.sub_fields_map[field]
-                sub_validator.validate(json_object[field], field)
-                self.error_messages.extend(sub_validator.error_messages)
-            elif not json_object.has_key(field):
+            if not json_object.has_key(field):
                 error_message = "`" + str(field) + "` field not sent"
                 if len(in_key) > 0:
                     error_message = error_message + " in the `" + in_key + "` field"
                 self.error_messages.append(error_message)
+            elif self.sub_fields_map.has_key(field):
+                sub_validator = self.sub_fields_map[field]
+                sub_validator.validate(json_object[field], field)
+                self.error_messages.extend(sub_validator.error_messages)
 
 class TimerValidator(Validator):
     validate_fields = [
-        "key_error_map",
         "year",
         "month",
         "day",
