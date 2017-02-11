@@ -26,8 +26,8 @@ class Validator:
                     error_message = error_message + " in " + in_key + " key"
                 self.error_messages.append(error_message)
 
-            elif sub_fields_map.has_key(field):
-                sub_validator = sub_fields_map[field]
+            elif self.sub_fields_map.has_key(field):
+                sub_validator = self.sub_fields_map[field]
                 sub_validator.validate(json_object[field], field)
                 self.error_messages.extend(sub_validator.error_messages)
 
