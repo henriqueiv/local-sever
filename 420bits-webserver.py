@@ -1,5 +1,5 @@
 from app.accessory_manager import AccessoryManager
-from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
+from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff, TimerTask
 from app.factories import AccessoryLogFactory, TimerTaskFactory
 from tornado import websocket, web, ioloop
 import json
