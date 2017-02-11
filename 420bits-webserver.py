@@ -236,8 +236,6 @@ class TasksHandler(web.RequestHandler):
                 "timer": timer_validator
             }
 
-            task_handler_validator.task_validator.accessory_validator.validate_fields = ["_id"]
-
             task_handler_validator.validate(json_object)
 
             if task_handler_validator.has_errors():
