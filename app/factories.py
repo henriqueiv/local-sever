@@ -69,15 +69,15 @@ class AccessoryLogFactory(AbstractFactory):
 
 		max_log_timestamp = 0.0
 		logs_json = []
-		for log in logs:
-			log["_id"] = str(log["_id"]) 
+		# for log in logs:
+		# 	log["_id"] = str(log["_id"]) 
 			#logs_json.append(log)
 			#max_log_timestamp = max(max_log_timestamp, float(log["timestamp"]))
 
 		response = {
 			"max_log_timestamp": max_log_timestamp,
 			#"total_results": logs.count(),
-			"logs": logs_json
+			"logs": logs
 		}
 
 		return response
