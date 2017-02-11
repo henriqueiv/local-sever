@@ -30,7 +30,7 @@ class TimerTaskFactory(AbstractFactory):
 	def insert(self, timer_task):
 		to_save = timer_task.mongo_json_representation()
 		if to_save.has_key("_id") and self.table.find({"_id": ObjectId(to_save["_id"])}).count > 0:
-			to_saveto_save.pop("_id")
+			to_save.pop("_id")
 			print self.table.update(to_save, {"_id": ObjectId(to_save["_id"])})
 
 			return str(to_save["_id"])
