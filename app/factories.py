@@ -34,6 +34,7 @@ class TimerTaskFactory(AbstractFactory):
 			to_save["_id"] = ObjectId(to_save["_id"])
 
 		result = self.table.update(to_save,{"upsert": True})
+		print result
 		return None
 
 	def delete(self, task_id):
