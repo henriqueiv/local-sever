@@ -221,16 +221,17 @@ class TasksHandler(web.RequestHandler):
         # TODO: Validate device client
 
         try:
-            json_object = json.loads(str(self.request.body))
+            # json_object = json.loads(str(self.request.body))
             
-            task_handler_validator = TasksHandlerValidator()
-            task_handler_validator.validate(json_object)
+            # task_handler_validator = TasksHandlerValidator()
+            # task_handler_validator.validate(json_object)
 
-            if task_handler_validator.has_errors():
-                self.write(json.dumps({"errors": task_handler_validator.error_messages}))
-            else:
-                generated_object_id = 1
-                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
+            # if task_handler_validator.has_errors():
+            #     self.write(json.dumps({"errors": task_handler_validator.error_messages}))
+            # else:
+            #     generated_object_id = 1
+            #     self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
+            self.write("meh")
     
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
