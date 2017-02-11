@@ -28,7 +28,7 @@ class TimerTaskFactory(AbstractFactory):
 
 	def insert(self, timer_task):
 		to_save = timer_task.mongo_json_representation()
-		self.table.insert_one(to_save)
+		return self.table.insert_one(to_save)
 
 
 	def get_tasks(self):
@@ -61,7 +61,7 @@ class AccessoryLogFactory(AbstractFactory):
 		self.table = self.db.data_log
 
 	def insert(self, accessory_log):
-		self.table.insert_one(accessory_log.mongo_json_representation())
+		return self.table.insert_one(accessory_log.mongo_json_representation())
 
 	def get_logs_for_api(self, from_timestamp = 0, limit = 100):
 		find_object = {"timestamp": {"$gt": float(from_timestamp)}}

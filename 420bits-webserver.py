@@ -243,8 +243,10 @@ class TasksHandler(web.RequestHandler):
             if task_handler_validator.has_errors():
                 self.write(json.dumps({"errors": task_handler_validator.error_messages}))
             else:
-                generated_object_id = 1
-                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
+                timer_task = TimerTask(json_object)
+                timer_task.id = self.tasks_factory,insert(timer_task)
+
+                self.write(json.dumps(timer_task.mongo_json_representation()))
     
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
