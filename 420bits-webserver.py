@@ -25,6 +25,7 @@ class Validator:
                 if len(in_key) > 0:
                     error_message = error_message + " in the `" + in_key + "` field"
                 self.error_messages.append(error_message)
+
             elif self.sub_fields_map.has_key(field):
                 sub_validator = self.sub_fields_map[field]
                 sub_validator.validate(json_object[field], field)
@@ -58,6 +59,7 @@ class TaskValidator(Validator):
 class TasksHandlerValidator(Validator):
     task_validator = TaskValidator()
     def validate(self, request_object):
+        self.error_messages = []
         self.task_validator.validate(request_object)
         self.error_messages.extend(self.task_validator.error_messages)
 
@@ -224,13 +226,13 @@ class TasksHandler(web.RequestHandler):
 
         try:
             json_object = json.loads(str(self.request.body))
-            
-            task_handler_validator = TasksHandlerValidator()
+
             timer_validator = TimerValidator()
 
             accessory_validator = AccessoryValidator()
             accessory_validator.validate_fields = ["_id"]
 
+            task_handler_validator = TasksHandlerValidator()
             task_handler_validator.task_validator.sub_fields_map = {
                 "accessory": accessory_validator,
                 "timer": timer_validator
