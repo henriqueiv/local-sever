@@ -1,6 +1,5 @@
 import json
 from datetime import datetime
-from bson.objectid import ObjectId
 
 AccessoryTypeUndefined = -1
 AccessoryTypeHumidity = 0
@@ -61,7 +60,7 @@ class TimerTask(MongoDBModel):
 
 	def __init__(self, json_object):
 		if json_object.has_key("_id"):
-			self.id = ObjectId(json_object["_id"])
+			self.id = json_object["_id"]
 
 		self.action = json_object["action"] if json_object.has_key("action") else None
 		self.status = json_object["status"] if json_object.has_key("status") else None
@@ -70,7 +69,7 @@ class TimerTask(MongoDBModel):
 
 		if json_object.has_key("accessory"):
 			accessory = json_object["accessory"]
-			id = ObjectId(accessory["_id"]) if accessory.has_key("_id") else None
+			id = accessory["_id"] if accessory.has_key("_id") else None
 			type = accessory["type"] if accessory.has_key("type") else None
 			name = accessory["name"] if accessory.has_key("name") else None
 			value = accessory["value"] if accessory.has_key("value") else None
