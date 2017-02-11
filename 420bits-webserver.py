@@ -157,6 +157,38 @@ class TasksHandler(web.RequestHandler):
         self.write(json.dumps(self.tasks_factory.get_tasks_for_api()))
         self.finish()
 
+    @web.asynchronous
+    def post(self):
+        device_client = self.request.headers.get("CLIENT")
+        device = self.request.headers.get("DEVICE")
+        # TODO: Validate device client
+
+        try:
+            json_object = json.loads(str(self.request.body))
+            errors = []
+
+            text = None
+            accessory = None
+
+            if not json_object.has_key("action"):
+                errors.append({"message": "field 'action' not found"})
+            else:
+                text = json_object["text"]
+
+
+            if len(errors) > 0:
+                self.write(json.dumps({"errors": errors}))
+            else:
+                generated_object_id = 1
+                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
+
+        except Exception as e:
+            self.write(json.dumps({"errors": [{"message": str(e)}]}))
+            print "Error loading json: " + str(e)
+
+        print "Device: " + str(device_client)
+        self.finish()
+
 
 app = web.Application([
     (r'/ws', SocketHandler),
