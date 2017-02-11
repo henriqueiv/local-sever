@@ -23,7 +23,7 @@ class Validator:
             if not json_object.has_key(field):
                 error_message = "`" + str(field) + "` field not sent"
                 if len(in_key) > 0:
-                    error_message = error_message + " in " + in_key + " key"
+                    error_message = error_message + " in the `" + in_key + "` field"
                 self.error_messages.append(error_message)
 
             elif self.sub_fields_map.has_key(field):
