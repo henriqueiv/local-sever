@@ -49,17 +49,11 @@ class AccessoryValidator(Validator):
     ]
 
 class TaskValidator(Validator):
-    accessory_validator = AccessoryValidator()
-    timer_validator = TimerValidator()
     validate_fields = [
         "action",
         "accessory",
         "timer",
     ]
-    sub_fields_map = {
-        "accessory": self.accessory_validator,
-        "timer": self.timer_validator
-    }
 
 class TasksHandlerValidator(Validator):
     task_validator = TaskValidator()
@@ -232,6 +226,16 @@ class TasksHandler(web.RequestHandler):
             json_object = json.loads(str(self.request.body))
             
             task_handler_validator = TasksHandlerValidator()
+            timer_validator = TimerValidator()
+
+            accessory_validator = AccessoryValidator()
+            accessory_validator.validate_fields = ["_id"]
+
+            task_handler_validator.task_validator.sub_fields_map = {
+                "accessory": accessory_validator,
+                "timer": timer_validator
+            }
+
             task_handler_validator.task_validator.accessory_validator.validate_fields = ["_id"]
 
             task_handler_validator.validate(json_object)
