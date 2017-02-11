@@ -220,10 +220,6 @@ class TasksHandler(web.RequestHandler):
 
     @web.asynchronous
     def post(self):
-        device_client = self.request.headers.get("CLIENT")
-        device = self.request.headers.get("DEVICE")
-        # TODO: Validate device client
-
         try:
             json_object = json.loads(str(self.request.body))
 
@@ -244,10 +240,7 @@ class TasksHandler(web.RequestHandler):
                 self.write(json.dumps({"errors": task_handler_validator.error_messages}))
             else:
                 timer_task = TimerTask(json_object)
-                print timer_task.mongo_json_representation()
-
-                timer_task.id = self.tasks_factory.insert(timer_task)
-
+                timer_task.id = str(self.tasks_factory.insert(timer_task))
                 self.write(json.dumps(timer_task.mongo_json_representation()))
     
         except Exception as e:
