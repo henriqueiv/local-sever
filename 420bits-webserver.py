@@ -144,11 +144,6 @@ class AccessoriesHandler(web.RequestHandler):
 class NotesHandler(web.RequestHandler):
 
     @web.asynchronous
-    def delete(self):
-        self.write(str(self.request.body))
-        self.finish()
-
-    @web.asynchronous
     def get(self, *args):
         # TODO: Fetch notes
         limit = int(self.get_query_argument("limit", 0))
@@ -218,6 +213,11 @@ class TasksHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
 
+    @web.asynchronous
+    def delete(self):
+        self.write(str(self.request.body))
+        self.finish()
+    
     @web.asynchronous
     def get(self, *args):
         self.write(json.dumps(self.tasks_factory.get_tasks_for_api()))
