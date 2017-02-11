@@ -220,6 +220,10 @@ class TasksHandler(web.RequestHandler):
 
     @web.asynchronous
     def post(self):
+        device_client = self.request.headers.get("CLIENT")
+        device = self.request.headers.get("DEVICE")
+        # TODO: Validate device client
+
         try:
             json_object = json.loads(str(self.request.body))
 
