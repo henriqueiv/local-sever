@@ -40,6 +40,21 @@ class TimerTaskFactory(AbstractFactory):
 
 		return tasks
 
+	def get_tasks_for_api(self):
+		find_object = {}
+		tasks = self.table.find(find_object)
+
+		tasks_json = []
+		for task in tasks:
+			task["_id"] = str(task["_id"])
+			tasks_json.append(task)
+
+		response = {
+			"tasks": tasks_json
+		}
+
+		return response
+
 class AccessoryLogFactory(AbstractFactory):
 	def __init__(self):
 		AbstractFactory.__init__(self)

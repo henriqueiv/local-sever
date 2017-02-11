@@ -1,6 +1,6 @@
 from app.accessory_manager import AccessoryManager
 from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
-from app.factories import AccessoryLogFactory
+from app.factories import AccessoryLogFactory, TimerTaskFactory
 from tornado import websocket, web, ioloop
 import json
 import time
@@ -70,7 +70,6 @@ class AccessoriesHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
-
         limit = int(self.get_query_argument("limit", 0))
         from_timestamp = float(self.get_query_argument("from", 0))
 
@@ -149,11 +148,22 @@ class UpdateClientsHandler(web.RequestHandler):
         self.write(json.dumps(accessories))
         self.finish()
 
+class TasksManager(web.RequestHandler):
+
+    tasks_factory = TimerTaskFactory()
+
+    @web.asynchronous
+    def get(self, *args):
+        self.write(json.dumps(self.tasks_factory.get_tasks_for_api()))
+        self.finish()
+
+
 app = web.Application([
     (r'/ws', SocketHandler),
     (r'/accessories_log', AccessoriesHandler),
     (r'/update_clients', UpdateClientsHandler),
     (r'/notes', NotesHandler),
+    (r'/tasks', TasksHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
