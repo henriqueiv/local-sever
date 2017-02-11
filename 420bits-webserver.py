@@ -22,32 +22,32 @@ class TimerValidator(Validator):
             "seconds"
         ]
 
-    class AccessoryValidator(Validator):
-        validate_fields = [
-            "type",
-            "_id",
-            "name",
-            "value",
-        ]
+class AccessoryValidator(Validator):
+    validate_fields = [
+        "type",
+        "_id",
+        "name",
+        "value",
+    ]
 
-    class TaskValidator(Validator):
-        validate_fields = [
-            "action",
-            "accessory",
-            "timer",
-        ]
-        sub_fields_map = {
-            "accessory": AccessoryValidator(),
-            "timer": TimerValidator()
-        }
+class TaskValidator(Validator):
+    validate_fields = [
+        "action",
+        "accessory",
+        "timer",
+    ]
+    sub_fields_map = {
+        "accessory": AccessoryValidator(),
+        "timer": TimerValidator()
+    }
 
-    class TasksHandlerValidator:
-        error_messages = []
-        task_validator = TaskValidator()
+class TasksHandlerValidator:
+    error_messages = []
+    task_validator = TaskValidator()
 
-        def validate(self, request_object):
-            self.task_validator.validate(request_object)
-            self.error_messages.extend(self.task_validator.error_messages)
+    def validate(self, request_object):
+        self.task_validator.validate(request_object)
+        self.error_messages.extend(self.task_validator.error_messages)
 
 
 
