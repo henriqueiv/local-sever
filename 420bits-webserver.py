@@ -14,7 +14,7 @@ class Validator:
     validate_fields = []
     sub_fields_map = {}
 
-    def has_errors():
+    def has_errors(self):
         return len(self.error_messages) > 0
 
     def validate(self, json_object, in_key = ""):
