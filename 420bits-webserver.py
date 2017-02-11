@@ -244,6 +244,8 @@ class TasksHandler(web.RequestHandler):
                 self.write(json.dumps({"errors": task_handler_validator.error_messages}))
             else:
                 timer_task = TimerTask(json_object)
+                print timer_task.mongo_json_representation()
+
                 timer_task.id = self.tasks_factory.insert(timer_task)
 
                 self.write(json.dumps(timer_task.mongo_json_representation()))
