@@ -6,7 +6,6 @@ from tornado import websocket, web, ioloop
 import json
 import time
 import os
-from bson.objectid import ObjectId
 
 cl = []
 
@@ -166,7 +165,7 @@ class TasksHandler(web.RequestHandler):
             if validator.has_errors():
                 self.write(json.dumps({"errors": validator.error_messages}))
             else:
-                id = ObjectId(json_object["_id"])
+                id = json_object["_id"]
                 if self.tasks_factory.delete(id):
                     self.write(json.dumps({"deleted": str(id)}))
                 else:

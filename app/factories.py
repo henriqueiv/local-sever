@@ -1,6 +1,7 @@
 from models import Accessory, AccessoryLog, Timer, TimerTask
 import pymongo
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 class AbstractFactory(object):
 	client = None
@@ -31,7 +32,7 @@ class TimerTaskFactory(AbstractFactory):
 		return self.table.insert_one(to_save).inserted_id
 
 	def delete(self, task_id):
-		result = self.table.delete_many({"_id": task_id})
+		result = self.table.delete_many({"_id": ObjectId(task_id)})
 		return result.deleted_count > 0
 
 	def get_tasks(self):
