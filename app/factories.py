@@ -33,7 +33,7 @@ class TimerTaskFactory(AbstractFactory):
 			self.table.update(to_save,{"upsert": False})
 			return to_save["_id"]
 		else :
-			to_save["_id"] = None
+			to_save.pop("_id",None)
 			return self.table.insert(to_save).insrted_id
 
 	def delete(self, task_id):
