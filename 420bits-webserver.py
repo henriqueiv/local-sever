@@ -173,7 +173,6 @@ class TasksHandler(web.RequestHandler):
         except:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
 
-        self.write(str(self.request.body))
         self.finish()
 
     @web.asynchronous
