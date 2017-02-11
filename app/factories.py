@@ -32,7 +32,7 @@ class TimerTaskFactory(AbstractFactory):
 		if to_save.has_key("_id") and self.table.find({"_id": ObjectId(to_save["_id"])}).count > 0:
 			id = ObjectId(to_save["_id"])
 			to_save.pop("_id")
-			print self.table.update(to_save, {"_id": id})
+			print self.table.update({"_id": id}, to_save, True)
 
 			return str(id)
 		else :
