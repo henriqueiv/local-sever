@@ -45,8 +45,23 @@ class TaskValidator(Validator):
         "timer",
     ]
 
+class TasksDeleteRequestHandlerValidator(Validator):
+    validate_fields = ["_id"]
+
 class TasksPostRequestHandlerValidator(Validator):
     task_validator = TaskValidator()
+
+    def __init__(self):
+        timer_validator = TimerValidator()
+
+        accessory_validator = AccessoryValidator()
+        accessory_validator.validate_fields = ["_id"]
+        self.task_validator.sub_fields_map = {
+            "accessory": accessory_validator,
+            "timer": timer_validator
+        }
+
+
     def validate(self, request_object):
         self.error_messages = []
         self.task_validator.validate(request_object)

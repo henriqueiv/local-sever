@@ -1,7 +1,7 @@
 from app.accessory_manager import AccessoryManager
 from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff, TimerTask
 from app.factories import AccessoryLogFactory, TimerTaskFactory
-from app.validators import  TimerValidator, AccessoryValidator, TasksPostRequestHandlerValidator
+from app.validators import  TimerValidator, AccessoryValidator, TasksPostRequestHandlerValidator,TasksDeleteRequestHandlerValidator
 from tornado import websocket, web, ioloop
 import json
 import time
@@ -156,6 +156,23 @@ class TasksHandler(web.RequestHandler):
 
     @web.asynchronous
     def delete(self):
+
+        try:
+            json_object = json.loads(str(self.request.body))
+            validator = TasksDeleteRequestHandlerValidator()
+            validator.validate(json_object)
+
+            if validator.has_errors():
+                self.write(json.dumps({"errors": validator.error_messages}))
+            else:
+                id = json_object["_id"]
+                if self.tasks_factory.delete(id):
+                    self.write(json.dumps({"deleted": str(id)}))
+                else
+                    self.write(json.dumps({"errors": ["There is not any objetc with id = `" + str(id) + "`"]}))
+        except:
+            self.write(json.dumps({"errors": [{"message": str(e)}]}))
+
         self.write(str(self.request.body))
         self.finish()
 
@@ -173,17 +190,7 @@ class TasksHandler(web.RequestHandler):
         try:
             json_object = json.loads(str(self.request.body))
 
-            timer_validator = TimerValidator()
-
-            accessory_validator = AccessoryValidator()
-            accessory_validator.validate_fields = ["_id"]
-
             task_handler_validator = TasksPostRequestHandlerValidator()
-            task_handler_validator.task_validator.sub_fields_map = {
-                "accessory": accessory_validator,
-                "timer": timer_validator
-            }
-
             task_handler_validator.validate(json_object)
 
             if task_handler_validator.has_errors():

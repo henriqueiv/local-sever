@@ -30,6 +30,9 @@ class TimerTaskFactory(AbstractFactory):
 		to_save = timer_task.mongo_json_representation()
 		return self.table.insert_one(to_save).inserted_id
 
+	def delete(self, task_id):
+		result = self.table.delete_many({"_id": task_id})
+		return result.deleted_count > 0
 
 	def get_tasks(self):
 		db_tasks = self.table.find({"timer": {"$exists": True}})
