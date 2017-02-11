@@ -144,6 +144,11 @@ class AccessoriesHandler(web.RequestHandler):
 class NotesHandler(web.RequestHandler):
 
     @web.asynchronous
+    def delete(self):
+        self.write(str(self.request.body))
+        self.finish()
+
+    @web.asynchronous
     def get(self, *args):
         # TODO: Fetch notes
         limit = int(self.get_query_argument("limit", 0))
