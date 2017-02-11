@@ -148,7 +148,7 @@ class UpdateClientsHandler(web.RequestHandler):
         self.write(json.dumps(accessories))
         self.finish()
 
-class TasksManager(web.RequestHandler):
+class TasksHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
 
