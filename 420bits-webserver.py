@@ -8,6 +8,53 @@ import os
 
 cl = []
 
+
+
+
+class TimerValidator(Validator):
+        validate_fields = [
+            "key_error_map",
+            "year",
+            "month",
+            "day",
+            "hour",
+            "minute",
+            "seconds"
+        ]
+
+    class AccessoryValidator(Validator):
+        validate_fields = [
+            "type",
+            "_id",
+            "name",
+            "value",
+        ]
+
+    class TaskValidator(Validator):
+        validate_fields = [
+            "action",
+            "accessory",
+            "timer",
+        ]
+        sub_fields_map = {
+            "accessory": AccessoryValidator(),
+            "timer": TimerValidator()
+        }
+
+    class TasksHandlerValidator:
+        error_messages = []
+        task_validator = TaskValidator()
+
+        def validate(self, request_object):
+            self.task_validator.validate(request_object)
+            self.error_messages.extend(self.task_validator.error_messages)
+
+
+
+
+
+
+
 def update_all_clients(object):
     data = json.dumps(object)
     for c in cl:
@@ -152,63 +199,6 @@ class TasksHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
 
-    class Validator:
-        error_messages = []
-        validate_fields = []
-        sub_fields_map = {}
-
-        def has_errors():
-            return len(self.error_messages) > 0
-
-        def validate(self, json_object):
-            self.error_messages = []
-            for field in self.validate_fields:
-                if not json_object.has_key(field):
-                    self.error_messages.append("`" + str(field) + "` field not sent")
-                elif sub_fields_map.has_key(field):
-                    sub_validator = sub_fields_map[field]
-                    sub_validator.validate(json_object[field])
-                    self.error_messages.extend(sub_validator.error_messages)
-
-    class TimerValidator(Validator):
-        validate_fields = [
-            "key_error_map",
-            "year",
-            "month",
-            "day",
-            "hour",
-            "minute",
-            "seconds"
-        ]
-
-    class AccessoryValidator(Validator):
-        validate_fields = [
-            "type",
-            "_id",
-            "name",
-            "value",
-        ]
-
-    class TaskValidator(Validator):
-        validate_fields = [
-            "action",
-            "accessory",
-            "timer",
-        ]
-        sub_fields_map = {
-            "accessory": AccessoryValidator(),
-            "timer": TimerValidator()
-        }
-
-    class TasksHandlerValidator:
-        error_messages = []
-        task_validator = TaskValidator()
-
-        def validate(self, request_object):
-            self.task_validator.validate(request_object)
-            self.error_messages.extend(self.task_validator.error_messages)
-
-
     @web.asynchronous
     def get(self, *args):
         self.write(json.dumps(self.tasks_factory.get_tasks_for_api()))
@@ -239,6 +229,33 @@ class TasksHandler(web.RequestHandler):
 
         print "Device: " + str(device_client)
         self.finish()
+
+
+
+
+
+class Validator:
+        error_messages = []
+        validate_fields = []
+        sub_fields_map = {}
+
+        def has_errors():
+            return len(self.error_messages) > 0
+
+        def validate(self, json_object):
+            self.error_messages = []
+            for field in self.validate_fields:
+                if not json_object.has_key(field):
+                    self.error_messages.append("`" + str(field) + "` field not sent")
+                elif sub_fields_map.has_key(field):
+                    sub_validator = sub_fields_map[field]
+                    sub_validator.validate(json_object[field])
+                    self.error_messages.extend(sub_validator.error_messages)
+
+
+
+
+
 
 
 app = web.Application([
