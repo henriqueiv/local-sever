@@ -79,8 +79,7 @@ class AccessoriesHandler(web.RequestHandler):
         self.write(json.dumps(log_factory.get_logs_for_api(from_timestamp,limit)))
         
         self.finish()
-        print "Received get request.'from' get request param value: "
-        print self.get_query_argument("from")
+        print "AccessoriesHandler Received get request."
 
 class NotesHandler(web.RequestHandler):
 
@@ -94,8 +93,7 @@ class NotesHandler(web.RequestHandler):
         self.write(json.dumps(log_factory.get_logs_for_api(from_timestamp,limit)))
         
         self.finish()
-        print "Received get request.'from' get request param value: "
-        print self.get_query_argument("from")
+        print "NotesHandler get request."
 
     @web.asynchronous
     def post(self):
