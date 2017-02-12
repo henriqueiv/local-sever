@@ -8,15 +8,18 @@ local_ws = None
 def on_message_remote(ws, message):
 	local_ws.send(message)
 	print message
+
 def on_error_remote(ws, error):
     print error
+
 def on_close_remote(ws):
     print "### closed remote ###"
+
 def on_open_remote(ws):
-	print "### opened remote ###"
     def run(*args):
     	ws.send("{\"register\": \"aaa\"}")
     thread.start_new_thread(run, ())
+    print "### opened remote ###"
 
 def on_message_local(ws, message):
 	remote_ws.send(message)
@@ -38,7 +41,7 @@ local_ws = websocket.WebSocketApp("ws://127.0.0.1:8888/ws",
                   on_error = on_error_local,
                   on_close = on_close_local)
 local_ws.on_open = on_open_local
-local_ws.run_forever()
+
 
 
 remote_ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8886/websocket",
@@ -46,4 +49,12 @@ remote_ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amaz
                           on_error = on_error_remote,
                           on_close = on_close_remote)
 remote_ws.on_open = on_open_remote
-remote_ws.run_forever()
+
+
+wst_local = threading.Thread(target=local_ws.run_forever)
+wst_local.daemon = True
+wst_local.start()
+
+wst_remote = threading.Thread(target=remote_ws.run_forever)
+wst_remote.daemon = True
+wst_remote.start()
