@@ -81,61 +81,6 @@ class AccessoriesHandler(web.RequestHandler):
         self.finish()
         print "AccessoriesHandler Received get request."
 
-class NotesHandler(web.RequestHandler):
-
-    @web.asynchronous
-    def get(self, *args):
-        # TODO: Fetch notes
-        limit = int(self.get_query_argument("limit", 0))
-        from_timestamp = float(self.get_query_argument("from", 0))
-
-        log_factory = AccessoryLogFactory()
-        self.write(json.dumps(log_factory.get_logs_for_api(from_timestamp,limit)))
-        
-        self.finish()
-        print "NotesHandler get request."
-
-    @web.asynchronous
-    def post(self):
-        device_client = self.request.headers.get("CLIENT")
-        device = self.request.headers.get("DEVICE")
-        # TODO: Validate device client
-
-        try:
-            json_object = json.loads(str(self.request.body))
-            errors = []
-
-            text = None
-            accessory_log_id = None
-
-            if not json_object.has_key("text"):
-                errors.append({"message": "field 'text' not found"})
-            else:
-                text = json_object["text"]
-
-            if not json_object.has_key("accessory_log_id"):
-                errors.append({"message": "field 'accessory_log_id' not found"})
-            else:
-                accessory_log_id = json_object["accessory_log_id"]
-
-            if text is not None and len(text) == 0:
-                errors.append({"message": "field 'text' can not be empty"})
-
-            if accessory_log_id is not None and len(accessory_log_id) == 0:
-                errors.append({"message": "field 'accessory_log_id' can not be empty"})
-
-            if len(errors) > 0:
-                self.write(json.dumps({"errors": errors}))
-            else:
-                generated_object_id = 1
-                self.write(json.dumps({"status": "created", "object":{"id": generated_object_id, "text": text}}))
-
-        except Exception as e:
-            self.write(json.dumps({"errors": [{"message": str(e)}]}))
-            print "Error loading json: " + str(e)
-
-        print "Device: " + str(device_client)
-        self.finish()
         
 class UpdateClientsHandler(web.RequestHandler):
 
@@ -154,7 +99,6 @@ class TasksHandler(web.RequestHandler):
 
     @web.asynchronous
     def delete(self):
-
         try:
             json_object = json.loads(str(self.request.body))
             validator = TasksDeleteRequestHandlerValidator()
@@ -180,10 +124,6 @@ class TasksHandler(web.RequestHandler):
 
     @web.asynchronous
     def post(self):
-        device_client = self.request.headers.get("CLIENT")
-        device = self.request.headers.get("DEVICE")
-        # TODO: Validate device client
-
         try:
             json_object = json.loads(str(self.request.body))
 
@@ -201,7 +141,6 @@ class TasksHandler(web.RequestHandler):
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
             print "Error loading json: " + str(e)
 
-        print "Device: " + str(device_client)
         self.finish()
 
 
@@ -214,7 +153,6 @@ app = web.Application([
     (r'/ws', SocketHandler),
     (r'/accessories_log', AccessoriesHandler),
     (r'/update_clients', UpdateClientsHandler),
-    (r'/notes', NotesHandler),
     (r'/tasks', TasksHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
