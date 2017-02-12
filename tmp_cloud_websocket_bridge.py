@@ -13,12 +13,13 @@ def on_close(ws):
 
 def on_open(ws):
     def run(*args):
+    	ws.send("{\"register\": \"aaa\"}")
     	write_a_lot(ws)
         print "thread terminating..."
     thread.start_new_thread(run, ())
 
 def write_a_lot(ws):
-	ws.send("{\"register\": \"aaa\"}")
+	ws.send("{\"from_device\": \"aaa\"}")
 	time.sleep(5)
 	write_a_lot(ws)
 
