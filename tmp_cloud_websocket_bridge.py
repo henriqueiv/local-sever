@@ -13,7 +13,6 @@ def on_error_remote(ws, error):
 def on_close_remote(ws):
     print "### closed remote ###"
 def on_open_remote(ws):
-	print "### opened remote ###"
     def run(*args):
     	ws.send("{\"register\": \"aaa\"}")
     thread.start_new_thread(run, ())
