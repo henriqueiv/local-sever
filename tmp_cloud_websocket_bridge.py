@@ -2,33 +2,52 @@ import websocket
 import thread
 import time
 
-def on_message(ws, message):
+remote_ws = None
+local_ws = None
+
+def on_message_remote(ws, message):
+	local_ws.write(message)
     print "Message: " + str(message)
 
-def on_error(ws, error):
+def on_error_remote(ws, error):
     print error
 
-def on_close(ws):
-    print "### closed ###"
+def on_close_remote(ws):
+    print "### closed remote ###"
 
-def on_open(ws):
+def on_open_remote(ws):
     def run(*args):
     	ws.send("{\"register\": \"aaa\"}")
-    	write_a_lot(ws)
-        print "thread terminating..."
     thread.start_new_thread(run, ())
 
-def write_a_lot(ws):
-	ws.send("{\"from_device\": \"aaa\"}")
-	time.sleep(5)
-	write_a_lot(ws)
+
+def on_message_local(ws, message):
+	remote_ws.write(message)
+    print "Message: " + str(message)
+
+def on_error_local(ws, error):
+    print error
+
+def on_close_local(ws):
+    print "### closed local ###"
+
+def on_open_local(ws):
+	print "### opened local ###"
 
 
-if __name__ == "__main__":
-    websocket.enableTrace(True)
-    ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8888/websocket",
-                              on_message = on_message,
-                              on_error = on_error,
-                              on_close = on_close)
-    ws.on_open = on_open
-    ws.run_forever()
+websocket.enableTrace(True)
+
+remote_ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8888/websocket",
+                          on_message = on_message_remote,
+                          on_error = on_error_remote,
+                          on_close = on_close_remote)
+remote_ws.on_open = on_open_remote
+remote_ws.run_forever()
+
+
+local_ws = websocket.WebSocketApp("ws://127.0.0.1:8888/ws",
+                          on_message = on_message_local,
+                          on_error = on_error_local,
+                          on_close = on_close_local)
+local_ws.on_open = on_open_local
+local_ws.run_forever()
