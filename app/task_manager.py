@@ -12,12 +12,11 @@ class TaskManager:
 
 		for task in tasks:
 			if not task.can_execute() or task.accessory is None or task.accessory.id is None:
-				print "task can not run"
-				print "Can execute: " + str(task.can_execute())
-				print "Aceesory: "+ str(task.accessory)
-				print "Timer: " + str(task.timer.to_json())
-				print task.mongo_json_representation()
-
+				# print "task can not run"
+				# print "Can execute: " + str(task.can_execute())
+				# print "Aceesory: "+ str(task.accessory)
+				# print "Timer: " + str(task.timer.to_json())
+				# print task.mongo_json_representation()
 				continue
 
 			action = task.action
