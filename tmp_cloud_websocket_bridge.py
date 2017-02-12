@@ -4,6 +4,7 @@ import thread
 import time
 
 def on_message(ws, message):
+	print "Received message: " + str(message)
 	print message
 
 def on_error(ws, error):
