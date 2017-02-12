@@ -32,17 +32,16 @@ def on_open_local(ws):
 
 websocket.enableTrace(True)
 
-remote_ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8888/websocket",
-                          on_message = on_message_remote,
-                          on_error = on_error_remote,
-                          on_close = on_close_remote)
-remote_ws.on_open = on_open_remote
-remote_ws.run_forever()
-
-
 local_ws = websocket.WebSocketApp("ws://127.0.0.1:8888/ws",
                           on_message = on_message_local,
                           on_error = on_error_local,
                           on_close = on_close_local)
 local_ws.on_open = on_open_local
 local_ws.run_forever()
+
+remote_ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8888/websocket",
+                          on_message = on_message_remote,
+                          on_error = on_error_remote,
+                          on_close = on_close_remote)
+remote_ws.on_open = on_open_remote
+remote_ws.run_forever()
