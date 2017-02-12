@@ -30,10 +30,8 @@ if __name__ == "__main__":
 	wst.start()
 
 	while True:
-		if ws is not None and ws.sock.connected:
-			if ws.sock.connected:
-				ws.send("{\"from_device\": \"aaa\"}")
-			print "Hello"
+		if ws is not None:
+			ws.send("{\"from_device\": \"aaa\"}")
 		else:
-			print "Bye"
+			print "WS is none"
 		time.sleep(3)
