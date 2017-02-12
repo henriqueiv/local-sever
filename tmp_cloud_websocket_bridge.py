@@ -7,7 +7,7 @@ local_ws = None
 
 def on_message_remote(ws, message):
 	local_ws.write(message)
-    print "Message: " + str(message)
+	print message
 
 def on_error_remote(ws, error):
     print error
