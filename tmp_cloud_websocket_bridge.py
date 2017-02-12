@@ -6,7 +6,7 @@ remote_ws = None
 local_ws = None
 
 def on_message_remote(ws, message):
-	local_ws.write(message)
+	local_ws.send(message)
 	print message
 def on_error_remote(ws, error):
     print error
@@ -16,9 +16,11 @@ def on_open_remote(ws):
     def run(*args):
     	ws.send("{\"register\": \"aaa\"}")
     thread.start_new_thread(run, ())
+
 def on_message_local(ws, message):
-	remote_ws.write(message)
-    print message
+	remote_ws.send(message)
+	print message
+
 def on_error_local(ws, error):
     print error
 
