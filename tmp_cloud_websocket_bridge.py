@@ -6,6 +6,20 @@ import threading
 remote_ws = None
 local_ws = None
 
+websocket.enableTrace(True)
+
+local_ws = websocket.WebSocketApp("ws://127.0.0.1:8888/ws",
+                  on_message = on_message_local,
+                  on_error = on_error_local,
+                  on_close = on_close_local)
+local_ws.on_open = on_open_local
+
+remote_ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8886/websocket",
+                          on_message = on_message_remote,
+                          on_error = on_error_remote,
+                          on_close = on_close_remote)
+remote_ws.on_open = on_open_remote
+
 def on_message_remote(ws, message):
 	local_ws.send(message)
 	print message
@@ -34,20 +48,6 @@ def on_close_local(ws):
 
 def on_open_local(ws):
 	print "### opened local ###"
-
-websocket.enableTrace(True)
-
-local_ws = websocket.WebSocketApp("ws://127.0.0.1:8888/ws",
-                  on_message = on_message_local,
-                  on_error = on_error_local,
-                  on_close = on_close_local)
-local_ws.on_open = on_open_local
-
-remote_ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8886/websocket",
-                          on_message = on_message_remote,
-                          on_error = on_error_remote,
-                          on_close = on_close_remote)
-remote_ws.on_open = on_open_remote
 
 def run_remote():
 	remote_ws.run_forever()
