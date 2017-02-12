@@ -23,7 +23,7 @@ def on_open_remote(ws):
 
 def on_message_local(ws, message):
 	remote_ws.write(message)
-    print "Message: " + str(message)
+    print message
 
 def on_error_local(ws, error):
     print error
