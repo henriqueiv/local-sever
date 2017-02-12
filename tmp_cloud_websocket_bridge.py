@@ -36,10 +36,12 @@ def on_open_local(ws):
 	print "### opened local ###"
 
 def run_remote():
-	remote_ws.run_forever()
+	if remote_ws is not None:
+		remote_ws.run_forever()
 
 def run_local():
-	local_ws.run_forever()
+	if local_ws is not None:
+		local_ws.run_forever()
 
 websocket.enableTrace(True)
 
