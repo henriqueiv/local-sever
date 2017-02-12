@@ -130,11 +130,12 @@ class Timer:
 	def is_late(self):
 		if self.year is None or self.month is None or self.day is None or self.hour is None or self.minute is None or self.seconds is None:
 			return False
-
-		timer_fire_date = datetime(int(str(self.year)), int(str(self.month)), int(str(self.day)), int(str(self.hour)), int(str(self.minute)), int(str(self.seconds)))
-		now = datetime.now()
-
-		return now > timer_fire_date
+		try:
+			timer_fire_date = datetime(int(str(self.year)), int(str(self.month)), int(str(self.day)), int(str(self.hour)), int(str(self.minute)), int(str(self.seconds)))
+			now = datetime.now()
+			return now > timer_fire_date
+		except:
+			return False
 
 
 	def is_on_time(self):
