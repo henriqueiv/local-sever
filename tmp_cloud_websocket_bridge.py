@@ -21,7 +21,7 @@ def on_open(ws):
 
 if __name__ == "__main__":
 	ws = websocket.WebSocketApp("ws://ec2-52-34-138-21.us-west-2.compute.amazonaws.com:8888/ws",on_message=on_message,on_error=on_error,on_close=on_close)
-	ws.enableTrace(True)
+	#ws.enableTrace(True)
 	#ws = websocket.WebSocketApp("ws://127.0.0.1:8888/ws",on_message=on_message,on_error=on_error,on_close=on_close)
 	ws.on_open = on_open
 
