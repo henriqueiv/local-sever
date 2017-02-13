@@ -1,6 +1,10 @@
 #!/bin/bash
 
-$(ps -ef | grep 420bits | grep -v grep | awk '{print $2}' | xargs kill)
+PID=`ps -eaf | grep 420bits | grep -v grep | awk '{print $2}'`
+if [[ "" !=  "$PID" ]]; then
+  echo "killing $PID"
+  kill -9 $PID
+fi
 
 if (( $(ps -aux | grep -v grep | grep "420bits-service.py" | wc -l) > 0 ))
 then
