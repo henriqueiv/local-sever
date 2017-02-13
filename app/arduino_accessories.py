@@ -39,10 +39,9 @@ class ArduinoAccessories:
 				Accessory("Relay 1",DefaultRelay1AccessoryID, AccessoryTypeRelay, relay1),
 				Accessory("Relay 2",DefaultRelay2AccessoryID, AccessoryTypeRelay, relay2)
 			]
-			print "Accessories: " + str(accessories)
 			return accessories
 		except:
-			print(str(e))
+			print("Error parsing accesories:" + str(e))
 			return []
 
 	def turn_on_accessory(self, accessory_id):
