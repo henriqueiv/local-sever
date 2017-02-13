@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ps -ef | grep 420bits | grep -v grep | awk '{print $2}' | xargs kill
+$(ps -ef | grep 420bits | grep -v grep | awk '{print $2}' | xargs kill)
 
 if (( $(ps -aux | grep -v grep | grep "420bits-service.py" | wc -l) > 0 ))
 then
