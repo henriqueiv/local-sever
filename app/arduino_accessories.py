@@ -41,6 +41,7 @@ class ArduinoAccessories:
 			]
 			return accessories
 		except:
+			print(str(e))
 			return []
 
 	def turn_on_accessory(self, accessory_id):
