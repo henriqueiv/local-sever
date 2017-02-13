@@ -12,7 +12,7 @@ class AccessoryLogger:
 	def log(self):
 		timestamp = time.time()
 		accessories = self.accessory_manager.get_accessories()
-		print "Accessories: " + stro(accessories)
+		print "Accessories: " + str(accessories)
 		for accessory in accessories:
 			self.accessory_factory.insert_or_update(accessory)
 			self.accessory_log_factory.insert(AccessoryLog(accessory, timestamp))
