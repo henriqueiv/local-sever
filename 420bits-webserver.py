@@ -11,7 +11,8 @@ import os
 socket_clients = []
 
 def update_all_clients():
-    objects = self.accessory_manager.get_accessories_json()
+    accessory_manager = AccessoryManager()
+    objects = accessory_manager.get_accessories_json()
     update_all_clients_with_message(json.dumps(objects))
 
 def update_all_clients_with_message(message):
