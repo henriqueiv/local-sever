@@ -16,8 +16,10 @@ class TasksRequestHandler(web.RequestHandler):
         self.update_clients_function = update_clients_function
 
     def update_clients(self):
-        #requests.get("http://127.0.0.1:8888/update_clients")
-        pass
+        try:
+            self.update_clients_function()
+        except:
+            print("Error updating clients:" + str(e))
 
     @web.asynchronous
     def delete(self):
