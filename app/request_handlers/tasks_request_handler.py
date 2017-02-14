@@ -3,6 +3,7 @@ from app.factories import TimerTaskFactory
 import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models import TimerTask
+import requests
 
 TasksRequestHandlerModificationsCompletion = None
 
@@ -11,12 +12,7 @@ class TasksRequestHandler(web.RequestHandler):
     tasks_factory = TimerTaskFactory()
 
     def update_clients(self):
-        try:
-            print "UpdateAllClientsFunction: " + str(TasksRequestHandlerModificationsCompletion)
-            TasksRequestHandlerModificationsCompletion()
-            print "Updated clients!"
-        except:
-            print "Error updating clients!"
+        requests.get("http://127.0.0.1:8888/update_clients")
 
     @web.asynchronous
     def delete(self):
