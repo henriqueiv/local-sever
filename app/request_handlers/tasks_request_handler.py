@@ -1,4 +1,4 @@
-from tornado import web
+from tornado import web, websocket
 from app.factories import TimerTaskFactory
 import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
