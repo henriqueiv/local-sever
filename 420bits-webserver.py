@@ -1,3 +1,10 @@
+def update_all_clients():
+    objects = self.accessory_manager.get_accessories_json()
+    data = json.dumps(objects)
+    for c in cl:
+        c.write_message(data)
+    print "Clients: " + str(cl)
+
 from app.accessory_manager import AccessoryManager
 from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
 from app.validators import  TimerValidator, AccessoryValidator
@@ -9,14 +16,6 @@ import time
 import os
 
 cl = []
-
-
-def update_all_clients():
-    objects = self.accessory_manager.get_accessories_json()
-    data = json.dumps(objects)
-    for c in cl:
-        c.write_message(data)
-    print "Clients: " + str(cl)
 
 
 def update_all_clients_with_message(message):
