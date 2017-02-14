@@ -17,7 +17,9 @@ class TasksRequestHandler(web.RequestHandler):
         try:
             print "Clients: " + str(self.socket_clients)
             json = json.dumps(self.tasks_factory.get_tasks_for_api())
+            print "JSON: " + str(json)
             for c in self.socket_clients:
+                print "Will write in client: " + str(c)
                 c.write_message()
         except:
             print("Error updating socket_clients:" + str(self.socket_clients))
