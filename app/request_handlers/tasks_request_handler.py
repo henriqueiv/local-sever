@@ -15,6 +15,7 @@ class TasksRequestHandler(web.RequestHandler):
 
     def update_socket_clients(self):
         try:
+            print "Clients: " + str(self.socket_clients)
             json = json.dumps(self.tasks_factory.get_tasks_for_api())
             for c in self.socket_clients:
                 c.write_message()
@@ -61,10 +62,10 @@ class TasksRequestHandler(web.RequestHandler):
                 timer_task = TimerTask(json_object)
                 timer_task.id = str(self.tasks_factory.insert(timer_task))
                 self.write(json.dumps(timer_task.mongo_json_representation()))
+                self.update_socket_clients()
     
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
             print "Error loading json: " + str(e)
 
-        self.update_socket_clients()
         self.finish()
