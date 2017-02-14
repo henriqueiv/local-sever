@@ -89,7 +89,7 @@ app = web.Application([
     (r'/ws', SocketHandler),
     (r'/accessories_log', AccessoriesRequestHandler),
     (r'/update_clients', UpdateClientsHandler),
-    (r'/tasks', TasksRequestHandler,dict(update_clients_function=update_clients)),
+    (r'/tasks', TasksRequestHandler,dict(update_clients_function=update_all_clients)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
