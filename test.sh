@@ -27,7 +27,7 @@ declare -a scripts=("420bits-service.py" "420bits-webserver.py")
 for script in "${scripts[@]}"
 do
    echo "$script"
-   	if [ "$RESTART" -eq "1" ]; then
+   	if [ "$RESTART" == "1" ]; then
    		PID=`ps -eaf | grep $script | grep -v grep | awk '{print $2}'`
 		if [[ "" !=  "$PID" ]]; then
 		  echo "killing $PID"
