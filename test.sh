@@ -1,6 +1,6 @@
-LOGS_PATH = "/home/pi/420bits/logs"
-SCRIPTS_PATH = "/home/pi/420bits/local-sever"
-RESTART = "0"
+LOGS_PATH="/home/pi/420bits/logs"
+SCRIPTS_PATH="/home/pi/420bits/local-sever"
+RESTART="0"
 
 for i in "$@"
 do
