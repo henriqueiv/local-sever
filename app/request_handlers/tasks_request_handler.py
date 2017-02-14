@@ -24,7 +24,7 @@ class TasksRequestHandler(web.RequestHandler):
                 print "Will write in client: " + str(c)
                 c.write_message()
         except:
-            print("Error updating socket_clients:" + str(self.socket_clients))
+            print("Error updating socket_clients:" + str(e))
 
     @web.asynchronous
     def delete(self):
