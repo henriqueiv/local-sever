@@ -23,7 +23,7 @@ class TasksRequestHandler(web.RequestHandler):
             for c in self.socket_clients:
                 print "Will write in client: " + str(c)
                 c.write_message()
-        except:
+        except Exception as e:
             print("Error updating socket_clients:" + str(e))
 
     @web.asynchronous
@@ -70,6 +70,5 @@ class TasksRequestHandler(web.RequestHandler):
     
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
-            print "Error loading json: " + str(e)
 
         self.finish()
