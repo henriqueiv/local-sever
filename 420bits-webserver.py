@@ -10,6 +10,9 @@ import os
 
 cl = []
 
+def update_all_clients_callback():
+    update_all_clients()
+
 def update_all_clients():
     objects = self.accessory_manager.get_accessories_json()
     data = json.dumps(objects)
@@ -89,7 +92,7 @@ app = web.Application([
     (r'/ws', SocketHandler),
     (r'/accessories_log', AccessoriesRequestHandler),
     (r'/update_clients', UpdateClientsHandler),
-    (r'/tasks', TasksRequestHandler,dict(update_clients_function=update_all_clients)),
+    (r'/tasks', TasksRequestHandler,dict(update_clients_function=update_all_clients_callback)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
