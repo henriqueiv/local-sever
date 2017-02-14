@@ -1,25 +1,48 @@
-#!/bin/bash
+LOGS_PATH="/home/pi/420bits/logs"
+SCRIPTS_PATH="/home/pi/420bits/local-sever"
+RESTART="0"
 
-PID=`ps -eaf | grep 420bits | grep -v grep | awk '{print $2}'`
-if [[ "" !=  "$PID" ]]; then
-  echo "killing $PID"
-  kill -9 $PID
-fi
+for i in "$@"
+do
+case $i in
+    -r|--restart)
+    RESTART="1"
+    ;;
 
-if (( $(ps -aux | grep -v grep | grep "420bits-service.py" | wc -l) > 0 ))
-then
-echo "420bits-service.py is already running"
-else
-echo "Will start 420bits-service.py"
-/usr/bin/python "/home/pi/420bits/local-sever/420bits-service.py" > "/home/pi/420bits/logs/420bits-service.log" 2>&1 &
-echo "Did start 420bits-service.py"
-fi
+    -s=*|--searchpath=*)
+    SEARCHPATH="${i#*=}"
+    ;;
 
-if (( $(ps -aux | grep -v grep | grep "420bits-webserver.py" | wc -l) > 0 ))
-then
-echo "420bits-webserver is running"
-else
-echo "Will start 420bits-webserver.py"
-/usr/bin/python "/home/pi/420bits/local-sever/420bits-webserver.py" > "/home/pi/420bits/logs/420bits-webserver.log" 2>&1 &
-echo "Did start 420bits-webserver.py"
-fi
+    -l=*|--lib=*)
+    DIR="${i#*=}"
+    ;;
+
+    --default)
+    DEFAULT=YES
+    ;;
+
+    *)
+    ;;
+esac
+done
+
+declare -a scripts=("420bits-service.py" "420bits-webserver.py")
+for script in "${scripts[@]}"
+do
+   	if [ "$RESTART" == "1" ]; then
+   		PID=`ps -eaf | grep $script | grep -v grep | awk '{print $2}'`
+		if [[ "" !=  "$PID" ]]; then
+		  echo "Killing $PID - Script: $script"
+		  kill -9 $PID
+		fi
+   	fi
+
+	if (( $(ps -aux | grep -v grep | grep "$script" | wc -l) > 0 ))
+	then
+	echo "$script is already running"
+	else
+	echo "Will start $script"
+	/usr/bin/python "$SCRIPTS_PATH/$script" > "$LOGS_PATH/$script.log" 2>&1 &
+	echo "Did start $script"
+	fi
+done
