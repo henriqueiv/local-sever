@@ -18,7 +18,7 @@ class TasksRequestHandler(web.RequestHandler):
             print "Clients: " + str(self.socket_clients)
             tasks = self.tasks_factory.get_tasks_for_api()
             print "Tasks: " + str(tasks)
-            json = json.dumps(tasks)
+            json = json.dumps(self.tasks_factory.get_tasks_for_api())
             print "JSON: " + str(json)
             for c in self.socket_clients:
                 print "Will write in client: " + str(c)
