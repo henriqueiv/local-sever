@@ -4,14 +4,16 @@ import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models import TimerTask
 
+TasksRequestHandlerModificationsCompletion = None
+
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
 
     def update_clients(self):
         try:
-            print "UpdateAllClientsFunction: " + str(update_all_clients)
-            update_all_clients()
+            print "UpdateAllClientsFunction: " + str(TasksRequestHandlerModificationsCompletion)
+            TasksRequestHandlerModificationsCompletion()
             print "Updated clients!"
         except:
             print "Error updating clients!"

@@ -1,3 +1,15 @@
+from app.accessory_manager import AccessoryManager
+from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
+from app.validators import  TimerValidator, AccessoryValidator
+from tornado import websocket, web, ioloop
+from app.request_handlers.accessories_request_handler import AccessoriesRequestHandler
+from app.request_handlers.tasks_request_handler import TasksRequestHandler, TasksRequestHandlerModificationsCompletion
+import json
+import time
+import os
+
+cl = []
+
 def update_all_clients():
     objects = self.accessory_manager.get_accessories_json()
     data = json.dumps(objects)
@@ -5,23 +17,12 @@ def update_all_clients():
         c.write_message(data)
     print "Clients: " + str(cl)
 
-from app.accessory_manager import AccessoryManager
-from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
-from app.validators import  TimerValidator, AccessoryValidator
-from tornado import websocket, web, ioloop
-from app.request_handlers.accessories_request_handler import AccessoriesRequestHandler
-from app.request_handlers.tasks_request_handler import TasksRequestHandler
-import json
-import time
-import os
-
-cl = []
-
-
 def update_all_clients_with_message(message):
     for c in cl:
         c.write_message(message)
     print "Clients*: " + str(cl)    
+
+TasksRequestHandlerModificationsCompletion = update_all_clients
 
 class SocketHandler(websocket.WebSocketHandler):
 
