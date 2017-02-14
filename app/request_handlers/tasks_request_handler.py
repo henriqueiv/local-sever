@@ -18,11 +18,11 @@ class TasksRequestHandler(web.RequestHandler):
             print "Clients: " + str(self.socket_clients)
             tasks = self.tasks_factory.get_tasks_for_api()
             print "Tasks: " + str(tasks)
-            json = json.dumps(self.tasks_factory.get_tasks_for_api())
-            print "JSON: " + str(json)
+            json_content = json.dumps(self.tasks_factory.get_tasks_for_api())
+            print "JSON: " + str(json_content)
             for c in self.socket_clients:
                 print "Will write in client: " + str(c)
-                c.write_message()
+                c.write_message(json_content)
         except Exception as e:
             print("Error updating socket_clients:" + str(e))
 
