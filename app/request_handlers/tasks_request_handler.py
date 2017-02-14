@@ -8,18 +8,20 @@ import requests
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
-    update_clients_function = None
+    clients = []
 
-    def initialize(self, update_clients_function):
-        print "Will initialize with function: " + str(update_clients_function)
-        self.update_clients_function = update_clients_function
+    def initialize(self, clients):
+        print "Will initialize with clients: " + str(clients)
+        self.clients = clients
         print "Did initialize"
 
     def update_clients(self):
         try:
-            self.update_clients_function()
+            for c in self.clients:
+                c.write_message("Hello dawg")
+            print "Clients: " + str(self.clients)
         except:
-            print("Error updating clients:" + str(self.update_clients))
+            print("Error updating clients:" + str(self.clients))
 
     @web.asynchronous
     def delete(self):
