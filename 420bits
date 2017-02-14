@@ -1,7 +1,7 @@
 declare -a scripts=("420bits-service.py" "420bits-webserver.py")
 
 LOGS_PATH="/home/pi/420bits/logs"
-SCRIPTS_PATH="/home/pi/420bits/local-sever/scripts"
+SCRIPTS_PATH="/home/pi/420bits/local-sever"
 RESTART="0"
 STOP="0"
 
