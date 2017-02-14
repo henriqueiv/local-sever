@@ -1,3 +1,7 @@
+LOGS_PATH = "/home/pi/420bits/logs"
+SCRIPTS_PATH = "/home/pi/420bits/local-sever"
+RESTART = "0"
+
 for i in "$@"
 do
 case $i in
@@ -22,14 +26,13 @@ case $i in
 esac
 done
 
-
 declare -a scripts=("420bits-service.py" "420bits-webserver.py")
 for script in "${scripts[@]}"
 do
    	if [ "$RESTART" == "1" ]; then
    		PID=`ps -eaf | grep $script | grep -v grep | awk '{print $2}'`
 		if [[ "" !=  "$PID" ]]; then
-		  echo "killing $PID"
+		  echo "Killing $PID - Script: $script"
 		  kill -9 $PID
 		fi
    	fi
@@ -39,7 +42,7 @@ do
 	echo "$script is already running"
 	else
 	echo "Will start $script"
-	/usr/bin/python "/home/pi/420bits/local-sever/$script" > "/home/pi/420bits/logs/$script.log" 2>&1 &
-	echo "Did start $script --"
+	/usr/bin/python "$SCRIPTS_PATH/$script" > "$LOGS_PATH/$script.log" 2>&1 &
+	echo "Did start $script"
 	fi
 done
