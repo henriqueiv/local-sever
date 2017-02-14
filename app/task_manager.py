@@ -6,8 +6,12 @@ import requests
 class TaskManager:
 
 	accessory_manager = AccessoryManager()
+	
 
-	def run_tasks(self, tasks):
+	def run_tasks(self):
+		timer_task_factory = TimerTaskFactory()
+		tasks = timer_task_factory.get_tasks()
+		
 		print "Tasks to run: " + str(tasks)
 
 		for task in tasks:
