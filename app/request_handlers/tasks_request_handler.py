@@ -12,7 +12,8 @@ class TasksRequestHandler(web.RequestHandler):
     tasks_factory = TimerTaskFactory()
 
     def update_clients(self):
-        requests.get("http://127.0.0.1:8888/update_clients")
+        #requests.get("http://127.0.0.1:8888/update_clients")
+        pass
 
     @web.asynchronous
     def delete(self):
