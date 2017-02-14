@@ -1,8 +1,9 @@
 from app.accessory_manager import AccessoryManager
 from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff, TimerTask
-from app.factories import AccessoryLogFactory, TimerTaskFactory
+from app.factories import TimerTaskFactory
 from app.validators import  TimerValidator, AccessoryValidator, TasksPostRequestHandlerValidator,TasksDeleteRequestHandlerValidator
 from tornado import websocket, web, ioloop
+from app.accessories_handler import AccessoriesRequestHandler
 import json
 import time
 import os
@@ -62,24 +63,6 @@ class SocketHandler(websocket.WebSocketHandler):
     def update_self_client(self, object):
         data = json.dumps(object)
         self.write_message(data)
-
-
-
-class AccessoriesHandler(web.RequestHandler):
-    @web.asynchronous
-    def post(self):
-        pass
-
-    @web.asynchronous
-    def get(self, *args):
-        limit = int(self.get_query_argument("limit", 0))
-        from_timestamp = float(self.get_query_argument("from", 0))
-
-        log_factory = AccessoryLogFactory()
-        self.write(json.dumps(log_factory.get_logs_for_api(from_timestamp,limit)))
-        
-        self.finish()
-        print "AccessoriesHandler Received get request."
 
         
 class UpdateClientsHandler(web.RequestHandler):
@@ -151,7 +134,7 @@ class TasksHandler(web.RequestHandler):
 
 app = web.Application([
     (r'/ws', SocketHandler),
-    (r'/accessories_log', AccessoriesHandler),
+    (r'/accessories_log', AccessoriesRequestHandler),
     (r'/update_clients', UpdateClientsHandler),
     (r'/tasks', TasksHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
