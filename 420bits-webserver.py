@@ -3,7 +3,7 @@ from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActi
 from app.validators import  TimerValidator, AccessoryValidator
 from tornado import websocket, web, ioloop
 from app.request_handlers.accessories_request_handler import AccessoriesRequestHandler
-from app.request_handlers.tasks_request_handler import TasksRequestHandler, TasksRequestHandlerModificationsCompletion
+from app.request_handlers.tasks_request_handler import TasksRequestHandler
 import json
 import time
 import os
@@ -20,9 +20,7 @@ def update_all_clients():
 def update_all_clients_with_message(message):
     for c in cl:
         c.write_message(message)
-    print "Clients*: " + str(cl)    
-
-TasksRequestHandlerModificationsCompletion = update_all_clients
+    print "Clients*: " + str(cl)
 
 class SocketHandler(websocket.WebSocketHandler):
 
