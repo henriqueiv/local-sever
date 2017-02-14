@@ -10,6 +10,10 @@ TasksRequestHandlerModificationsCompletion = None
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
+    update_clients_function = None
+
+    def initialize(self, update_clients_function):
+        self.update_clients_function = update_clients_function
 
     def update_clients(self):
         #requests.get("http://127.0.0.1:8888/update_clients")
