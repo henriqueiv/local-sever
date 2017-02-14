@@ -11,15 +11,13 @@ class TasksRequestHandler(web.RequestHandler):
     clients = []
 
     def initialize(self, clients):
-        print "Will initialize with clients: " + str(clients)
         self.clients = clients
-        print "Did initialize"
 
     def update_clients(self):
         try:
+            json = json.dumps(self.tasks_factory.get_tasks_for_api())
             for c in self.clients:
-                c.write_message("Hello dawg")
-            print "Clients: " + str(self.clients)
+                c.write_message()
         except:
             print("Error updating clients:" + str(self.clients))
 
