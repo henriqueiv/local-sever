@@ -8,18 +8,18 @@ import requests
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
-    clients = []
+    socket_clients = []
 
-    def initialize(self, clients):
-        self.clients = clients
+    def initialize(self, socket_clients):
+        self.socket_clients = socket_clients
 
-    def update_clients(self):
+    def update_socket_clients(self):
         try:
             json = json.dumps(self.tasks_factory.get_tasks_for_api())
-            for c in self.clients:
+            for c in self.socket_clients:
                 c.write_message()
         except:
-            print("Error updating clients:" + str(self.clients))
+            print("Error updating socket_clients:" + str(self.socket_clients))
 
     @web.asynchronous
     def delete(self):
@@ -39,7 +39,7 @@ class TasksRequestHandler(web.RequestHandler):
         except:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
 
-        self.update_clients()
+        self.update_socket_clients()
         self.finish()
 
     @web.asynchronous
@@ -66,5 +66,5 @@ class TasksRequestHandler(web.RequestHandler):
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
             print "Error loading json: " + str(e)
 
-        self.update_clients()
+        self.update_socket_clients()
         self.finish()

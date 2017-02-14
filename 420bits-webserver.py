@@ -8,19 +8,15 @@ import json
 import time
 import os
 
-cl = []
+socket_clients = []
 
 def update_all_clients():
     objects = self.accessory_manager.get_accessories_json()
-    data = json.dumps(objects)
-    for c in cl:
-        c.write_message(data)
-    print "Clients: " + str(cl)
+    update_all_clients_with_message(json.dumps(objects))
 
 def update_all_clients_with_message(message):
-    for c in cl:
+    for c in socket_clients:
         c.write_message(message)
-    print "Clients*: " + str(cl)
 
 class SocketHandler(websocket.WebSocketHandler):
 
@@ -30,12 +26,12 @@ class SocketHandler(websocket.WebSocketHandler):
         return True
 
     def open(self):
-        if self not in cl:
-            cl.append(self)
+        if self not in socket_clients:
+            socket_clients.append(self)
 
     def on_close(self):
-        if self in cl:
-            cl.remove(self)
+        if self in socket_clients:
+            socket_clients.remove(self)
 
     def on_message(self, message):
         print "Received messaged: " + message
@@ -87,9 +83,9 @@ class UpdateClientsHandler(web.RequestHandler):
 
 app = web.Application([
     (r'/ws', SocketHandler),
+    (r'/tasks', TasksRequestHandler,dict(socket_clients = socket_clients)),
     (r'/accessories_log', AccessoriesRequestHandler),
     (r'/update_clients', UpdateClientsHandler),
-    (r'/tasks', TasksRequestHandler,dict(clients = cl)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
