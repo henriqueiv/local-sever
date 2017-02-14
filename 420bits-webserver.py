@@ -15,6 +15,7 @@ def update_all_clients(object):
     data = json.dumps(object)
     for c in cl:
         c.write_message(data)
+    print "Clients: " + str(cl)
 
 class SocketHandler(websocket.WebSocketHandler):
 

@@ -4,9 +4,18 @@ import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models import TimerTask
 
+UpdateAllClientsFunction = None
+
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
+
+    def update_clients(self):
+        try:
+            UpdateAllClientsFunction()
+            print "Updated clients!"
+        except:
+            print "Error updating clients!"
 
     @web.asynchronous
     def delete(self):
