@@ -1,5 +1,7 @@
+declare -a scripts=("420bits-service.py" "420bits-webserver.py")
+
 LOGS_PATH="/home/pi/420bits/logs"
-SCRIPTS_PATH="/home/pi/420bits/local-sever"
+SCRIPTS_PATH="/home/pi/420bits/local-sever/scripts"
 RESTART="0"
 STOP="0"
 
@@ -27,7 +29,6 @@ case $i in
 esac
 done
 
-declare -a scripts=("420bits-service.py" "420bits-webserver.py")
 for script in "${scripts[@]}"
 do
    	if [ "$RESTART" == "1" ] || [ "$STOP" == "1" ]; then
