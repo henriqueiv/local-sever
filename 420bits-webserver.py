@@ -3,7 +3,7 @@ from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActi
 from app.factories import TimerTaskFactory
 from app.validators import  TimerValidator, AccessoryValidator, TasksPostRequestHandlerValidator,TasksDeleteRequestHandlerValidator
 from tornado import websocket, web, ioloop
-from app.accessories_handler import AccessoriesRequestHandler
+from app.accessories_request_handler import AccessoriesRequestHandler
 import json
 import time
 import os
