@@ -77,10 +77,11 @@ class UpdateClientsHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
-        accessories = json.dumps(self.accessory_manager.get_accessories_json())
-        update_all_clients_with_message(accessories)
-        self.write(accessories)
-        self.finish()
+        self.write("Hello")
+        # accessories = json.dumps(self.accessory_manager.get_accessories_json())
+        # update_all_clients_with_message(accessories)
+        # self.write(accessories)
+        # self.finish()
 
 
 
