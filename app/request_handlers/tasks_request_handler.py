@@ -4,15 +4,14 @@ import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models import TimerTask
 
-UpdateAllClientsFunction = None
-
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
 
     def update_clients(self):
         try:
-            UpdateAllClientsFunction()
+            print "UpdateAllClientsFunction: " + str(update_all_clients)
+            update_all_clients()
             print "Updated clients!"
         except:
             print "Error updating clients!"
@@ -35,6 +34,7 @@ class TasksRequestHandler(web.RequestHandler):
         except:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
 
+        self.update_clients()
         self.finish()
 
     @web.asynchronous
@@ -61,4 +61,5 @@ class TasksRequestHandler(web.RequestHandler):
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
             print "Error loading json: " + str(e)
 
+        self.update_clients()
         self.finish()

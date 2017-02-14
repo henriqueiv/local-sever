@@ -11,11 +11,18 @@ import os
 cl = []
 
 
-def update_all_clients(object):
-    data = json.dumps(object)
+def update_all_clients():
+    objects = self.accessory_manager.get_accessories_json()
+    data = json.dumps(objects)
     for c in cl:
         c.write_message(data)
     print "Clients: " + str(cl)
+
+
+def update_all_clients_with_message(message):
+    for c in cl:
+        c.write_message(message)
+    print "Clients*: " + str(cl)    
 
 class SocketHandler(websocket.WebSocketHandler):
 
@@ -47,13 +54,13 @@ class SocketHandler(websocket.WebSocketHandler):
     def dispatch(self, socket_message):
         if socket_message.action == SocketMessageActionTurnOn and socket_message.id is not None:
             self.accessory_manager.turn_on_accessory(socket_message.id)
-            update_all_clients(self.accessory_manager.get_accessories_json())
+            update_all_clients()
 
             print "Turn on: " + str(socket_message.id)
 
         elif socket_message.action == SocketMessageActionTurnOff and socket_message.id is not None:
             self.accessory_manager.turn_off_accessory(socket_message.id)
-            update_all_clients(self.accessory_manager.get_accessories_json())
+            update_all_clients()
 
             print "Turn off: " + str(socket_message.id)
 
@@ -73,7 +80,7 @@ class UpdateClientsHandler(web.RequestHandler):
     @web.asynchronous
     def get(self, *args):
         accessories = self.accessory_manager.get_accessories_json()
-        update_all_clients(accessories)
+        update_all_clients_with_message(json.dumps(accessories))
         self.write(json.dumps(accessories))
         self.finish()
 
