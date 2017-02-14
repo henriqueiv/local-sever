@@ -5,21 +5,21 @@ from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestH
 from app.models import TimerTask
 import requests
 
-TasksRequestHandlerModificationsCompletion = None
-
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
     update_clients_function = None
 
     def initialize(self, update_clients_function):
+        print "Will initialize with function: " + str(update_clients_function)
         self.update_clients_function = update_clients_function
+        print "Did initialize"
 
     def update_clients(self):
         try:
             self.update_clients_function()
         except:
-            print("Error updating clients:" + str(e))
+            print("Error updating clients:" + str(self.update_clients))
 
     @web.asynchronous
     def delete(self):
