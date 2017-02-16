@@ -4,22 +4,16 @@ import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models.timertask import TimerTask
 import requests
+from app.classes.socketclientsupdater import SocketClientsUpdater
 
 class TasksRequestHandler(web.RequestHandler):
 
     tasks_factory = TimerTaskFactory()
     socket_clients = []
+    clients_updater = None
 
-    def initialize(self, socket_clients):
-        self.socket_clients = socket_clients
-
-    def update_socket_clients(self):
-        try:
-            json_content = json.dumps(self.tasks_factory.get_tasks_for_api())
-            for c in self.socket_clients:
-                c.write_message(json_content)
-        except Exception as e:
-            print("Error updating socket_clients:" + str(e))
+    def initialize(self, clients_updater):
+        self.clients_updater = clients_updater
 
     @web.asynchronous
     def delete(self):
@@ -39,7 +33,7 @@ class TasksRequestHandler(web.RequestHandler):
         except:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
 
-        self.update_socket_clients()
+        self.clients_updater.update_all_clients()
         self.finish()
 
     @web.asynchronous
@@ -61,7 +55,7 @@ class TasksRequestHandler(web.RequestHandler):
                 timer_task = TimerTask(json_object)
                 timer_task.id = str(self.tasks_factory.insert(timer_task))
                 self.write(json.dumps(timer_task.mongo_json_representation()))
-                self.update_socket_clients()
+                self.clients_updater.update_all_clients()
     
         except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))

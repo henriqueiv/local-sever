@@ -13,7 +13,6 @@ import os
 
 clients_updater = SocketClientsUpdater()
 
-
 class SocketHandler(websocket.WebSocketHandler):
 
     accessory_manager = AccessoryManager()
@@ -67,7 +66,7 @@ class SocketHandler(websocket.WebSocketHandler):
 
 app = web.Application([
     (r'/ws', SocketHandler),
-    (r'/tasks', TasksRequestHandler,dict(socket_clients = clients_updater.clients)),
+    (r'/tasks', TasksRequestHandler,dict(clients_updater = clients_updater)),
     (r'/accessories_log', AccessoriesRequestHandler),
     (r'/update_clients', UpdateClientsHandler, dict(clients_updater = clients_updater)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
