@@ -1,5 +1,5 @@
 from tornado import web
-from app.factories import AccessoryLogFactory
+from app.factories.accessorylogfactory import AccessoryLogFactory
 import json
 
 DefaultMaxLimit = 1000

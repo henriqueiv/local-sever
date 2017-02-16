@@ -1,5 +1,5 @@
 from app.models.timertask import TimerTask, TaskActionTurnOn, TaskActionTurnOff
-from factories import TimerTaskFactory
+from app.factories.timertaskfactory import TimerTaskFactory
 from accessory_manager import AccessoryManager
 import requests
 

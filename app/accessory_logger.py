@@ -1,7 +1,9 @@
 import time
 from accessory_manager import AccessoryManager
-from models.accessorylog import AccessoryLog
-from factories import AccessoryFactory, AccessoryLogFactory
+from app.models.accessorylog import AccessoryLog
+
+from app.factories.accessoryfactory import AccessoryFactory
+from app.factories.accessorylogfactory import AccessoryLogFactory
 
 class AccessoryLogger:
 

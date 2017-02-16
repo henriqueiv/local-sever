@@ -1,5 +1,5 @@
 from tornado import web, websocket
-from app.factories import TimerTaskFactory
+from app.factories.timertaskfactory import TimerTaskFactory
 import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models.timertask import TimerTask
