@@ -1,3 +1,5 @@
+#!/bin/sh
+
 declare -a scripts=("420bits-service.py" "420bits-webserver.py")
 
 LOGS_PATH="/home/pi/420bits/logs"
