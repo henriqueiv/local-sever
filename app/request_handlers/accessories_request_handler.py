@@ -11,7 +11,7 @@ class AccessoriesRequestHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
-        limit = int(self.get_query_argument("limit", DefaultMaxLimit))
+        limit = min(int(self.get_query_argument("limit", DefaultMaxLimit)),DefaultMaxLimit)
         if limit == 0:
             limit = DefaultMaxLimit
 
