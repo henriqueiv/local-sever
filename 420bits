@@ -45,7 +45,7 @@ do
         echo "$script is already running"
         else
         echo "Will start $script"
-        /usr/bin/python "$SCRIPTS_PATH/$script" > "$LOGS_PATH/$script.log" 2>&1 &
+        /usr/bin/python "$SCRIPTS_PATH/$script" >> "$LOGS_PATH/$script.log" 2>&1 &
         echo "Did start $script"
         fi
     fi

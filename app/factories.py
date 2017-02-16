@@ -78,6 +78,7 @@ class AccessoryLogFactory(AbstractFactory):
 	def __init__(self):
 		AbstractFactory.__init__(self)
 		self.table = self.db.data_log
+		print self.db.count(with_limit_and_skip=True)
 
 	def insert(self, accessory_log):
 		return self.table.insert_one(accessory_log.mongo_json_representation())
