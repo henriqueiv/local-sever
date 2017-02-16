@@ -14,7 +14,7 @@ class AccessoryLogger:
 
 	def log(self):
 		timestamp = time.time()
-		if (timestamp + AccessoryLoggerConfig.min_interval_between_logs) < self.last_log_timestamp:
+		if timestamp < self.last_log_timestamp + AccessoryLoggerConfig.min_interval_between_logs:
 			return
 
 		self.last_log_timestamp = timestamp
