@@ -16,6 +16,10 @@ case $i in
     STOP="1"
     ;;
 
+    -d|--delete-logs)
+    rm $LOGS_PATH/*
+    ;;
+
     -l=*|--lib=*)
     DIR="${i#*=}"
     ;;
