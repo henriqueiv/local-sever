@@ -18,6 +18,7 @@ case $i in
 
     -d|--delete-logs)
     rm $LOGS_PATH/*
+    echo "Logs deleted in path: $LOGS_PATH"
     ;;
 
     -l=*|--lib=*)
