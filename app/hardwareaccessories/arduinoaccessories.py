@@ -1,5 +1,6 @@
 from app.models.accessory import Accessory, AccessoryTypeHumidity, AccessoryTypeTemperature, AccessoryTypeCO2, AccessoryTypeRelay
 import smbus
+from app.constants import ArduinoAccessoryConfig
 
 DefaultHumidityAccessoryID = 1
 DefaultTemperatureAccessoryID = 2
@@ -15,7 +16,7 @@ def StringToBytes(val):
 
 class ArduinoAccessories:
 	i2cbus = smbus.SMBus(1)
-	address = 0x04
+	address = ArduinoAccessoryConfig.i2c_address
 
 	def get_accessories(self):
 		try:
