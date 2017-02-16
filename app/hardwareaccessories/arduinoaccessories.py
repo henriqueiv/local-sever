@@ -41,7 +41,7 @@ class ArduinoAccessories:
 				Accessory("Relay 2",DefaultRelay2AccessoryID, AccessoryTypeRelay, relay2)
 			]
 			return accessories
-		except:
+		except Exception as e:
 			print("Error parsing accesories:" + str(e))
 			return []
 
