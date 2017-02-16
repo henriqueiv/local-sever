@@ -3,8 +3,6 @@ from tornado import websocket
 
 class SocketClientsUpdater(object):
 	clients = []
-	def __init__(self, clients):
-		self.clients = clients
 
 	def update_all_clients(self):
 		accessory_manager = AccessoryManager()
