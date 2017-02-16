@@ -13,14 +13,6 @@ import os
 
 clients_updater = SocketClientsUpdater()
 
-def update_all_clients():
-    accessory_manager = AccessoryManager()
-    objects = accessory_manager.get_accessories_json()
-    update_all_clients_with_message(json.dumps(objects))
-
-def update_all_clients_with_message(message):
-    for c in clients_updater:
-        c.write_message(message)
 
 class SocketHandler(websocket.WebSocketHandler):
 
@@ -52,13 +44,13 @@ class SocketHandler(websocket.WebSocketHandler):
     def dispatch(self, socket_message):
         if socket_message.action == SocketMessageActionTurnOn and socket_message.id is not None:
             self.accessory_manager.turn_on_accessory(socket_message.id)
-            update_all_clients()
+            clients_updater.update_all_clients()
 
             print "Turn on: " + str(socket_message.id)
 
         elif socket_message.action == SocketMessageActionTurnOff and socket_message.id is not None:
             self.accessory_manager.turn_off_accessory(socket_message.id)
-            update_all_clients()
+            clients_updater.update_all_clients()
 
             print "Turn off: " + str(socket_message.id)
 
