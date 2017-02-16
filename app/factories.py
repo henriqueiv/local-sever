@@ -14,7 +14,7 @@ class AbstractFactory(object):
 	table = None
 
 	def __init__(self):
-		self.client = MongoClient(MongoConfig.server_address, server_port)
+		self.client = MongoClient(MongoConfig.server_address, MongoConfig.server_port)
 		self.db = self.client[MongoConfig.db_name]
 		
 
