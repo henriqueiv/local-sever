@@ -2,6 +2,8 @@ from tornado import web
 from app.factories import AccessoryLogFactory
 import json
 
+DefaultMaxLimit = 1000
+
 class AccessoriesRequestHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
@@ -9,7 +11,7 @@ class AccessoriesRequestHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
-        limit = int(self.get_query_argument("limit", 0))
+        limit = int(self.get_query_argument("limit", DefaultMaxLimit))
         from_timestamp = float(self.get_query_argument("from", 0))
 
         log_factory = AccessoryLogFactory()
