@@ -1,6 +1,7 @@
 import json
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from tornado import web, websocket
+from app.managers.accessorymanager import AccessoryManager
 
 class UpdateClientsHandler(web.RequestHandler):
 
