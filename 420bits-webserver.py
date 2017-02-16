@@ -1,5 +1,5 @@
 from app.accessory_manager import AccessoryManager
-from app.models import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
+from app.models.socketmessage import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
 from app.validators import  TimerValidator, AccessoryValidator
 from tornado import websocket, web, ioloop
 from app.request_handlers.accessories_request_handler import AccessoriesRequestHandler
