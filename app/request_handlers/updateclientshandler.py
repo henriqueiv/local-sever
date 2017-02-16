@@ -16,7 +16,8 @@ class UpdateClientsHandler(web.RequestHandler):
     def get(self, *args):        
         accessories = json.dumps(self.accessory_manager.get_accessories_json())
 
-        update_all_clients_with_message(accessories)
+        if self.clients_updater is not None:
+        	self.clients_updater.update_all_clients()
 
         self.write(accessories)
         self.finish()
