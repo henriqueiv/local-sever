@@ -1,14 +1,17 @@
+from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.accessory_manager import AccessoryManager
 from app.models.socketmessage import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
 from app.validators import  TimerValidator, AccessoryValidator
 from tornado import websocket, web, ioloop
 from app.request_handlers.accessories_request_handler import AccessoriesRequestHandler
 from app.request_handlers.tasks_request_handler import TasksRequestHandler
+from app.request_handlers.updateclientshandler import UpdateClientsHandler
 import json
 import time
 import os
 
-socket_clients = []
+
+clients_updater = SocketClientsUpdater()
 
 def update_all_clients():
     accessory_manager = AccessoryManager()
@@ -16,7 +19,7 @@ def update_all_clients():
     update_all_clients_with_message(json.dumps(objects))
 
 def update_all_clients_with_message(message):
-    for c in socket_clients:
+    for c in clients_updater:
         c.write_message(message)
 
 class SocketHandler(websocket.WebSocketHandler):
@@ -27,12 +30,12 @@ class SocketHandler(websocket.WebSocketHandler):
         return True
 
     def open(self):
-        if self not in socket_clients:
-            socket_clients.append(self)
+        if self not in clients_updater.clients:
+            clients_updater.clients.append(self)
 
     def on_close(self):
-        if self in socket_clients:
-            socket_clients.remove(self)
+        if self in clients_updater.clients:
+            clients_updater.clients.remove(self)
 
     def on_message(self, message):
         print "Received messaged: " + message
@@ -67,26 +70,14 @@ class SocketHandler(websocket.WebSocketHandler):
         data = json.dumps(object)
         self.write_message(data)
 
-        
-class UpdateClientsHandler(web.RequestHandler):
-
-    accessory_manager = AccessoryManager()    
-
-    @web.asynchronous
-    def get(self, *args):        
-        accessories = json.dumps(self.accessory_manager.get_accessories_json())
-        update_all_clients_with_message(accessories)
-        self.write(accessories)
-        self.finish()
-
 
 
 
 app = web.Application([
     (r'/ws', SocketHandler),
-    (r'/tasks', TasksRequestHandler,dict(socket_clients = socket_clients)),
+    (r'/tasks', TasksRequestHandler,dict(socket_clients = clients_updater.clients)),
     (r'/accessories_log', AccessoriesRequestHandler),
-    (r'/update_clients', UpdateClientsHandler),
+    (r'/update_clients', UpdateClientsHandler, dict(clients_updater = clients_updater)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])
