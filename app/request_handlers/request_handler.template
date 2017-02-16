@@ -1,0 +1,17 @@
+from tornado import web
+#from app.factories.afactory import AFactory
+import json
+
+class MyClassRequestHandler(web.RequestHandler):
+    @web.asynchronous
+    def post(self):
+        pass
+
+    @web.asynchronous
+    def get(self, *args):
+        limit = min(int(self.get_query_argument("limit", DefaultMaxLimit)),DefaultMaxLimit)
+        
+        self.write("")
+        
+        self.finish()
+        print "Received get request."

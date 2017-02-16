@@ -1,10 +1,10 @@
+import requests
+import json
 from tornado import web, websocket
 from app.factories.timertaskfactory import TimerTaskFactory
-import json
+from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models.timertask import TimerTask
-import requests
-from app.classes.socketclientsupdater import SocketClientsUpdater
 
 class TasksRequestHandler(web.RequestHandler):
 
