@@ -1,6 +1,6 @@
 import time
-from app.task_manager import TaskManager
-from app.accessory_logger import AccessoryLogger
+from app.managers.taskmanager import TaskManager
+from app.loggers.accessorylogger import AccessoryLogger
 from app.constants import ServiceConfig
 
 task_manager = TaskManager()
