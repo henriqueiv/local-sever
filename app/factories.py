@@ -1,4 +1,9 @@
-from models import Accessory, AccessoryLog, Timer, TimerTask
+from constants import MongoConfig
+from app.models.accessory import Accessory
+from app.models.accessorylog import AccessoryLog
+from app.models.timer import Timer
+from app.models.timertask import TimerTask
+
 import pymongo
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -9,8 +14,8 @@ class AbstractFactory(object):
 	table = None
 
 	def __init__(self):
-		self.client = MongoClient('localhost', 27017)
-		self.db = self.client['420bits']
+		self.client = MongoClient(MongoConfig.server_address, server_port)
+		self.db = self.client[MongoConfig.db_name]
 		
 
 class AccessoryFactory(AbstractFactory):

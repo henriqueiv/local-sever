@@ -1,6 +1,6 @@
 import time
 from accessory_manager import AccessoryManager
-from models import AccessoryLog
+from models.accessorylog import AccessoryLog
 from factories import AccessoryFactory, AccessoryLogFactory
 
 class AccessoryLogger:

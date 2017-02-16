@@ -2,7 +2,7 @@ from tornado import web, websocket
 from app.factories import TimerTaskFactory
 import json
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
-from app.models import TimerTask
+from app.models.timertask import TimerTask
 import requests
 
 class TasksRequestHandler(web.RequestHandler):
