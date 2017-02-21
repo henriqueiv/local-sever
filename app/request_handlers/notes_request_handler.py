@@ -59,7 +59,7 @@ class NotesRequestHandler(web.RequestHandler):
                 self.write(json.dumps({"errors": notes_handler_validator.error_messages}))
             else:
                 note = Note(json_object)
-                note.timestamp - time.time()
+                note.timestamp = time.time()
 
                 note.id = str(self.note_factory.insert(note))
                 self.write(json.dumps(note.mongo_json_representation()))
