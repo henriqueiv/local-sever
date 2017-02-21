@@ -5,7 +5,7 @@ from tornado import web, websocket
 from app.factories.notefactory import NoteFactory, NoteFactoryGetParams
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.models.note import Note
-from app.validator import NotesPostRequestHandlerValidator
+from app.validators import NotesPostRequestHandlerValidator
 
 class NotesRequestHandler(web.RequestHandler):
 
