@@ -11,15 +11,15 @@ class NoteFactoryGetParams:
 		filter_object = {}
 
 		if self.end_timestamp is not None and self.end_timestamp > 0:
-			filter_object["end_timestamp"] = self.end_timestamp
+			filter_object["end_timestamp"] = str(self.end_timestamp)
 
 		if self.start_timestamp is not None:
-			filter_object["start_timestamp"] = self.start_timestamp
+			filter_object["start_timestamp"] = str(self.start_timestamp)
 
 		return filter_object
 
 	def find_sort_object(self):
-		sort_object = {self.order_by: "1" if self.sort_asc else "-1"}
+		sort_object = {self.order_by: 1 if self.sort_asc else -1}
 		return sort_object
 
 class NoteFactory(AbstractFactory):
