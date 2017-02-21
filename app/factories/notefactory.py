@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 class NoteFactoryGetParams:
 	start_timestamp = None
 	end_timestamp = None
-	sort_asc = True
+	sort_order = 1
 	order_by = "timestamp"
 
 	def find_filter_object(self):
@@ -17,10 +17,6 @@ class NoteFactoryGetParams:
 			filter_object["start_timestamp"] = str(self.start_timestamp)
 
 		return filter_object
-
-	def find_sort_object(self):
-		sort_object = {self.order_by: 1 if self.sort_asc else -1}
-		return sort_object
 
 class NoteFactory(AbstractFactory):
 	def __init__(self):
@@ -45,7 +41,7 @@ class NoteFactory(AbstractFactory):
 
 
 	def get_notes_for_api(self, params = NoteFactoryGetParams()):
-		notes = self.table.find(params.find_filter_object()).sort(params.find_sort_object())
+		notes = self.table.find(params.find_filter_object()).sort(params.order_by, params.sort_order)
 
 		notes_json = []
 		for note in notes:
