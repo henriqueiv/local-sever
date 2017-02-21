@@ -47,7 +47,7 @@ class NoteFactory(AbstractFactory):
 		notes_json = []
 		for note in notes:
 			note["_id"] = str(note["_id"])
-			notes_json.append(task)
+			notes_json.append(note)
 
 		response = {
 			"notes": notes_json
