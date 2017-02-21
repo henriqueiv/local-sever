@@ -16,7 +16,7 @@ class Validator:
                     error_message = error_message + " in the `" + in_key + "` field"
                 self.error_messages.append(error_message)
 
-            elif self.not_empty_fields.has_key(field) and len(json_object[field]) == 0:
+            elif self.not_empty_fields.contains(field) and len(json_object[field]) == 0:
                 error_message = "`" + str(field) + "` can not be empty"
                 if len(in_key) > 0:
                     error_message = error_message + " in the `" + in_key + "` field"
