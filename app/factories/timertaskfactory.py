@@ -17,7 +17,8 @@ class TimerTaskFactory(AbstractFactory):
 
 			return str(id)
 		else :
-			to_save.pop("_id",None)
+			if to_save.has_key("_id"):
+				to_save.pop("_id",None)
 			return str(self.table.insert(to_save))
 
 	def delete(self, task_id):

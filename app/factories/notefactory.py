@@ -32,7 +32,8 @@ class NoteFactory(AbstractFactory):
 
 			return str(object_id)
 		else:
-			note_json.pop("_id")
+			if note_json.has_key("_id"):
+				note_json.pop("_id")
 			return str(self.table.insert(note_json))
 
 	def delete(self, note_id):
