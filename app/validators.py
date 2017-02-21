@@ -61,6 +61,9 @@ class NotesPostRequestHandlerValidator(Validator):
         "text"
     ]
 
+class NotesDeleteRequestHandlerValidator(Validator):
+    validate_fields = ["_id"]
+
 class TasksDeleteRequestHandlerValidator(Validator):
     validate_fields = ["_id"]
 
