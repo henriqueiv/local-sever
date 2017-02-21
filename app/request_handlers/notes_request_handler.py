@@ -56,7 +56,7 @@ class NotesRequestHandler(web.RequestHandler):
             notes_handler_validator.validate(json_object)
 
             if notes_handler_validator.has_errors():
-                self.write(json.dumps({"errors": task_handler_validator.error_messages}))
+                self.write(json.dumps({"errors": notes_handler_validator.error_messages}))
             else:
                 note = Note(json_object)
                 note.timestamp - time.time()
