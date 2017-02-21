@@ -35,7 +35,7 @@ class NoteFactory(AbstractFactory):
 			self.table.update({"_id": object_id}, note_json, True)
 
 			return str(object_id)
-		else
+		else:
 			note_json.pop("_id")
 			return str(self.table.insert(note_json))
 
