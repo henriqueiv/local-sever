@@ -2,6 +2,7 @@ class Validator:
     error_messages = []
     validate_fields = []
     sub_fields_map = {}
+    not_empty_fields = []
 
     def has_errors(self):
         return len(self.error_messages) > 0
@@ -11,6 +12,12 @@ class Validator:
         for field in self.validate_fields:
             if not json_object.has_key(field):
                 error_message = "`" + str(field) + "` field not sent"
+                if len(in_key) > 0:
+                    error_message = error_message + " in the `" + in_key + "` field"
+                self.error_messages.append(error_message)
+
+            elif self.not_empty_fields.has_key(field) and len(json_object[field]) == 0:
+                error_message = "`" + str(field) + "` can not be empty"
                 if len(in_key) > 0:
                     error_message = error_message + " in the `" + in_key + "` field"
                 self.error_messages.append(error_message)
@@ -43,6 +50,15 @@ class TaskValidator(Validator):
         "action",
         "accessory",
         "timer",
+    ]
+
+class NotesPostRequestHandlerValidator(Validator):
+    validate_fields = [
+        "text",
+        "user"
+    ]
+    not_empty_fields = [
+        "text"
     ]
 
 class TasksDeleteRequestHandlerValidator(Validator):

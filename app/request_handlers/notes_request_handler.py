@@ -1,9 +1,11 @@
 import requests
 import json
+import time
 from tornado import web, websocket
 from app.factories.notefactory import NoteFactory, NoteFactoryGetParams
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.models.note import Note
+from app.validator import NotesPostRequestHandlerValidator
 
 class NotesRequestHandler(web.RequestHandler):
 
@@ -47,22 +49,23 @@ class NotesRequestHandler(web.RequestHandler):
 
     @web.asynchronous
     def post(self):
-        pass
-        # try:
-        #     json_object = json.loads(str(self.request.body))
+        try:
+            json_object = json.loads(str(self.request.body))
 
-        #     task_handler_validator = TasksPostRequestHandlerValidator()
-        #     task_handler_validator.validate(json_object)
+            notes_handler_validator = NotesPostRequestHandlerValidator()
+            notes_handler_validator.validate(json_object)
 
-        #     if task_handler_validator.has_errors():
-        #         self.write(json.dumps({"errors": task_handler_validator.error_messages}))
-        #     else:
-        #         timer_task = TimerTask(json_object)
-        #         timer_task.id = str(self.tasks_factory.insert(timer_task))
-        #         self.write(json.dumps(timer_task.mongo_json_representation()))
-        #         self.clients_updater.update_all_clients()
+            if notes_handler_validator.has_errors():
+                self.write(json.dumps({"errors": task_handler_validator.error_messages}))
+            else:
+                note = Note(json_object)
+                note.timestamp - time.time()
+
+                note.id = str(self.note_factory.insert(note))
+                self.write(json.dumps(note.mongo_json_representation()))
+                self.clients_updater.update_all_clients()
     
-        # except Exception as e:
-        #     self.write(json.dumps({"errors": [{"message": str(e)}]}))
+        except Exception as e:
+            self.write(json.dumps({"errors": [{"message": str(e)}]}))
 
-        # self.finish()
+        self.finish()
