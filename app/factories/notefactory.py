@@ -7,7 +7,7 @@ class NoteFactoryGetParams:
 	sort_asc = True
 	order_by = "timestamp"
 
-	def find_filter_object():
+	def find_filter_object(self):
 		filter_object = {}
 
 		if self.end_timestamp is not None and self.end_timestamp > 0:
@@ -18,7 +18,7 @@ class NoteFactoryGetParams:
 
 		return filter_object
 
-	def find_sort_object():
+	def find_sort_object(self):
 		sort_object = {self.order_by: "1" if self.sort_asc else "-1"}
 		return sort_object
 
