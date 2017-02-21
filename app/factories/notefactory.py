@@ -24,7 +24,7 @@ class NoteFactory(AbstractFactory):
 		self.table = self.db.notes
 
 	def insert(self, note):
-		note_json = note.mongo_json_presentation()
+		note_json = note.mongo_json_representation()
 		if note_json.has_key("_id") and self.table.find({"_id": ObjectId(note_json["_id"])}).count() > 0:
 			object_id = ObjectId(note_json["_id"])
 			note_json.pop("_id")
