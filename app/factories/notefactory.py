@@ -21,14 +21,16 @@ class NoteFactoryGetParams:
 		return filter_object
 
 class NoteFactory(AbstractFactory):
+
+	accessory_factory = AccessoryFactory()
+
 	def __init__(self):
 		AbstractFactory.__init__(self)
 		self.table = self.db.notes
 
 	def insert(self, note):
 		if note.accessory_id is not None:
-			accessory_factory = AccessoryFactory()
-			if accessory_factory.find_accessory(note.accessory_id) is None:
+			if self.accessory_factory.find_accessory(note.accessory_id) is None:
 				raise Exception("Accessory with id `" + str(note.accessory_id) + "` not found")
 
 		note_json = note.mongo_json_representation()
@@ -50,16 +52,26 @@ class NoteFactory(AbstractFactory):
 	def get_note_for_api(self, note_id):
 		result = self.table.find({"_id": ObjectId(note_id)})
 		for note in result:
-			return Note.from_mongo_object(note).to_json()
+			return self.note_for_api_from_mongo_object(note)
 		return None
+
+	def note_for_api_from_mongo_object(self, mongo_object):
+		note = Note.from_mongo_object(mongo_object)
+		json = note.to_json()
+
+		accessory = self.accessory_factory.find_accessory(note.accessory_id)
+		if accessory is not None:
+			json["accessory"] = accessory.to_json()
+			json.pop("accessory_id")
+
+		return json
 
 	def get_notes_for_api(self, params = NoteFactoryGetParams()):
 		notes = self.table.find(params.find_filter_object()).sort(params.order_by, params.sort_order)
 
 		notes_json = []
 		for note in notes:
-			note["_id"] = str(note["_id"])
-			notes_json.append(note)
+			notes_json.append(note_for_api_from_mongo_object(note))
 
 		response = {
 			"notes": notes_json
