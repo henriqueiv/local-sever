@@ -10,7 +10,7 @@ class AccessoryFactory(AbstractFactory):
 	def find_accessory(self, accessory_id):
 		accessories = self.table.find({"_id": int(accessory_id)})
 		for accessory in accessories:
-			return Accessory(accessory["name"], accessory["_id"], accessory["type"], accessory["value"])
+			return accessory
 
 		return None
 
