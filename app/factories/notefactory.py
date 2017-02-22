@@ -20,7 +20,7 @@ class NoteFactoryGetParams:
 			filter_object["start_timestamp"] = str(self.start_timestamp)
 
 		if self.accessory_id is not None:
-			filter_object["accessory.id"] = str(self.accessory_id)
+			filter_object["accessory._id"] = str(self.accessory_id)
 
 		return filter_object
 
