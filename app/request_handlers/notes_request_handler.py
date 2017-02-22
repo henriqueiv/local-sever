@@ -68,6 +68,7 @@ class NotesRequestHandler(web.RequestHandler):
                     if note.id is not None and json_object.has_key("accessory_id"):
                         response_object["accessory"] = self.accessory_note_factory.link_note_to_accessory(str(note.id), str(json_object["accessory_id"]))
                 except Exception as e:
+                    self.note_factory.delete(note.id)
                     raise e
 
                 self.write(json.dumps(response_object))
