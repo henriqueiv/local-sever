@@ -7,6 +7,9 @@ class AccessoryFactory(AbstractFactory):
 		AbstractFactory.__init__(self)
 		self.table = self.db.accessories
 
+	def find_accessory(self, accessory_id):
+		return self.table.find({"_id": accessory_id})[-1]
+
 	def insert_or_update(self, accessory):
 		where = {"_id": accessory.id}
 

@@ -3,12 +3,13 @@ import json
 import time
 from tornado import web, websocket
 from app.factories.notefactory import NoteFactory, NoteFactoryGetParams
+from app.factories.accessorynotefactory import AccessoryNoteFactory
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.models.note import Note
 from app.validators import NotesPostRequestHandlerValidator, NotesDeleteRequestHandlerValidator
 
 class NotesRequestHandler(web.RequestHandler):
-
+    accessory_note_factory = AccessoryNoteFactory()
     note_factory = NoteFactory()
     socket_clients = []
     clients_updater = None
@@ -61,7 +62,12 @@ class NotesRequestHandler(web.RequestHandler):
                 note.timestamp = time.time()
 
                 note.id = str(self.note_factory.insert(note))
-                self.write(json.dumps(note.mongo_json_representation()))
+                response_object = {"note": note.mongo_json_representation()}
+
+                if note.id is not None and json_object.has_key("accessory_id"):
+                    response_object["accessory"] = self.accessory_note_factory.link_note_to_accessory(str(note.id), str(json_object["accessory_id"]))
+
+                self.write(json.dumps(response_object))
                 self.clients_updater.update_all_clients()
     
         except Exception as e:
