@@ -15,6 +15,6 @@ class AccessoryNoteFactory(AbstractFactory):
 	def link_note_to_accessory(self, note_id, accessory_id):
 		accessory = self.accessory_factory.find_accessory(accessory_id)
 		if accessory is None:
-			raise Exception("Accessory with `" + str(accessory_id) +"` id not found")
+			raise Exception("Accessory with id `" + str(accessory_id) +"` not found")
 
 		return accessory

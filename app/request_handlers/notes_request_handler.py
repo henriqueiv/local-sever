@@ -64,8 +64,11 @@ class NotesRequestHandler(web.RequestHandler):
                 note.id = str(self.note_factory.insert(note))
                 response_object = {"note": note.mongo_json_representation()}
 
-                if note.id is not None and json_object.has_key("accessory_id"):
-                    response_object["accessory"] = self.accessory_note_factory.link_note_to_accessory(str(note.id), str(json_object["accessory_id"]))
+                try:
+                    if note.id is not None and json_object.has_key("accessory_id"):
+                        response_object["accessory"] = self.accessory_note_factory.link_note_to_accessory(str(note.id), str(json_object["accessory_id"]))
+                except Exception as e:
+                    raise e
 
                 self.write(json.dumps(response_object))
                 self.clients_updater.update_all_clients()
