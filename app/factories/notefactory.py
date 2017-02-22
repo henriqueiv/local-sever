@@ -71,7 +71,7 @@ class NoteFactory(AbstractFactory):
 		return json
 
 	def get_notes_for_api(self, params = NoteFactoryGetParams()):
-		print "Params: " + str(params.find_filter_object())
+		raise Exception("Params: " + str(params.find_filter_object()))
 		notes = self.table.find(params.find_filter_object()).sort(params.order_by, params.sort_order)
 
 		notes_json = []
