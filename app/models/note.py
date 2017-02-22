@@ -26,3 +26,10 @@ class Note(MongoDBModel):
 			json_representation_object["accessory_id"] = self.accessory_id
 
 		return json_representation_object
+
+	def to_json(self):
+		return self.mongo_json_representation()
+
+	@classmethod
+	def from_mongo_object(cls, mongo_object):
+		return cls(mongo_object)

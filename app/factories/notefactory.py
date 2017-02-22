@@ -1,4 +1,5 @@
 from app.factories.abstractfactory import AbstractFactory
+from app.factories.accessoryfactory import AccessoryFactory
 from bson.objectid import ObjectId
 
 class NoteFactoryGetParams:
@@ -24,6 +25,11 @@ class NoteFactory(AbstractFactory):
 		self.table = self.db.notes
 
 	def insert(self, note):
+		if note.accessory_id is not None:
+			accessory_factory = AccessoryFactory()
+			if accessory_factory.find_accessory(note.accessory_id) is None:
+				raise Exception("Accessory with id `" + str(accessory_id) + "` not found")
+
 		note_json = note.mongo_json_representation()
 		if note_json.has_key("_id") and self.table.find({"_id": ObjectId(note_json["_id"])}).count() > 0:
 			object_id = ObjectId(note_json["_id"])
@@ -40,6 +46,11 @@ class NoteFactory(AbstractFactory):
 		result = self.table.delete_many({"_id": ObjectId(note_id)})
 		return result.deleted_count > 0
 
+	def get_note_for_api(self, note_id):
+		result = self.table.find({"_id": ObjectId(note_id)})
+		for note in result:
+			return Note.from_mongo_object(note).to_json()
+		return None
 
 	def get_notes_for_api(self, params = NoteFactoryGetParams()):
 		notes = self.table.find(params.find_filter_object()).sort(params.order_by, params.sort_order)

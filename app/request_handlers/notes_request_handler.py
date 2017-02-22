@@ -64,14 +64,9 @@ class NotesRequestHandler(web.RequestHandler):
                 note = Note(json_object)
                 note.timestamp = time.time()
 
-                response_object = note.mongo_json_representation()
-                
-                if note.accessory_id is not None and self.accessory_factory.find_accessory(note.accessory_id) is None:
-                    raise Exception("Accessory with id `" + str())
-
                 note.id = str(self.note_factory.insert(note))
 
-                self.write(json.dumps(response_object))
+                self.write(json.dumps(self.note_factory.get_note_for_api(note.id)))
                 self.clients_updater.update_all_clients()
     
         except Exception as e:
