@@ -66,10 +66,8 @@ class NotesRequestHandler(web.RequestHandler):
 
                 response_object = note.mongo_json_representation()
                 
-                if note.accessory_id is not None:
-                    accessory = self.accessory_factory.find_accessory(note.accessory_id)
-                    if accessory is None:
-                        raise Exception("Accessory with id `" + str())
+                if note.accessory_id is not None and self.accessory_factory.find_accessory(note.accessory_id) is None:
+                    raise Exception("Accessory with id `" + str())
 
                 note.id = str(self.note_factory.insert(note))
 
