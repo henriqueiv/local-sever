@@ -2,7 +2,7 @@ from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.managers.accessorymanager import AccessoryManager
 from app.models.socketmessage import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
 from tornado import websocket, web, ioloop
-from app.request_handlers.accessories_request_handler import AccessoriesRequestHandler
+from app.request_handlers.accessorylogsrequesthandler import AccessoryLogsRequestHandler
 from app.request_handlers.tasks_request_handler import TasksRequestHandler
 from app.request_handlers.updateclientshandler import UpdateClientsHandler
 from app.request_handlers.notes_request_handler import NotesRequestHandler
@@ -68,7 +68,7 @@ app = web.Application([
     (r'/ws', SocketHandler),
     (r'/tasks', TasksRequestHandler,dict(clients_updater = clients_updater)),
     (r'/notes', NotesRequestHandler,dict(clients_updater = clients_updater)),
-    (r'/accessories_logs', AccessoriesRequestHandler),
+    (r'/accessory_logs', AccessoryLogsRequestHandler),
     (r'/update_clients', UpdateClientsHandler, dict(clients_updater = clients_updater)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),

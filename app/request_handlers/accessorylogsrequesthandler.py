@@ -4,7 +4,7 @@ import json
 
 DefaultMaxLimit = 1000
 
-class AccessoriesRequestHandler(web.RequestHandler):
+class AccessoryLogsRequestHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
         pass
