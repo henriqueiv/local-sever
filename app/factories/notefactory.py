@@ -71,7 +71,7 @@ class NoteFactory(AbstractFactory):
 
 		notes_json = []
 		for note in notes:
-			notes_json.append(note_for_api_from_mongo_object(note))
+			notes_json.append(self.note_for_api_from_mongo_object(note))
 
 		response = {
 			"notes": notes_json
