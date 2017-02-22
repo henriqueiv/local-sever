@@ -6,15 +6,10 @@ DefaultMaxLimit = 1000
 
 class AccessoryLogsRequestHandler(web.RequestHandler):
     @web.asynchronous
-    def post(self):
-        pass
-
-    @web.asynchronous
     def get(self, *args):
         limit = min(int(self.get_query_argument("limit", DefaultMaxLimit)),DefaultMaxLimit)
         if limit == 0:
             limit = DefaultMaxLimit
-
         from_timestamp = float(self.get_query_argument("from", 0))
 
         log_factory = AccessoryLogFactory()
