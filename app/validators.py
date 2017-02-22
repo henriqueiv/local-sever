@@ -55,7 +55,6 @@ class TaskValidator(Validator):
 class NotesPostRequestHandlerValidator(Validator):
     validate_fields = [
         "text",
-        "user"
     ]
     not_empty_fields = [
         "text"
