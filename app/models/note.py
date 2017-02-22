@@ -28,7 +28,10 @@ class Note(MongoDBModel):
 		return json_representation_object
 
 	def to_json(self):
-		return self.mongo_json_representation()
+		json_object = self.mongo_json_representation()
+		if json_object.has_key("_id"):
+			json_object["_id"] = str(json_object["_id"])
+		return json_object
 
 	@classmethod
 	def from_mongo_object(cls, mongo_object):
