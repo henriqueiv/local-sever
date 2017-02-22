@@ -8,7 +8,11 @@ class AccessoryFactory(AbstractFactory):
 		self.table = self.db.accessories
 
 	def find_accessory(self, accessory_id):
-		return self.table.find({"_id": accessory_id})[-1]
+		accessories = self.table.find({"_id": accessory_id})
+		for accessory in accessories:
+			return Accessory(accessory["name"], accessory["_id"], accessory["type"], accessory["value"])
+
+		return None
 
 	def insert_or_update(self, accessory):
 		where = {"_id": accessory.id}
