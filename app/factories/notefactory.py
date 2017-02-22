@@ -1,6 +1,7 @@
 from app.factories.abstractfactory import AbstractFactory
 from app.factories.accessoryfactory import AccessoryFactory
 from bson.objectid import ObjectId
+from app.models.note import Note
 
 class NoteFactoryGetParams:
 	start_timestamp = None
