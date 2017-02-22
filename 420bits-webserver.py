@@ -6,6 +6,7 @@ from app.request_handlers.accessorylogsrequesthandler import AccessoryLogsReques
 from app.request_handlers.tasks_request_handler import TasksRequestHandler
 from app.request_handlers.updateclientshandler import UpdateClientsHandler
 from app.request_handlers.notes_request_handler import NotesRequestHandler
+from app.request_handlers.accessoryrequesthandler import AccessoryRequestHandler
 import json
 import time
 import os
@@ -69,6 +70,7 @@ app = web.Application([
     (r'/tasks', TasksRequestHandler,dict(clients_updater = clients_updater)),
     (r'/notes', NotesRequestHandler,dict(clients_updater = clients_updater)),
     (r'/accessory_logs', AccessoryLogsRequestHandler),
+    (r'/accessories', AccessoryRequestHandler),
     (r'/update_clients', UpdateClientsHandler, dict(clients_updater = clients_updater)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),

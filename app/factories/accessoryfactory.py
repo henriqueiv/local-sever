@@ -14,8 +14,21 @@ class AccessoryFactory(AbstractFactory):
 
 		return None
 
+	def get_accessories_for_api(self):
+		accessories = self.table.find()
+		accessories_json = []
+		for accessory in accessories:
+			accessory["_id"] = str(log["_id"]) 
+			accessories_json.append(accessory)
+
+		response = {
+			"accessories": accessories
+		}
+
+		return response
+
 	def insert_or_update(self, accessory):
-		where = {"_id": accessory.id}
+		where = {"_id": int(accessory.id)}
 
 		accessory_mongo_object = accessory.mongo_json_representation()
 		if self.table.find(where).count() > 0:
