@@ -6,6 +6,7 @@ from app.models.note import Note
 class NoteFactoryGetParams:
 	start_timestamp = None
 	end_timestamp = None
+	accessory_id = None
 	sort_order = 1
 	order_by = "timestamp"
 
@@ -17,6 +18,9 @@ class NoteFactoryGetParams:
 
 		if self.start_timestamp is not None:
 			filter_object["start_timestamp"] = str(self.start_timestamp)
+
+		if self.accessory_id is not None:
+			filter_object["accessory.id"] = str(self.accessory_id)
 
 		return filter_object
 

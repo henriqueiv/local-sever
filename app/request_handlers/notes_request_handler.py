@@ -45,6 +45,7 @@ class NotesRequestHandler(web.RequestHandler):
         params = NoteFactoryGetParams()
         params.start_timestamp = self.get_query_argument("start_timestamp", None)
         params.end_timestamp = self.get_query_argument("end_timestamp", None)
+        params.accessory_id = self.get_query_argument("accessory_id", None)
 
         self.write(json.dumps(self.note_factory.get_notes_for_api()))
         self.finish()
