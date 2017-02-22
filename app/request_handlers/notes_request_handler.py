@@ -3,14 +3,16 @@ import json
 import time
 from tornado import web, websocket
 from app.factories.notefactory import NoteFactory, NoteFactoryGetParams
-from app.factories.accessorynotefactory import AccessoryNoteFactory
+from app.factories.accessoryfactory import AccessoryFactory
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.models.note import Note
 from app.validators import NotesPostRequestHandlerValidator, NotesDeleteRequestHandlerValidator
 
 class NotesRequestHandler(web.RequestHandler):
-    accessory_note_factory = AccessoryNoteFactory()
+
     note_factory = NoteFactory()
+    accessory_factory = AccessoryFactory()
+
     socket_clients = []
     clients_updater = None
 
@@ -57,19 +59,19 @@ class NotesRequestHandler(web.RequestHandler):
 
             if notes_handler_validator.has_errors():
                 self.write(json.dumps({"errors": notes_handler_validator.error_messages}))
+
             else:
                 note = Note(json_object)
                 note.timestamp = time.time()
 
-                note.id = str(self.note_factory.insert(note))
-                response_object = {"note": note.mongo_json_representation()}
+                response_object = note.mongo_json_representation()
+                
+                if note.accessory_id is not None:
+                    accessory = self.accessory_factory.find_accessory(accessory_id)
+                    if accessory is None:
+                        raise Exception("Accessory with id `" + str())
 
-                try:
-                    if note.id is not None and json_object.has_key("accessory_id"):
-                        response_object["accessory"] = self.accessory_note_factory.link_note_to_accessory(str(note.id), str(json_object["accessory_id"]))
-                except Exception as e:
-                    self.note_factory.delete(note.id)
-                    raise e
+                note.id = str(self.note_factory.insert(note))
 
                 self.write(json.dumps(response_object))
                 self.clients_updater.update_all_clients()
