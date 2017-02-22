@@ -22,7 +22,7 @@ class AccessoryFactory(AbstractFactory):
 			accessories_json.append(accessory)
 
 		response = {
-			"accessories": accessories
+			"accessories": accessories_json
 		}
 
 		return response
