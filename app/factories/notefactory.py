@@ -29,7 +29,7 @@ class NoteFactory(AbstractFactory):
 		if note.accessory_id is not None:
 			accessory_factory = AccessoryFactory()
 			if accessory_factory.find_accessory(note.accessory_id) is None:
-				raise Exception("Accessory with id `" + str(accessory_id) + "` not found")
+				raise Exception("Accessory with id `" + str(note.accessory_id) + "` not found")
 
 		note_json = note.mongo_json_representation()
 		if note_json.has_key("_id") and self.table.find({"_id": ObjectId(note_json["_id"])}).count() > 0:
