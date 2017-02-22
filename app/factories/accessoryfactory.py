@@ -8,6 +8,9 @@ class AccessoryFactory(AbstractFactory):
 		self.table = self.db.accessories
 
 	def find_accessory(self, accessory_id):
+		if accessory_id is None:
+			return None
+
 		accessories = self.table.find({"_id": int(accessory_id)})
 		for accessory in accessories:
 			return Accessory.from_mongo_object(accessory)
