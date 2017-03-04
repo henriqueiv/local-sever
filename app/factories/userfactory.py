@@ -38,7 +38,7 @@ class UserFactory(AbstractFactory):
 
 		result = self.table.find()
 		for db_user in result:
-			model = User(db_user)
+			model = User.from_mongo_object(db_user)
 			json = model.to_json()
 			if json.has_key("password"):
 				json.pop("password")

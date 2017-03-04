@@ -4,8 +4,9 @@ import json
 
 class AccessoryRequestHandler(web.RequestHandler):
 
+	accessory_factory = AccessoryFactory()
+
 	@web.asynchronous
 	def get(self, *args):
-		factory = AccessoryFactory()
-		self.write(json.dumps(factory.get_accessories_for_api()))
+		self.write(json.dumps(self.accessory_factory.get_accessories_for_api()))
 		self.finish()
