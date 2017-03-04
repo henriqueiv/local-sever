@@ -1,18 +1,12 @@
 import requests
 import json
+
 from tornado import web, websocket
+from app.request_handlers.userauthbaserequesthandler import UserAuthBaseRequestHandler
 from app.factories.timertaskfactory import TimerTaskFactory, TaskFactoryGetParams
-from app.factories.userfactory import UserFactory
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models.timertask import TimerTask
-
-class UserAuthBaseRequestHandler(web.RequestHandler):
-    user_factory = UserFactory()
-
-    def validate_user(self):
-        user_id = self.request.headers["Userid"] if self.request.headers.has_key("Userid") else None
-        self.user_factory.validate_user_with_id(user_id)
 
 class TasksRequestHandler(UserAuthBaseRequestHandler):
     
