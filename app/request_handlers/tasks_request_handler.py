@@ -2,12 +2,14 @@ import requests
 import json
 from tornado import web, websocket
 from app.factories.timertaskfactory import TimerTaskFactory
+from app.factories.userfactory import UserFactory
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models.timertask import TimerTask
 
 class TasksRequestHandler(web.RequestHandler):
 
+    user_factory = UserFactory()
     tasks_factory = TimerTaskFactory()
     socket_clients = []
     clients_updater = None
@@ -45,6 +47,10 @@ class TasksRequestHandler(web.RequestHandler):
     def post(self):
         try:
             print self.request.headers
+
+            user_id = self.request.headers["Userid"] if self.request.headers.has_key("Userid") else None
+            self.user_factory.validate_user_with_id(user_id)
+
             json_object = json.loads(str(self.request.body))
 
             task_handler_validator = TasksPostRequestHandlerValidator()

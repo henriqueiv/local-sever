@@ -16,18 +16,15 @@ class TimerTaskFactory(AbstractFactory):
 		self.table = self.db.task
 
 	def insert(self, timer_task):
-		accessory = self.accessory_factory.find_accessory(timer_task.accessory_id)
-		if accessory is None:
-			raise Exception("accessory with id `" + str(timer_task.accessory_id) + "` does not exists")
-
-
+		accessory = self.accessory_factory.validate_accessory_with_id(timer_task.accessory_id)
 		to_save = timer_task.mongo_json_representation()
 		object_id = None
 		if to_save.has_key("_id"):
-			object_id = ObjectId(to_save["_id"])
-			to_save.pop("_id",None)
+			object_id = ObjectId(str(to_save["_id"]))
+			to_save.pop("_id", None)
 
 		if object_id is not None and self.table.find({"_id": object_id}).count() > 0:
+			self.table.update({"_id": object_id}, to_save, True)
 			return object_id
 		else:
 			to_save["creation_date"] = time.time()

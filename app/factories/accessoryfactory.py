@@ -8,6 +8,14 @@ class AccessoryFactory(AbstractFactory):
 		AbstractFactory.__init__(self)
 		self.table = self.db.accessory
 
+	def validate_accessory_with_id(self, accessory_id):
+		accessory = self.find_accessory(accessory_id)
+		if accessory_id is None:
+			raise Exception("accessory id can not be empty")
+		elif accessory is None:
+			raise Exception("accessory with id `" + str(accessory_id) + "` does not exists")
+
+
 	def find_accessory(self, accessory_id):
 		objc_accessory_id = ObjectId(str(accessory_id))
 		if objc_accessory_id is None:

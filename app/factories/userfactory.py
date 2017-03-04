@@ -8,6 +8,19 @@ class UserFactory(AbstractFactory):
 		AbstractFactory.__init__(self)
 		self.table = self.db.user
 
+	def validate_user_with_id(self, user_id):
+		result = None
+		try:
+			mongo_user_id = ObjectId(str(user_id))
+			result = self.table.find({"_id": mongo_user_id})
+		except:
+			pass
+
+		if user_id is None:		
+			raise Exception("user id can not be empty")
+		elif result is None or result.count() == 0:
+			raise Exception("user with id `" + str(user_id) + "` does not exists")
+
 	def insert(self, user):
 		user_json = user.mongo_json_representation()
 		if user_json.has_key("_id") and self.table.find({"_id": ObjectId(user_json["_id"])}).count() > 0:

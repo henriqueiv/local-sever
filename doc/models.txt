@@ -1,8 +1,39 @@
+//58badd550be4444b2ffb6930
+
 {
 	"user": {
 		"_id": "ObjectId",
 		"name": "String",
 		"username": "String",
 		"password": "String"
+	},
+
+	"task": {
+		"_id": "ObjectId",
+		"action": "String",
+		"accessory_id": "Int",
+		"timer": "Timer"
+	},
+
+	"timer": {
+		"year": "Int",
+		"month": "Int",
+		"day": "Int",
+		"hour": "Int",
+		"minute": "Int",
+		"seconds": "Int"
+	}
+}
+
+{
+"action": "turn_on",
+"accessory_id": "58bad1615cbb70b5891c6ea9",
+"timer": {
+		"year": "Int",
+		"month": "Int",
+		"day": "Int",
+		"hour": "Int",
+		"minute": "Int",
+		"seconds": "Int"
 	}
 }
