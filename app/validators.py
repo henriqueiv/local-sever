@@ -52,6 +52,18 @@ class TaskValidator(Validator):
         "timer",
     ]
 
+class UserPostRequestHandlerValidator(Validator):
+    validate_fields = [
+        "name", "username", "password"
+    ]
+    not_empty_fields = [
+        "name", "username", "password"
+    ]
+
+
+class UserDeleteRequestHandlerValidator(Validator):
+    validate_fields = ["_id"]
+
 class NotesPostRequestHandlerValidator(Validator):
     validate_fields = [
         "text",

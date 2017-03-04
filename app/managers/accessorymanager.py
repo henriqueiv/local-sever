@@ -1,4 +1,8 @@
-from app.hardwareaccessories.arduinoaccessories import ArduinoAccessories
+if False:
+	from app.hardwareaccessories.arduinoaccessories import ArduinoAccessories
+else:
+	from app.hardwareaccessories.arduinoaccessories_debug import ArduinoAccessories
+
 
 class AccessoryManager:
 	device = ArduinoAccessories()

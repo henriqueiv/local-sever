@@ -1,3 +1,9 @@
+DEV = True
+print "-------------"
+#import os 
+#dir_path = os.path.dirname(os.path.realpath(__file__))
+#print dir_path
+
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.managers.accessorymanager import AccessoryManager
 from app.models.socketmessage import SocketMessage, SocketMessageActionRead, SocketMessageActionTurnOn, SocketMessageActionTurnOff
@@ -10,7 +16,6 @@ from app.request_handlers.accessoryrequesthandler import AccessoryRequestHandler
 import json
 import time
 import os
-
 
 clients_updater = SocketClientsUpdater()
 
