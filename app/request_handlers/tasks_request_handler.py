@@ -7,9 +7,15 @@ from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models.timertask import TimerTask
 
-class TasksRequestHandler(web.RequestHandler):
-
+class UserAuthBaseRequestHandler(web.RequestHandler):
     user_factory = UserFactory()
+
+    def validate_user(self):
+        user_id = self.request.headers["Userid"] if self.request.headers.has_key("Userid") else None
+        self.user_factory.validate_user_with_id(user_id)
+
+class TasksRequestHandler(UserAuthBaseRequestHandler):
+    
     tasks_factory = TimerTaskFactory()
     socket_clients = []
     clients_updater = None
@@ -17,9 +23,13 @@ class TasksRequestHandler(web.RequestHandler):
     def initialize(self, clients_updater):
         self.clients_updater = clients_updater
 
+
+
     @web.asynchronous
     def delete(self):
         try:
+            self.validate_user()
+
             json_object = json.loads(str(self.request.body))
             validator = TasksDeleteRequestHandlerValidator()
             validator.validate(json_object)
@@ -31,8 +41,8 @@ class TasksRequestHandler(web.RequestHandler):
                 if self.tasks_factory.delete(id):
                     self.write(json.dumps({"deleted": id}))
                 else:
-                    self.write(json.dumps({"errors": ["There is not any objetc with id = `" + str(id) + "`"]}))
-        except:
+                    self.write(json.dumps({"errors": ["There is not any objetc with id `" + str(id) + "`"]}))
+        except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
 
         self.clients_updater.update_all_clients()
@@ -46,11 +56,8 @@ class TasksRequestHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
         try:
-            print self.request.headers
-
-            user_id = self.request.headers["Userid"] if self.request.headers.has_key("Userid") else None
-            self.user_factory.validate_user_with_id(user_id)
-
+            self.validate_user()
+            
             json_object = json.loads(str(self.request.body))
 
             task_handler_validator = TasksPostRequestHandlerValidator()
