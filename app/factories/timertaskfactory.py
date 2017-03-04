@@ -7,6 +7,18 @@ from bson.objectid import ObjectId
 import pymongo
 import time
 
+class TaskFactoryGetParams:
+	accessory_id = None
+	sort_order = 1
+	order_by = "creation_date"
+	limit = None
+
+	def find_filter_object(self):
+		filter_object = {}
+		if self.accessory_id is not None:
+			filter_object["accessory_id"] = str(self.accessory_id)
+		return filter_object
+
 class TimerTaskFactory(AbstractFactory):
 
 	accessory_factory = AccessoryFactory()
@@ -43,9 +55,8 @@ class TimerTaskFactory(AbstractFactory):
 
 		return tasks
 
-	def get_tasks_for_api(self):
-		find_object = {}
-		tasks = self.table.find(find_object)
+	def get_tasks_for_api(self, params = TaskFactoryGetParams()):
+		tasks = self.table.find(params.find_filter_object()).sort(params.order_by, params.sort_order)
 
 		tasks_json = []
 		for task in tasks:

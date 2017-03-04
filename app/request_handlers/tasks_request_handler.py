@@ -1,7 +1,7 @@
 import requests
 import json
 from tornado import web, websocket
-from app.factories.timertaskfactory import TimerTaskFactory
+from app.factories.timertaskfactory import TimerTaskFactory, TaskFactoryGetParams
 from app.factories.userfactory import UserFactory
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
@@ -50,7 +50,16 @@ class TasksRequestHandler(UserAuthBaseRequestHandler):
 
     @web.asynchronous
     def get(self, *args):
-        self.write(json.dumps(self.tasks_factory.get_tasks_for_api()))
+        try:
+            self.validate_user()
+
+            params = TaskFactoryGetParams()
+            params.accessory_id = self.get_query_argument("accessory_id", None)
+
+            self.write(json.dumps(self.tasks_factory.get_tasks_for_api(params)))
+        except Exception as e:
+            self.write(json.dumps({"errors": [{"message": str(e)}]}))
+
         self.finish()
 
     @web.asynchronous
