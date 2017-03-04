@@ -32,7 +32,7 @@ class AccessoryLogFactoryGetParams:
 class AccessoryLogFactory(AbstractFactory):
 	def __init__(self):
 		AbstractFactory.__init__(self)
-		self.table = self.db.data_log
+		self.table = self.db.accessory_log
 
 	def insert(self, accessory_log):
 		return self.table.insert_one(accessory_log.mongo_json_representation())

@@ -73,7 +73,7 @@ class SocketHandler(websocket.WebSocketHandler):
 
 app = web.Application([
     (r'/ws', SocketHandler),
-    (r'/user', UserRequestHandler),
+    (r'/users', UserRequestHandler),
     (r'/tasks', TasksRequestHandler,dict(clients_updater = clients_updater)),
     (r'/notes', NotesRequestHandler,dict(clients_updater = clients_updater)),
     (r'/accessory_logs', AccessoryLogsRequestHandler),

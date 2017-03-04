@@ -1,17 +1,20 @@
 from app.factories.abstractfactory import AbstractFactory
 from app.models.accessory import Accessory
 import pymongo
+from bson.objectid import ObjectId
 
 class AccessoryFactory(AbstractFactory):
 	def __init__(self):
 		AbstractFactory.__init__(self)
-		self.table = self.db.accessories
+		self.table = self.db.accessory
 
 	def find_accessory(self, accessory_id):
-		if accessory_id is None:
+		objc_accessory_id = ObjectId(str(accessory_id))
+		if objc_accessory_id is None:
+			raise Exception("accessory id `" + str(accessory_id) + "` is not in a correct format")
 			return None
 
-		accessories = self.table.find({"_id": int(accessory_id)})
+		accessories = self.table.find({"_id": objc_accessory_id})
 		for accessory in accessories:
 			return Accessory.from_mongo_object(accessory)
 
@@ -21,7 +24,7 @@ class AccessoryFactory(AbstractFactory):
 		accessories = self.table.find()
 		accessories_json = []
 		for accessory in accessories:
-			accessory["_id"] = str(accessory["_id"]) 
+			accessory["_id"] = ObjectId(str(accessory["_id"]))
 			accessories_json.append(accessory)
 
 		response = {
@@ -31,11 +34,13 @@ class AccessoryFactory(AbstractFactory):
 		return response
 
 	def insert_or_update(self, accessory):
-		where = {"_id": int(accessory.id)}
+		where = {"_id": ObjectId(str(accessory.id))}
 
 		accessory_mongo_object = accessory.mongo_json_representation()
-		if self.table.find(where).count() > 0:
+		if accessory_mongo_object.has_key("_id"):
 			accessory_mongo_object.pop("_id")
+
+		if self.table.find(where).count() > 0:
 			self.table.update(where, accessory_mongo_object,True)
 		else:
 			self.table.insert(accessory_mongo_object)

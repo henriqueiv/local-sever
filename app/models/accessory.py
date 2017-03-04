@@ -1,4 +1,5 @@
 from app.models.mongodbmodel import MongoDBModel
+from bson.objectid import ObjectId
 
 AccessoryTypeUndefined = -1
 AccessoryTypeHumidity = 0
@@ -21,7 +22,7 @@ class Accessory(MongoDBModel):
 	def mongo_json_representation(self):
 		object = {"name": self.name, "type": self.type, "value": self.value}
 		if self.id is not None:
-			object["_id"] = int(str(self.id))
+			object["_id"] = ObjectId(str(self.id))
 		return object
 
 	def to_json(self):
@@ -30,7 +31,7 @@ class Accessory(MongoDBModel):
 	@classmethod
 	def from_mongo_object(cls, mongo_object):
 		name = mongo_object["name"] if mongo_object.has_key("name") else None
-		id = mongo_object["_id"] if mongo_object.has_key("_id") else None
+		id = ObjectId(mongo_object["_id"]) if mongo_object.has_key("_id") else None
 		type = mongo_object["type"] if mongo_object.has_key("type") else None
 		value = mongo_object["value"] if mongo_object.has_key("value") else None
 		return cls(name,id,type,value)

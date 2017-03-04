@@ -1,25 +1,37 @@
+from app.factories.accessoryfactory import AccessoryFactory
+
+from app.models.accessory import Accessory
 from app.models.timertask import TimerTask
 from app.factories.abstractfactory import AbstractFactory
 from bson.objectid import ObjectId
 import pymongo
+import time
 
 class TimerTaskFactory(AbstractFactory):
+
+	accessory_factory = AccessoryFactory()
+
 	def __init__(self):
 		AbstractFactory.__init__(self)
-		self.table = self.db.tasks
+		self.table = self.db.task
 
 	def insert(self, timer_task):
-		to_save = timer_task.mongo_json_representation()
-		if to_save.has_key("_id") and self.table.find({"_id": ObjectId(to_save["_id"])}).count() > 0:
-			id = ObjectId(to_save["_id"])
-			to_save.pop("_id")
-			print self.table.update({"_id": id}, to_save, True)
+		accessory = self.accessory_factory.find_accessory(timer_task.accessory_id)
+		if accessory is None:
+			raise Exception("accessory with id `" + str(timer_task.accessory_id) + "` does not exists")
 
-			return str(id)
-		else :
-			if to_save.has_key("_id"):
-				to_save.pop("_id",None)
-			return str(self.table.insert(to_save))
+
+		to_save = timer_task.mongo_json_representation()
+		object_id = None
+		if to_save.has_key("_id"):
+			object_id = ObjectId(to_save["_id"])
+			to_save.pop("_id",None)
+
+		if object_id is not None and self.table.find({"_id": object_id}).count() > 0:
+			return object_id
+		else:
+			to_save["creation_date"] = time.time()
+			return self.table.insert(to_save)
 
 	def delete(self, task_id):
 		result = self.table.delete_many({"_id": ObjectId(task_id)})

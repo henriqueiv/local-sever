@@ -6,7 +6,7 @@ class UserFactory(AbstractFactory):
 
 	def __init__(self):
 		AbstractFactory.__init__(self)
-		self.table = self.db.users
+		self.table = self.db.user
 
 	def insert(self, user):
 		user_json = user.mongo_json_representation()

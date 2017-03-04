@@ -44,6 +44,7 @@ class TasksRequestHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
         try:
+            print self.request.headers
             json_object = json.loads(str(self.request.body))
 
             task_handler_validator = TasksPostRequestHandlerValidator()

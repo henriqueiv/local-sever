@@ -48,7 +48,7 @@ class AccessoryValidator(Validator):
 class TaskValidator(Validator):
     validate_fields = [
         "action",
-        "accessory",
+        "accessory_id",
         "timer",
     ]
 

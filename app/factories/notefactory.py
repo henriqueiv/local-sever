@@ -30,7 +30,7 @@ class NoteFactory(AbstractFactory):
 
 	def __init__(self):
 		AbstractFactory.__init__(self)
-		self.table = self.db.notes
+		self.table = self.db.note
 
 	def insert(self, note):
 		if note.accessory_id is not None:
