@@ -13,6 +13,7 @@ from app.request_handlers.tasks_request_handler import TasksRequestHandler
 from app.request_handlers.updateclientshandler import UpdateClientsHandler
 from app.request_handlers.notes_request_handler import NotesRequestHandler
 from app.request_handlers.accessoryrequesthandler import AccessoryRequestHandler
+from app.request_handlers.userrequesthandler import UserRequestHandler
 import json
 import time
 import os
@@ -72,6 +73,7 @@ class SocketHandler(websocket.WebSocketHandler):
 
 app = web.Application([
     (r'/ws', SocketHandler),
+    (r'/user', UserRequestHandler),
     (r'/tasks', TasksRequestHandler,dict(clients_updater = clients_updater)),
     (r'/notes', NotesRequestHandler,dict(clients_updater = clients_updater)),
     (r'/accessory_logs', AccessoryLogsRequestHandler),

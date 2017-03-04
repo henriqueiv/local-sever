@@ -12,6 +12,11 @@ class UserRequestHandler(web.RequestHandler):
     user_factory = UserFactory()
 
     @web.asynchronous
+    def get(self, *args):
+        self.write(json.dumps(self.user_factory.get_users_for_api()))
+        self.finish()
+
+    @web.asynchronous
     def delete(self):
         try:
             json_object = json.loads(str(self.request.body))
