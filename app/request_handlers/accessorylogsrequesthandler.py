@@ -15,8 +15,8 @@ class AccessoryLogsRequestHandler(web.RequestHandler):
             limit = DefaultMaxLimit
 
         params = AccessoryLogFactoryGetParams()
-        params.start_timestamp = self.get_query_argument("start_timestamp", None)
-        params.end_timestamp = self.get_query_argument("end_timestamp", None)
+        params.from_date = self.get_query_argument("from_date", None)
+        params.to_date = self.get_query_argument("to_date", None)
         params.accessory_id = self.get_query_argument("accessory_id", None)
         params.limit = limit
         
