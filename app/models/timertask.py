@@ -49,3 +49,17 @@ class TimerTask(MongoDBModel):
 		if self.timer is not None:
 			object["timer"] = self.timer.to_json()
 		return object
+
+	def to_json(self):
+		json_object = self.mongo_json_representation()
+		print json_object
+		if json_object.has_key("_id"):
+			json_object["_id"] = str(json_object["_id"])
+
+		if json_object.has_key("user_id"):
+			json_object["user_id"] = str(json_object["user_id"])
+
+		if json_object.has_key("accessory_id"):
+			json_object["accessory_id"] = str(json_object["accessory_id"])
+
+		return json_object

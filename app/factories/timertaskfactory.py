@@ -1,11 +1,12 @@
 from app.factories.accessoryfactory import AccessoryFactory
 from app.factories.userfactory import UserFactory
 from app.models.accessory import Accessory
-from app.models.timertask import TimerTask
+from app.models.timertask import TimerTask, TaskActionTurnOn, TaskActionTurnOff
 from app.factories.abstractfactory import AbstractFactory
 from bson.objectid import ObjectId
 import pymongo
 import time
+
 
 class TaskFactoryGetParams:
 	accessory_id = None
@@ -29,6 +30,9 @@ class TimerTaskFactory(AbstractFactory):
 		self.table = self.db.task
 
 	def insert(self, timer_task):
+		if timer_task.action is not None and not timer_task.action in [TaskActionTurnOn, TaskActionTurnOff]:
+			raise Exception("action `" + str(timer_task.action) + "` is not valid")
+
 		timer_task.user_id = ObjectId(str(timer_task.user_id))
 		self.user_factory.validate_user_with_id(timer_task.user_id)
 

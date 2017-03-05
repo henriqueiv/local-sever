@@ -74,7 +74,7 @@ class TasksRequestHandler(UserAuthBaseRequestHandler):
                 timer_task.creation_date = time.time()
 
                 timer_task.id = str(self.tasks_factory.insert(timer_task))
-                self.write(json.dumps(timer_task.mongo_json_representation()))
+                self.write(json.dumps(timer_task.to_json()))
                 self.clients_updater.update_all_clients()
     
         except Exception as e:

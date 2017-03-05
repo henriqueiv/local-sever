@@ -4,6 +4,7 @@ from app.factories.userfactory import UserFactory
 from bson.objectid import ObjectId
 from app.models.note import Note
 
+from app.factories.accessorylogfactory import AccessoryLogFactory
 
 class NoteFactoryGetParams:
 	from_date = None
@@ -32,6 +33,7 @@ class NoteFactoryGetParams:
 
 class NoteFactory(AbstractFactory):
 
+	accessory_log_factory = AccessoryLogFactory()
 	accessory_factory = AccessoryFactory()
 	user_factory = UserFactory()
 
@@ -46,6 +48,10 @@ class NoteFactory(AbstractFactory):
 		if note.accessory_id is not None:
 			note.accessory_id = ObjectId(str(note.accessory_id))
 			self.accessory_factory.validate_accessory_with_id(note.accessory_id)
+
+		if note.accessory_log_id is not None:
+			note.accessory_log_id = ObjectId(str(note.accessory_log_id))
+			self.accessory_log_factory.validate_accessory_log_with_id(note.accessory_log_id)
 		
 		object_id = None
 		note_json = note.mongo_json_representation()

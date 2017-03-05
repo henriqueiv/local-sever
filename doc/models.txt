@@ -25,6 +25,11 @@
 	},
 	
 	"note": {
-
+		"_id": "ObjectId",
+		"user_id": "ObjectId",
+		"text": "String",
+		"accessory_log_id": "ObjectId",
+		"accessory_id": "ObjectId",
+		"creation_date": "Double"
 	}
 }
