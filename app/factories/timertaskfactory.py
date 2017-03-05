@@ -28,7 +28,7 @@ class TimerTaskFactory(AbstractFactory):
 		self.table = self.db.task
 
 	def insert(self, timer_task):
-		accessory = self.accessory_factory.validate_accessory_with_id(timer_task.accessory_id)
+		self.accessory_factory.validate_accessory_with_id(timer_task.accessory_id)
 		to_save = timer_task.mongo_json_representation()
 		object_id = None
 		if to_save.has_key("_id"):

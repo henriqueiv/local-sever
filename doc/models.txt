@@ -22,18 +22,9 @@
 		"hour": "Int",
 		"minute": "Int",
 		"seconds": "Int"
-	}
-}
+	},
+	
+	"note": {
 
-{
-"action": "turn_on",
-"accessory_id": "58bad1615cbb70b5891c6ea9",
-"timer": {
-		"year": "Int",
-		"month": "Int",
-		"day": "Int",
-		"hour": "Int",
-		"minute": "Int",
-		"seconds": "Int"
 	}
 }

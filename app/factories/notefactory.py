@@ -1,52 +1,63 @@
 from app.factories.abstractfactory import AbstractFactory
 from app.factories.accessoryfactory import AccessoryFactory
+from app.factories.userfactory import UserFactory
 from bson.objectid import ObjectId
 from app.models.note import Note
 
+
 class NoteFactoryGetParams:
-	start_timestamp = None
-	end_timestamp = None
+	from_date = None
+	to_date = None
 	accessory_id = None
+	accessory_log_id = None
 	sort_order = 1
-	order_by = "timestamp"
+	order_by = "creation_date"
 
 	def find_filter_object(self):
 		filter_object = {}
 
-		if self.end_timestamp is not None and self.end_timestamp > 0:
-			filter_object["end_timestamp"] = str(self.end_timestamp)
+		if self.to_date is not None and self.to_date > 0:
+			filter_object["to_date"] = str(self.to_date)
 
-		if self.start_timestamp is not None:
-			filter_object["start_timestamp"] = str(self.start_timestamp)
+		if self.from_date is not None:
+			filter_object["from_date"] = str(self.from_date)
 
 		if self.accessory_id is not None:
 			filter_object["accessory_id"] = str(self.accessory_id)
+
+		if self.accessory_log_id is not None:
+			filter_object["accessory_log_id"] = str(self.accessory_log_id)
 
 		return filter_object
 
 class NoteFactory(AbstractFactory):
 
 	accessory_factory = AccessoryFactory()
+	user_factory = UserFactory()
 
 	def __init__(self):
 		AbstractFactory.__init__(self)
 		self.table = self.db.note
 
 	def insert(self, note):
-		if note.accessory_id is not None:
-			if self.accessory_factory.find_accessory(note.accessory_id) is None:
-				raise Exception("Accessory with id `" + str(note.accessory_id) + "` not found")
+		note.user_id = ObjectId(str(note.user_id))
+		self.user_factory.validate_user_with_id(note.user_id)
 
+		if note.accessory_id is not None:
+			note.accessory_id = ObjectId(str(note.accessory_id))
+			self.accessory_factory.validate_accessory_with_id(note.accessory_id)
+		
+		object_id = None
 		note_json = note.mongo_json_representation()
-		if note_json.has_key("_id") and self.table.find({"_id": ObjectId(note_json["_id"])}).count() > 0:
+		if note_json.has_key("_id"):
 			object_id = ObjectId(note_json["_id"])
 			note_json.pop("_id")
-			self.table.update({"_id": object_id}, note_json, True)
 
+		if note_json is not None and self.table.find({"_id": object_id}).count() > 0:
+			self.table.update({"_id": object_id}, note_json, True)
 			return str(object_id)
 		else:
-			if note_json.has_key("_id"):
-				note_json.pop("_id")
+			print note_json
 			return str(self.table.insert(note_json))
 
 	def delete(self, note_id):
@@ -54,20 +65,15 @@ class NoteFactory(AbstractFactory):
 		return result.deleted_count > 0
 
 	def get_note_for_api(self, note_id):
-		result = self.table.find({"_id": ObjectId(note_id)})
+		result = self.table.find({"_id": ObjectId(str(note_id))})
 		for note in result:
 			return self.note_for_api_from_mongo_object(note)
+
 		return None
 
 	def note_for_api_from_mongo_object(self, mongo_object):
 		note = Note.from_mongo_object(mongo_object)
 		json = note.to_json()
-
-		accessory = self.accessory_factory.find_accessory(note.accessory_id)
-		if accessory is not None:
-			json["accessory"] = accessory.to_json()
-			json.pop("accessory_id")
-
 		return json
 
 	def get_notes_for_api(self, params = NoteFactoryGetParams()):

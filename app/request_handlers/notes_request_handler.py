@@ -2,13 +2,14 @@ import requests
 import json
 import time
 from tornado import web, websocket
+from app.request_handlers.userauthbaserequesthandler import UserAuthBaseRequestHandler
 from app.factories.notefactory import NoteFactory, NoteFactoryGetParams
 from app.factories.accessoryfactory import AccessoryFactory
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.models.note import Note
 from app.validators import NotesPostRequestHandlerValidator, NotesDeleteRequestHandlerValidator
 
-class NotesRequestHandler(web.RequestHandler):
+class NotesRequestHandler(UserAuthBaseRequestHandler):
 
     note_factory = NoteFactory()
     accessory_factory = AccessoryFactory()
@@ -22,6 +23,8 @@ class NotesRequestHandler(web.RequestHandler):
     @web.asynchronous
     def delete(self):
         try:
+            self.validate_user()
+
             json_object = json.loads(str(self.request.body))
             validator = NotesDeleteRequestHandlerValidator()
             validator.validate(json_object)
@@ -34,7 +37,7 @@ class NotesRequestHandler(web.RequestHandler):
                     self.write(json.dumps({"deleted": id}))
                 else:
                     self.write(json.dumps({"errors": ["There is not any objetc with id = `" + str(id) + "`"]}))
-        except:
+        except Exception as e:
             self.write(json.dumps({"errors": [{"message": str(e)}]}))
 
         self.clients_updater.update_all_clients()
@@ -42,9 +45,14 @@ class NotesRequestHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
+        try:
+            self.validate_user()
+        except Exception as e:
+            self.write(json.dumps({"errors": [{"message": str(e)}]}))
+
         params = NoteFactoryGetParams()
-        params.start_timestamp = self.get_query_argument("start_timestamp", None)
-        params.end_timestamp = self.get_query_argument("end_timestamp", None)
+        params.from_date = self.get_query_argument("from_date", None)
+        params.to_date = self.get_query_argument("to_date", None)
         params.accessory_id = self.get_query_argument("accessory_id", None)
 
         self.write(json.dumps(self.note_factory.get_notes_for_api(params)))
@@ -53,6 +61,7 @@ class NotesRequestHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
         try:
+            self.validate_user()
             json_object = json.loads(str(self.request.body))
 
             notes_handler_validator = NotesPostRequestHandlerValidator()
@@ -63,7 +72,8 @@ class NotesRequestHandler(web.RequestHandler):
 
             else:
                 note = Note(json_object)
-                note.timestamp = time.time()
+                note.creation_date = time.time()
+                note.user_id = self.authenticated_user_id()
 
                 note.id = str(self.note_factory.insert(note))
 

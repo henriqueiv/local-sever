@@ -13,8 +13,8 @@ class UserFactory(AbstractFactory):
 		try:
 			mongo_user_id = ObjectId(str(user_id))
 			result = self.table.find({"_id": mongo_user_id})
-		except:
-			pass
+		except Exception as a:
+			raise Exception("user id `" + str(user_id) + "` is invalid")
 
 		if user_id is None:		
 			raise Exception("user id can not be empty")

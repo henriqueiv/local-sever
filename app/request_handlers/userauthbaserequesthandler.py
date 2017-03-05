@@ -7,3 +7,6 @@ class UserAuthBaseRequestHandler(web.RequestHandler):
     def validate_user(self):
         user_id = self.request.headers["Userid"] if self.request.headers.has_key("Userid") else None
         self.user_factory.validate_user_with_id(user_id)
+
+    def authenticated_user_id(self):
+    	return self.request.headers["Userid"] if self.request.headers.has_key("Userid") else None
