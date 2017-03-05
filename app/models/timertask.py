@@ -12,6 +12,7 @@ class TimerTask(MongoDBModel):
 	accessory_id = None
 	creation_date = None
 	name = None
+	user_id = None
 
 	def __init__(self, json_object):
 		if json_object.has_key("_id"):
@@ -20,6 +21,9 @@ class TimerTask(MongoDBModel):
 		self.action = json_object["action"] if json_object.has_key("action") else None
 		self.name = json_object["name"] if json_object.has_key("name") else None
 		self.creation_date = json_object["creation_date"] if json_object.has_key("creation_date") else None
+
+		if json_object.has_key("user_id"):
+			self.user_id = json_object["user_id"]
 
 		if json_object.has_key("accessory_id"):
 			self.accessory_id = json_object["accessory_id"]
@@ -35,6 +39,9 @@ class TimerTask(MongoDBModel):
 
 		if self.accessory_id is not None:
 			object["accessory_id"] = self.accessory_id
+
+		if self.user_id is not None:
+			object["user_id"] = self.user_id
 
 		if self.id is not None:
 			object["_id"] = self.id

@@ -1,6 +1,6 @@
 import requests
 import json
-
+import time
 from tornado import web, websocket
 from app.request_handlers.userauthbaserequesthandler import UserAuthBaseRequestHandler
 from app.factories.timertaskfactory import TimerTaskFactory, TaskFactoryGetParams
@@ -70,6 +70,9 @@ class TasksRequestHandler(UserAuthBaseRequestHandler):
                 self.write(json.dumps({"errors": task_handler_validator.error_messages}))
             else:
                 timer_task = TimerTask(json_object)
+                timer_task.user_id = self.authenticated_user_id()
+                timer_task.creation_date = time.time()
+
                 timer_task.id = str(self.tasks_factory.insert(timer_task))
                 self.write(json.dumps(timer_task.mongo_json_representation()))
                 self.clients_updater.update_all_clients()
