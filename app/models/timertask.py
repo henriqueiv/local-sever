@@ -52,7 +52,7 @@ class TimerTask(MongoDBModel):
 
 	def to_json(self):
 		json_object = self.mongo_json_representation()
-		print json_object
+
 		if json_object.has_key("_id"):
 			json_object["_id"] = str(json_object["_id"])
 

@@ -32,7 +32,7 @@ class AccessoryFactory(AbstractFactory):
 		accessories = self.table.find()
 		accessories_json = []
 		for accessory in accessories:
-			accessory["_id"] = ObjectId(str(accessory["_id"]))
+			accessory["_id"] = str(accessory["_id"])
 			accessories_json.append(accessory)
 
 		response = {

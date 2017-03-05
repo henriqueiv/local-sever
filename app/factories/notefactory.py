@@ -67,7 +67,6 @@ class NoteFactory(AbstractFactory):
 			self.table.update({"_id": object_id}, note_json, True)
 			return str(object_id)
 		else:
-			print note_json
 			return str(self.table.insert(note_json))
 
 	def delete(self, note_id):

@@ -69,8 +69,7 @@ class TimerTaskFactory(AbstractFactory):
 
 		tasks_json = []
 		for task in tasks:
-			task["_id"] = str(task["_id"])
-			tasks_json.append(task)
+			tasks_json.append(TimerTask(task).to_json())
 
 		response = {
 			"tasks": tasks_json

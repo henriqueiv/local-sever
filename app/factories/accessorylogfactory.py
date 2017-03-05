@@ -56,7 +56,6 @@ class AccessoryLogFactory(AbstractFactory):
 
 
 		response = {
-			"total_results": logs.count(),
 			"logs": logs_json
 		}
 

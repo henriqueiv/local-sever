@@ -23,4 +23,3 @@ class AccessoryLogsRequestHandler(web.RequestHandler):
         self.write(json.dumps(self.log_factory.get_logs_for_api(params)))
         
         self.finish()
-        print "AccessoriesHandler Received get request."
