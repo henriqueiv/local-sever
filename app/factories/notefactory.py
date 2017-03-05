@@ -17,17 +17,21 @@ class NoteFactoryGetParams:
 	def find_filter_object(self):
 		filter_object = {}
 
-		if self.to_date is not None and self.to_date > 0:
-			filter_object["to_date"] = str(self.to_date)
-
-		if self.from_date is not None:
-			filter_object["from_date"] = str(self.from_date)
-
 		if self.accessory_id is not None:
 			filter_object["accessory_id"] = str(self.accessory_id)
 
 		if self.accessory_log_id is not None:
 			filter_object["accessory_log_id"] = str(self.accessory_log_id)
+
+
+		if self.from_date is not None or self.to_date is not None:
+			filter_object["creation_date"] = {}
+
+		if self.to_date is not None and self.to_date > 0:
+			filter_object["creation_date"]["$lte"] = float(self.to_date)
+
+		if self.from_date is not None:
+			filter_object["creation_date"]["$gte"] = float(self.from_date)
 
 		return filter_object
 
