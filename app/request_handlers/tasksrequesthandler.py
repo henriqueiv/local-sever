@@ -4,6 +4,7 @@ from tornado import web, websocket
 from app.request_handlers.userauthbaserequesthandler import UserAuthBaseRequestHandler
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.apihandlers.tasksapihandler import TasksAPIHandler
+from app.factories.timertaskfactory import TaskFactoryGetParams
 
 class TasksRequestHandler(UserAuthBaseRequestHandler):
     
