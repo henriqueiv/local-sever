@@ -3,10 +3,7 @@ import json
 from tornado import web, websocket
 from app.request_handlers.userauthbaserequesthandler import UserAuthBaseRequestHandler
 from app.classes.socketclientsupdater import SocketClientsUpdater
-
-
-
-from app.factories.notefactory import NoteFactory, NoteFactoryGetParams
+from app.factories.notefactory import NoteFactoryGetParams
 from app.apihandlers.notesapihandler import NotesAPIHandler
 
 class NotesRequestHandler(UserAuthBaseRequestHandler):
