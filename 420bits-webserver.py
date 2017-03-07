@@ -7,7 +7,7 @@ from tornado import websocket, web, ioloop
 from app.request_handlers.accessorylogsrequesthandler import AccessoryLogsRequestHandler
 from app.request_handlers.tasks_request_handler import TasksRequestHandler
 from app.request_handlers.updateclientshandler import UpdateClientsHandler
-from app.request_handlers.notes_request_handler import NotesRequestHandler
+from app.request_handlers.notesrequesthandler import NotesRequestHandler
 from app.request_handlers.accessoryrequesthandler import AccessoryRequestHandler
 from app.request_handlers.userrequesthandler import UserRequestHandler
 import json
@@ -24,6 +24,7 @@ class SocketHandler(websocket.WebSocketHandler):
         return True
 
     def open(self):
+        print "Opened connection"
         if self not in clients_updater.clients:
             clients_updater.clients.append(self)
 

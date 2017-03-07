@@ -9,10 +9,17 @@ class UserFactory(AbstractFactory):
 		self.table = self.db.user
 
 	def validate_user_with_id(self, user_id):
+		if user_id is None:
+			raise Exception("user id can not be null")
+
 		result = None
 		try:
 			mongo_user_id = ObjectId(str(user_id))
+			
+			if mongo_user_id is None:
+				raise Exception("user id is invalid")
 			result = self.table.find({"_id": mongo_user_id})
+
 		except Exception as a:
 			raise Exception("user id `" + str(user_id) + "` is invalid")
 
