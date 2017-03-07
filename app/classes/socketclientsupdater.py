@@ -4,7 +4,7 @@ import json
 
 class SocketClientsUpdater(object):
 	clients = []
-
+	accessory_manager = AccessoryManager()
 	def add_client(self, client):
 		if client not in self.clients:
 			self.clients.append(client)
@@ -18,10 +18,10 @@ class SocketClientsUpdater(object):
 		client.write_message(data)
 
 	def update_all_clients(self):
-		accessory_manager = AccessoryManager()
-		objects = accessory_manager.get_accessories_json()
-		self.update_all_clients_with_message(json.dumps(objects))
+		objects = self.accessory_manager.get_accessories_json()
+		self.update_all_clients_with_object(objects)
+		return objects
 
-	def update_all_clients_with_message(self, message):
+	def update_all_clients_with_object(self, object):
 		for c in self.clients:
-			c.write_message(message)
+			self.update_client(c, object)
