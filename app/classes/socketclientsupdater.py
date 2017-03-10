@@ -1,3 +1,4 @@
+import websocket as _websocket
 from app.managers.accessorymanager import AccessoryManager
 from tornado import websocket
 import json
@@ -5,6 +6,7 @@ import json
 class SocketClientsUpdater(object):
 	clients = []
 	accessory_manager = AccessoryManager()
+
 	def add_client(self, client):
 		if client not in self.clients:
 			self.clients.append(client)
@@ -15,7 +17,12 @@ class SocketClientsUpdater(object):
 
 	def update_client(self, client, object):
 		data = json.dumps(object)
-		client.write_message(data)
+
+		print "Client: " + str(client)
+		if isinstance(client, _websocket.WebSocketApp):
+			client.send(data)
+		elif isinstance(client, websocket.WebSocketHandler):
+			client.write_message(data)
 
 	def update_all_clients(self):
 		objects = self.accessory_manager.get_accessories_json()
@@ -25,3 +32,6 @@ class SocketClientsUpdater(object):
 	def update_all_clients_with_object(self, object):
 		for c in self.clients:
 			self.update_client(c, object)
+
+	def is_client(self, client):
+		return client in self.clients

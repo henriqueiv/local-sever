@@ -9,6 +9,7 @@ import os
 import thread
 import threading
 import websocket as _websocket
+from pprint import pprint
 
 clients = []
 
@@ -24,6 +25,7 @@ class SocketHandler(websocket.WebSocketHandler):
         print "Connection open"
 
     def on_close(self):
+        clients.remove(self)
         print "Connection close"
 
     def on_message(self, message):
@@ -34,22 +36,29 @@ class SocketHandler(websocket.WebSocketHandler):
                 print "Registered"
                 raspberries.append(self)
                 return
-
-            pass
         except Exception, e:
-            pass
+            print "Error: " + str(e)
         
         try:
+            print "1"
             if self in raspberries:
-                print "Is raspberry sending message: "
+                print "Is raspberry sending message: Will notify clients"
                 for client in clients:
-                    if client not in raspberries:
+                    if client not in raspberries and self != client:
                         client.write_message(str(message))
             else:
+                print "Is client sending message: Will notify rasps"
                 for raspberry in raspberries:
-                    raspberry.write_message(message)
-        except:
-            pass
+                    try:
+                        raspberry.write_message(message)
+                    except Exception as e:
+                        print "Error: " + str(e)
+                        
+                    print "Did Write Rasp: " + str(raspberry)
+                
+
+        except Exception as e:
+            print "Error: " + str(e)
 
 
 
