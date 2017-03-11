@@ -15,6 +15,7 @@ class NotesAPIHandler:
 		ToDateParam = "to_date"
 		AccessoryIDParam = "accessory_id"
 		UserIDKey = "user_id"
+		DeletedKey = "deleted"
 
 	note_factory = NoteFactory()
 	accessory_factory = AccessoryFactory()
@@ -30,7 +31,7 @@ class NotesAPIHandler:
 			else:
 				object_id = str(request_body[NotesAPIHandler.Constants.IDKey])
 				if self.note_factory.delete(object_id):
-					response = {"deleted": object_id}
+					response = {NotesAPIHandler.Constants.DeletedKey: object_id}
 				else:
 					response = AppAPI.Error(["There is not any objetc with id = `" + str(object_id) + "`"]).json_object()
 

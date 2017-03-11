@@ -59,14 +59,17 @@ class SocketAPIHandler:
 			self.execute_read(response, sender)
 
 		if socket_message.uri.is_post_action() and socket_message.id is not None:
-			state = socket_message.argument("state")
-			if state == "on":
+			if state == AccessoryAPIHandler.Constants.OnValue:
 				self.accessory_manager.turn_on_accessory(socket_message.id)
-				self.execute_update(sender)
+
+				response = accessoryapihandler.get_as_json_string()
+				self.execute_read(response, sender)
 				
-			elif state == "off":
+			elif state == AccessoryAPIHandler.Constants.OffValue:
 				self.accessory_manager.turn_off_accessory(socket_message.id)
-				self.execute_update(sender)
+
+				response = accessoryapihandler.get_as_json_string()
+				self.execute_read(response, sender)
 
 
 	def dispatch_accessory_log(self, socket_message, sender):

@@ -8,6 +8,9 @@ class AccessoryAPIHandler:
 		ToDateParam = "to_date"
 		AccessoryIDParam = "accessory_id"
 		LimitParam = "limit"
+		StateParam = "state"
+		OnValue = "on"
+		OffValue = "off"
 
 	accessory_factory = AccessoryFactory()
 
