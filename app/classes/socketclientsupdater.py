@@ -16,6 +16,9 @@ class SocketClientsUpdater(object):
 			self.clients.remove(client)
 
 	def update_client(self, client, object):
+		if not self.is_client(client):
+			return
+
 		data = json.dumps(object)
 
 		print "Client: " + str(client)
@@ -24,7 +27,7 @@ class SocketClientsUpdater(object):
 		elif isinstance(client, websocket.WebSocketHandler):
 			client.write_message(data)
 
-	def update_all_clients(self):
+	def update_all_clients(self, sender):
 		objects = self.accessory_manager.get_accessories_json()
 		self.update_all_clients_with_object(objects)
 		return objects

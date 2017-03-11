@@ -10,6 +10,8 @@ class AccessoryLogAPIHandler:
     def get_as_objects(self, get_params = AccessoryLogFactoryGetParams()):
         if get_params.limit is not None:
             get_params.limit = DefaultMaxLimit if get_params.limit == 0 else min(get_params.limit,DefaultMaxLimit)
+        else:
+            get_params.limit = DefaultMaxLimit
 
         try:
         	logs = self.log_factory.get_logs_for_api(get_params)
