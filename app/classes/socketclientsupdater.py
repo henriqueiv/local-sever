@@ -21,7 +21,6 @@ class SocketClientsUpdater(object):
 
 		data = json.dumps(object)
 
-		print "Client: " + str(client)
 		if isinstance(client, _websocket.WebSocketApp):
 			client.send(data)
 		elif isinstance(client, websocket.WebSocketHandler):

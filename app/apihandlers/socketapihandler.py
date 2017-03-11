@@ -59,6 +59,7 @@ class SocketAPIHandler:
 			self.execute_read(response, sender)
 
 		if socket_message.uri.is_post_action() and socket_message.id is not None:
+			state = socket_message.argument(AccessoryAPIHandler.Constants.StateParam)
 			if state == AccessoryAPIHandler.Constants.OnValue:
 				self.accessory_manager.turn_on_accessory(socket_message.id)
 

@@ -1,7 +1,7 @@
 import time
 from app.managers.taskmanager import TaskManager
 from app.loggers.accessorylogger import AccessoryLogger
-from app.constants import ServiceConfig
+from app.configs import ServiceConfig
 
 task_manager = TaskManager()
 accessory_logger = AccessoryLogger()

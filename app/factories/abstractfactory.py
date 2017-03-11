@@ -1,4 +1,4 @@
-from app.constants import MongoConfig
+from app.configs import MongoConfig
 import pymongo
 from pymongo import MongoClient
 

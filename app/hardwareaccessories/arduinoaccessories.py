@@ -1,6 +1,6 @@
 from app.models.accessory import Accessory, AccessoryTypeHumidity, AccessoryTypeTemperature, AccessoryTypeCO2, AccessoryTypeRelay
 import smbus
-from app.constants import ArduinoAccessoryConfig
+from app.configs import ArduinoAccessoryConfig
 
 DefaultHumidityAccessoryID = 1
 DefaultTemperatureAccessoryID = 2

@@ -10,8 +10,6 @@ class AppAPI:
 
 	class Error:
 
-		errors = []
-
 		class Message:
 			massage = None
 			def __init__(self, message):
@@ -20,10 +18,13 @@ class AppAPI:
 			def json_object(self):
 				return {"message": self.message}
 
+		errors = []
+
 		def json_object(self):
 			return {"errors": self.errors}
 
 		def __init__(self, messages = []):
+			self.errors = []
 			for message in messages:
 				self.errors.append(AppAPI.Error.Message(message).json_object())
 

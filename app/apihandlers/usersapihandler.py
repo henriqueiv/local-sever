@@ -50,7 +50,7 @@ class UsersAPIHandler:
 			if validator.has_errors():
 				response = AppAPI.Error(validator.error_messages).json_object()
 			else:
-				object_id = str(request_body["_id"])
+				object_id = str(request_body[UsersAPIHandler.Constants.IDKey])
 				if self.user_factory.delete(object_id):
 					response = {UsersAPIHandler.Constants.DeletedKey: object_id}
 				else:

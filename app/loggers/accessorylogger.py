@@ -3,7 +3,7 @@ from app.managers.accessorymanager import AccessoryManager
 from app.models.accessorylog import AccessoryLog
 from app.factories.accessoryfactory import AccessoryFactory
 from app.factories.accessorylogfactory import AccessoryLogFactory
-from app.constants import AccessoryLoggerConfig
+from app.configs import AccessoryLoggerConfig
 
 class AccessoryLogger:
 

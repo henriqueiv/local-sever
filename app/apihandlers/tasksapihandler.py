@@ -11,6 +11,7 @@ class TasksAPIHandler:
 		AccessoryIDKey = "accessory_id"
 		IDKey = "_id"
 		UserIDKey = "user_id"
+		DeletedKey = "deleted"
 
 	tasks_factory = TimerTaskFactory()
 
@@ -37,7 +38,7 @@ class TasksAPIHandler:
 			else:
 				object_id = str(request_body[TasksAPIHandler.Constants.IDKey])
 				if self.tasks_factory.delete(object_id):
-					response = {"deleted": object_id}
+					response = {TasksAPIHandler.Constants.DeletedKey: object_id}
 				else:
 					response = AppAPI.Error(["There is not any objetc with id `" + str(object_id) + "`"]).json_object()
 
