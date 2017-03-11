@@ -54,6 +54,9 @@ class SocketAPIHandler:
 		elif socket_message.uri.is_post_action() and socket_message.object is not None:
 			response = notes_api_handler.create(socket_message.object)
 			self.execute_read(response, sender, request_socket_message)
+		else:
+			error = AppAPI.Error(["Nothing to do"]).json_object()
+			self.execute_read(error, sender, socket_message)
 
 	def dispatch_accessories(self, socket_message, sender, request_socket_message = None):
 		accessoryapihandler = AccessoryAPIHandler()
@@ -62,7 +65,7 @@ class SocketAPIHandler:
 			response = accessoryapihandler.get_as_objects()
 			self.execute_read(response, sender, request_socket_message)
 
-		if socket_message.uri.is_post_action() and socket_message.id is not None:
+		elif socket_message.uri.is_post_action() and socket_message.id is not None:
 			state = socket_message.argument(AccessoryAPIHandler.Constants.StateParam)
 			if state == AccessoryAPIHandler.Constants.OnValue:
 				self.accessory_manager.turn_on_accessory(socket_message.id)
@@ -75,6 +78,9 @@ class SocketAPIHandler:
 
 				response = accessoryapihandler.get_as_objects()
 				self.execute_read(response, sender, request_socket_message)
+		else:
+			error = AppAPI.Error(["Nothing to do"]).json_object()
+			self.execute_read(error, sender, socket_message)
 
 
 	def dispatch_accessory_log(self, socket_message, sender, request_socket_message = None):
@@ -88,6 +94,9 @@ class SocketAPIHandler:
 			params.limit = int(socket_message.argument(AccessoryAPIHandler.Constants.LimitParam,0))
 			response = accessory_log_api_handler.get_as_objects(params)
 			self.execute_read(response, sender, request_socket_message)
+		else:
+			error = AppAPI.Error(["Nothing to do"]).json_object()
+			self.execute_read(error, sender, socket_message)
 		
 	def dispatch_tasks(self, socket_message, sender, request_socket_message = None):
 		tasks_api_handler = TasksAPIHandler()
@@ -106,6 +115,9 @@ class SocketAPIHandler:
 		elif socket_message.uri.is_post_action() and socket_message.object is not None:
 			response = tasks_api_handler.create(socket_message.object)
 			self.execute_read(response, sender, request_socket_message)
+		else:
+			error = AppAPI.Error(["Nothing to do"]).json_object()
+			self.execute_read(error, sender, socket_message)
 
 
 	def dispatch_users(self, socket_message, sender, request_socket_message = None):
@@ -121,6 +133,9 @@ class SocketAPIHandler:
 		elif socket_message.uri.is_post_action() and socket_message.object is not None:
 			response = users_api_handler.create(socket_message.object)
 			self.execute_read(response, sender, request_socket_message)
+		else:
+			error = AppAPI.Error(["Nothing to do"]).json_object()
+			self.execute_read(error, sender, socket_message)
 
 
 
