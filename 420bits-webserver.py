@@ -7,7 +7,6 @@ from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.classes.bitscloudclient import BitsCloudClient
 from app.request_handlers.accessorylogsrequesthandler import AccessoryLogsRequestHandler
 from app.request_handlers.tasksrequesthandler import TasksRequestHandler
-from app.request_handlers.updateclientshandler import UpdateClientsHandler
 from app.request_handlers.notesrequesthandler import NotesRequestHandler
 from app.request_handlers.accessoryrequesthandler import AccessoryRequestHandler
 from app.request_handlers.userrequesthandler import UserRequestHandler
@@ -34,7 +33,6 @@ app = web.Application([
     (r'/' + AppAPI.Constants.NotesTopic, NotesRequestHandler,dict(clients_updater = clients_updater)),
     (r'/' + AppAPI.Constants.AccessoriesLogsTopic, AccessoryLogsRequestHandler),
     (r'/' + AppAPI.Constants.AccessoriesTopic, AccessoryRequestHandler),
-    (r'/update_clients', UpdateClientsHandler, dict(clients_updater = clients_updater)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])

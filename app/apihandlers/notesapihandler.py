@@ -20,7 +20,7 @@ class NotesAPIHandler:
 	note_factory = NoteFactory()
 	accessory_factory = AccessoryFactory()
 
-	def delete(self, request_body, as_string = True):
+	def delete(self, request_body, as_string = False):
 		response = {}
 		try:
 			validator = NotesDeleteRequestHandlerValidator()
@@ -43,14 +43,14 @@ class NotesAPIHandler:
 		else:
 			return response
 
-	def get(self, params = NoteFactoryGetParams(), as_string = True):
+	def get(self, params = NoteFactoryGetParams(), as_string = False):
 		data = self.note_factory.get_notes_for_api(params)
 		if as_string:
 			return json.dumps(data)
 		else:
 			return data
 
-	def create(self, json_object = {}, as_string = True):
+	def create(self, json_object = {}, as_string = False):
 		response = {}
 		try:
 			notes_handler_validator = NotesPostRequestHandlerValidator()

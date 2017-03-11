@@ -37,7 +37,7 @@ class TaskManager:
 
 	def notify_socket_clients(self):
 		try:
-			requests.get("http://127.0.0.1:8888/update_clients")
+			# TODO: Update clients
 			print "Clients updated"
 		except:
 			print "Clients couldn't be updated"

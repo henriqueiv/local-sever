@@ -5,18 +5,18 @@ class Environment:
 	dev = True
 
 class MongoConfig:
-	server_address = "localhost"
-	server_port = 27017
-	db_name = "420bits"
+	server_address = None
+	server_port = None
+	db_name = None
 
 class ArduinoAccessoryConfig:
-	i2c_address = 0x04
+	i2c_address = None
 
 class ServiceConfig:
-	loop_wait_seconds = 30
+	loop_wait_seconds = None
 
 class AccessoryLoggerConfig:
-	min_interval_between_logs = 30
+	min_interval_between_logs = None
 
 
 tried_load_file = False

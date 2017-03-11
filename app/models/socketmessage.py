@@ -5,6 +5,7 @@ class SocketMessageURI:
     action = None
     topic = None
     uri = None
+    token = None
 
     class Constants:
         URIActionIndex = 0
@@ -67,6 +68,7 @@ class SocketMessage:
         TokenKey = "token"
         ArgumentsKey = "arguments"
         ObjectKey = "object"
+        TokenKey = "token"
 
         URIActionIndex = 0
         URITopicIndex = 1
@@ -91,6 +93,9 @@ class SocketMessage:
 
             if message_object.has_key(SocketMessage.Constants.ObjectKey):
                 self.object = message_object[SocketMessage.Constants.ObjectKey]
+
+            if message_object.has_key(SocketMessage.Constants.TokenKey):
+                self.token = message_object[SocketMessage.Constants.TokenKey]
 
         except Exception as e:
             print("error parsing message:" + str(e))

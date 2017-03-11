@@ -1,5 +1,3 @@
-DEV = True
-
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.models.socketmessage import SocketMessage
 from tornado import websocket, web, ioloop

@@ -15,7 +15,7 @@ class TasksAPIHandler:
 
 	tasks_factory = TimerTaskFactory()
 
-	def get(self, params = TaskFactoryGetParams(), as_string = True):
+	def get(self, params = TaskFactoryGetParams(), as_string = False):
 		response = {}
 		try:
 			response = self.tasks_factory.get_tasks_for_api(params)
@@ -27,7 +27,7 @@ class TasksAPIHandler:
 		else:
 			return response
 
-	def delete(self, request_body, as_string = True):
+	def delete(self, request_body, as_string = False):
 		response = {}
 		try:
 			validator = TasksDeleteRequestHandlerValidator()
@@ -50,7 +50,7 @@ class TasksAPIHandler:
 		else:
 			return response			
 	
-	def create(self,request_body, as_string = True):
+	def create(self,request_body, as_string = False):
 		response = {}
 		try:
 			task_handler_validator = TasksPostRequestHandlerValidator()

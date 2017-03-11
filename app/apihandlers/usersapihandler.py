@@ -13,14 +13,14 @@ class UsersAPIHandler:
 
 	user_factory = UserFactory()
 
-	def get(self, as_string = True):
+	def get(self, as_string = False):
 		objects = self.user_factory.get_users_for_api()
 		if as_string:
 			return json.dumps(objects)
 		else:
 			return objects
 
-	def create(self, request_body, as_string = True):
+	def create(self, request_body, as_string = False):
 		response = {}
 		try:
 			post_handler_validator = UserPostRequestHandlerValidator()
@@ -41,7 +41,7 @@ class UsersAPIHandler:
 		else:
 			return response
 
-	def delete(self, request_body, as_string = True):
+	def delete(self, request_body, as_string = False):
 		response = {}
 		try:
 			validator = UserDeleteRequestHandlerValidator()
@@ -56,7 +56,6 @@ class UsersAPIHandler:
 				else:
 					response = AppAPI.Error(["There is not any object with id = `" + str(object_id) + "`"]).json_object()
 
-			pass
 		except Exception, e:
 			response = AppAPI.Error([str(e)]).json_object()
 
