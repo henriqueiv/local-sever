@@ -8,6 +8,9 @@ SocketMessageActionTurnOff = "turn_off"
 class SocketMessage:
 
     action = None
+    topic = None
+    uri = None
+
     id = None
     token = None
     arguments = None
@@ -19,11 +22,16 @@ class SocketMessage:
             self.raw_message = socket_message
             message_object = json.loads(self.raw_message)
 
-            if message_object.has_key("action"):
-                self.action = message_object["action"]
+            if message_object.has_key("uri"):
+                self.uri = message_object["uri"]
+                if self.uri is not None:
+                    parts = self.uri.split("/")
+                    self.action = parts[0]
+                    if len(parts) >= 1:
+                        self.topic = parts[1]    
 
-            if message_object.has_key("id"):
-                self.id = message_object["id"]
+            if message_object.has_key("_id"):
+                self.id = message_object["_id"]
 
             if message_object.has_key("token"):
                 self.token = message_object["token"]

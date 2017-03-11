@@ -1,6 +1,150 @@
-//58badd550be4444b2ffb6930
+Endpoints:
+
+/users
+	Get:
+		Http Get params (?name=value): None
+		Websocket: 
+			{
+				"uri": "get/users", 
+			}
+
+	Post: - Create/Update
+		Http request body: {
+			"_id": "ObjectId", // Send If updating object
+			"name": "String",
+			"username": "String",
+			"password": "String"
+		}
+
+		Websocket: 
+			{
+				"uri": "post/users", 
+				"object": {
+					"_id": "ObjectId", // Send If updating object
+					"name": "String",
+					"username": "String",
+					"password": "String"
+				}
+			}
+
+	Delete:
+		Http Request Body: {"_id": "ObjectId"}
+		Websocket: 
+			{
+				"uri": "delete/notes", 
+				"_id": "Objectid"
+			}
+
+/tasks
+	Get:
+		Http Get params (?name=value): accessory_id
+		Websocket: 
+			{
+				"uri": "get/tasks", 
+				"arguments": {"accessory_id": ""}
+			}
+
+	Post: - Create/Update
+		Http request body: {
+			"_id": "ObjectId", // Send If updating object
+			"uri": "String",
+			"accessory_id": "Int",
+			"timer": "Timer model",
+			"name": "String",
+			"user_id": "ObjectId"
+		}
+
+		Websocket: 
+			{
+				"uri": "post/tasks", 
+				"object": {
+					"_id": "ObjectId", // Send If updating object
+					"uri": "String",
+					"accessory_id": "Int",
+					"timer": "Timer model",
+					"name": "String",
+					"user_id": "ObjectId"
+				}
+			}
+
+	Delete:
+		Http Request Body: {"_id": "ObjectId"}
+		Websocket: 
+			{
+				"uri": "delete/notes", 
+				"_id": "Objectid"
+			}
+
+
+
+
+/accessories_logs
+
+	Get:
+		Http Get params (?name=value): from_date, to_date, accessory_id
+		Websocket: 
+			{
+				"uri": "get/accessories_logs", 
+				"arguments": {"from_date": "", "to_date": "", "accessory_id": ""}
+			}
+
+/accessories
+	- Websocket Action: "get/accessories"
+
+/notes - Needs authentication
+	Delete:
+		Http Request Body: {"_id": "ObjectId"}
+		Websocket: 
+			{
+				"uri": "delete/notes", 
+				"_id": "Objectid"
+			}
+
+	Get:
+		Http Get params (?name=value): from_date, to_date, accessory_id
+		Websocket: 
+			{
+				"uri": "get/notes", 
+				"arguments": {"from_date": "", "to_date": "", "accessory_id": ""}
+			}
+
+	Post: - Create/Update
+		Http Request body: {
+			"_id": "ObjectId", // Include if updating an object
+			"user_id": "ObjectId",
+			"text": "String",
+			"accessory_log_id": "ObjectId",
+			"accessory_id": "ObjectId",
+			"creation_date": "Double"
+		}
+
+		Websocket: 
+			{
+				"uri": "post/notes", 
+				"object": {
+					"_id": "ObjectId", // Include if updating an object
+					"user_id": "ObjectId",
+					"text": "String",
+					"accessory_log_id": "ObjectId",
+					"accessory_id": "ObjectId",
+					"creation_date": "Double"
+				}
+			}
+
 
 {
+	"accessory": {
+		"_id": "ObjectId"
+		"name": "String",
+		"type": "Int",
+		"value": "Double"
+	},
+
+	"accessory_log": {
+		"_id": "ObjectId",
+		"accessory": "Accessory"
+	},
+
 	"user": {
 		"_id": "ObjectId",
 		"name": "String",
@@ -10,9 +154,11 @@
 
 	"task": {
 		"_id": "ObjectId",
-		"action": "String",
+		"uri": "String",
 		"accessory_id": "Int",
-		"timer": "Timer"
+		"timer": "Timer",
+		"name": "String",
+		"user_id": "ObjectId"
 	},
 
 	"timer": {
