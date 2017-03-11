@@ -89,4 +89,4 @@ ENV/
 .ropeproject
 
 # Config file
-# app/prefs.py
+app/prefs.py
