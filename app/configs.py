@@ -1,6 +1,9 @@
 import os
 import json
 
+class Environment:
+	dev = True
+
 class MongoConfig:
 	server_address = "localhost"
 	server_port = 27017

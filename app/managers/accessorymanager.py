@@ -1,7 +1,10 @@
-if False:
-	from app.hardwareaccessories.arduinoaccessories import ArduinoAccessories
-else:
+from app.configs import Environment
+
+if Environment.dev:
 	from app.hardwareaccessories.arduinoaccessories_debug import ArduinoAccessories
+else:
+	from app.hardwareaccessories.arduinoaccessories import ArduinoAccessories
+	
 
 
 class AccessoryManager:

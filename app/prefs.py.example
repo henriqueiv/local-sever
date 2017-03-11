@@ -9,3 +9,5 @@ ArduinoAccessoryConfig.i2c_address = 0x04
 ServiceConfig.loop_wait_seconds = 30
 
 AccessoryLoggerConfig.min_interval_between_logs = 30
+
+Environment.dev = True
