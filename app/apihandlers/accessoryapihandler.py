@@ -3,6 +3,12 @@ import json
 
 class AccessoryAPIHandler:
 
+	class Constants:
+		FromDateParam = "from_date"
+		ToDateParam = "to_date"
+		AccessoryIDParam = "accessory_id"
+		LimitParam = "limit"
+
 	accessory_factory = AccessoryFactory()
 
 	def get_as_objects(self):

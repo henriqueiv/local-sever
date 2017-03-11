@@ -1,5 +1,6 @@
 from app.factories.accessorylogfactory import AccessoryLogFactory, AccessoryLogFactoryGetParams
 import json
+from app.models.appapi import AppAPI
 
 DefaultMaxLimit = 1000
 
@@ -17,7 +18,7 @@ class AccessoryLogAPIHandler:
         	logs = self.log_factory.get_logs_for_api(get_params)
         	return logs
         except Exception as e:
-        	return {"errors": [{"message": str(e)}]}
+            return AppAPI.Error([str(e)]).json_object()
 
     def get_as_json_string(self, get_params = AccessoryLogFactoryGetParams()):
         return json.dumps(self.get_as_objects(get_params))

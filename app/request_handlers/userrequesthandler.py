@@ -2,6 +2,7 @@ import requests
 import json
 from tornado import web, websocket
 from app.apihandlers.usersapihandler import UsersAPIHandler
+from app.models.appapi import AppAPI
 
 class UserRequestHandler(web.RequestHandler):
 
@@ -20,9 +21,9 @@ class UserRequestHandler(web.RequestHandler):
             json_object = json.loads(str(self.request_body))
             response = self.users_api_handler.delete(json_object)
         except:
-            response = {"errors": [{"message": str(e)}]}
+            response = str(AppAPI.Error([str(e)]))
 
-        self.write(response)
+        self.write(str(response))
         self.finish()
 
     @web.asynchronous
@@ -33,7 +34,7 @@ class UserRequestHandler(web.RequestHandler):
             response = self.users_api_handler.create(json_object)
     
         except Exception as e:
-            response = json.dumps({"errors": [{"message": str(e)}]})
+            response = str(AppAPI.Error([str(e)]))
 
         self.write(response)
         self.finish()

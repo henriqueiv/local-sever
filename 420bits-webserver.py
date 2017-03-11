@@ -1,8 +1,8 @@
-DEV = True
 
 import os
 from tornado import web, ioloop
 
+from app.models.appapi import AppAPI
 from app.apihandlers.socketapihandler import SocketAPIHandler
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.classes.bitscloudclient import BitsCloudClient
@@ -30,11 +30,11 @@ cloud_client.on_message = socket_api_handler.dispatch
 socket_handler_params =  {"on_close": clients_updater.remove_client, "on_message": socket_api_handler.dispatch, "on_open": clients_updater.add_client}
 app = web.Application([
     (r'/ws', SocketHandler, socket_handler_params),
-    (r'/users', UserRequestHandler),
-    (r'/tasks', TasksRequestHandler,dict(clients_updater = clients_updater)),
-    (r'/notes', NotesRequestHandler,dict(clients_updater = clients_updater)),
-    (r'/accessory_logs', AccessoryLogsRequestHandler),
-    (r'/accessories', AccessoryRequestHandler),
+    (r'/' + AppAPI.Constants.UsersTopic, UserRequestHandler),
+    (r'/' + AppAPI.Constants.TasksTopic, TasksRequestHandler,dict(clients_updater = clients_updater)),
+    (r'/' + AppAPI.Constants.NotesTopic, NotesRequestHandler,dict(clients_updater = clients_updater)),
+    (r'/' + AppAPI.Constants.AccessoriesLogsTopic, AccessoryLogsRequestHandler),
+    (r'/' + AppAPI.Constants.AccessoriesTopic, AccessoryRequestHandler),
     (r'/update_clients', UpdateClientsHandler, dict(clients_updater = clients_updater)),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),

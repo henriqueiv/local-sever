@@ -2,8 +2,15 @@ from app.factories.userfactory import UserFactory
 import json
 from app.validators import UserPostRequestHandlerValidator, UserDeleteRequestHandlerValidator
 from app.models.user import User
+from app.models.appapi import AppAPI
 
 class UsersAPIHandler:
+
+	class Constants:
+		IDKey = "_id"
+		DeletedKey = "deleted"
+		UserKey = "user"
+
 	user_factory = UserFactory()
 
 	def get(self, as_string = True):
@@ -19,15 +26,15 @@ class UsersAPIHandler:
 			post_handler_validator = UserPostRequestHandlerValidator()
 			post_handler_validator.validate(request_body)
 			if post_handler_validator.has_errors():
-				response = {"errors": post_handler_validator.error_messages}
+				response = AppAPI.Error(post_handler_validator.error_messages).json_object()
 			else:
 				user = User(request_body)
 				user.id = str(self.user_factory.insert(user))
 
-				response = {"user": user.to_json()}
+				response = {Constants.Constants.UserKey: user.to_json()}
 
 		except Exception, e:
-			response = {"errors": [{"message": str(e)}]}
+			response = AppAPI.Error([str(e)]).json_object()
 			
 		if as_string:
 			return json.dumps(response)
@@ -41,17 +48,17 @@ class UsersAPIHandler:
 			validator.validate(request_body)
 
 			if validator.has_errors():
-				response = {"errors": validator.error_messages}
+				response = AppAPI.Error(validator.error_messages).json_object()
 			else:
 				object_id = str(request_body["_id"])
 				if self.user_factory.delete(object_id):
-					response = {"deleted": object_id}
+					response = {UsersAPIHandler.Constants.DeletedKey: object_id}
 				else:
-					response = {"errors": ["There is not any object with id = `" + str(object_id) + "`"]}
+					response = AppAPI.Error(["There is not any object with id = `" + str(object_id) + "`"]).json_object()
 
 			pass
 		except Exception, e:
-			response = {"errors": [{"message": str(e)}]}
+			response = AppAPI.Error([str(e)]).json_object()
 
 		if as_string:
 			return json.dumps(response)

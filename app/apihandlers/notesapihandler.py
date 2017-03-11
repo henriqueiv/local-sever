@@ -5,8 +5,16 @@ from app.factories.accessoryfactory import AccessoryFactory
 from app.validators import NotesPostRequestHandlerValidator, NotesDeleteRequestHandlerValidator
 from app.models.note import Note
 import time
+from app.models.appapi import AppAPI
 
 class NotesAPIHandler:
+
+	class Constants:
+		IDKey = "_id"
+		FromDateParam = "from_date"
+		ToDateParam = "to_date"
+		AccessoryIDParam = "accessory_id"
+		UserIDKey = "user_id"
 
 	note_factory = NoteFactory()
 	accessory_factory = AccessoryFactory()
@@ -18,16 +26,16 @@ class NotesAPIHandler:
 			validator.validate(request_body)
 
 			if validator.has_errors():
-				response = {"errors": validator.error_messages}
+				response = AppAPI.Error(validator.error_messages).json_object()
 			else:
-				object_id = str(request_body["_id"])
+				object_id = str(request_body[NotesAPIHandler.Constants.IDKey])
 				if self.note_factory.delete(object_id):
 					response = {"deleted": object_id}
 				else:
-					response = {"errors": ["There is not any objetc with id = `" + str(object_id) + "`"]}
+					response = AppAPI.Error(["There is not any objetc with id = `" + str(object_id) + "`"]).json_object()
 
 		except Exception as e:
-			response = {"errors": [{"message": str(e)}]}
+			response = AppAPI.Error([str(e)]).json_object()
 
 		if as_string:
 			return json.dumps(response)
@@ -48,7 +56,7 @@ class NotesAPIHandler:
 			notes_handler_validator.validate(json_object)
 
 			if notes_handler_validator.has_errors():
-				response = {"errors": notes_handler_validator.error_messages}
+				response = AppAPI.Error(notes_handler_validator.error_messages).json_object()
 			else:
 				note = Note(json_object)
 				note.creation_date = time.time()
@@ -57,7 +65,7 @@ class NotesAPIHandler:
 				response = self.note_factory.get_note_for_api(note.id)
 
 		except Exception as e:
-			response = {"errors": [{"message": str(e)}]}
+			response = AppAPI.Error([str(e)]).json_object()
 
 		if as_string:
 			return json.dumps(response)

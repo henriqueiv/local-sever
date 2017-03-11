@@ -5,6 +5,7 @@ from app.request_handlers.userauthbaserequesthandler import UserAuthBaseRequestH
 from app.classes.socketclientsupdater import SocketClientsUpdater
 from app.apihandlers.tasksapihandler import TasksAPIHandler
 from app.factories.timertaskfactory import TaskFactoryGetParams
+from app.models.appapi import AppAPI
 
 class TasksRequestHandler(UserAuthBaseRequestHandler):
     
@@ -27,7 +28,7 @@ class TasksRequestHandler(UserAuthBaseRequestHandler):
 
             self.clients_updater.update_all_clients()
         except Exception as e:
-            response = json.dumps({"errors": [{"message": str(e)}]})
+            response = str(AppAPI.Error([str(e)]))
 
         self.write(response)
         self.finish()
@@ -38,11 +39,11 @@ class TasksRequestHandler(UserAuthBaseRequestHandler):
         response = ""
         try:
             params = TaskFactoryGetParams()
-            params.accessory_id = self.get_query_argument("accessory_id", None)
+            params.accessory_id = self.get_query_argument(TasksAPIHandler.Constants.AccessoryIDParam, None)
 
             response = self.tasks_api_handler.get(params)
         except Exception as e:
-            response = json.dumps({"errors": [{"message": str(e)}]})
+            response = str(AppAPI.Error([str(e)]))
 
         self.write(response)
         self.finish()
@@ -53,12 +54,12 @@ class TasksRequestHandler(UserAuthBaseRequestHandler):
         response = ""
         try:
             json_object = json.loads(str(self.request.body))
-            json_object["user_id"] = self.authenticated_user_id()
+            json_object[TasksAPIHandler.Constants.UserIDKey] = self.authenticated_user_id()
 
             response = self.tasks_api_handler.create(json_object)
             self.clients_updater.update_all_clients()
         except Exception as e:
-            response = json.dumps({"errors": [{"message": str(e)}]})
+            response = str(AppAPI.Error([str(e)]))
 
         self.write(response)
         self.finish()

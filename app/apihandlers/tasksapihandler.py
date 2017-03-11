@@ -3,8 +3,14 @@ from app.factories.timertaskfactory import TimerTaskFactory, TaskFactoryGetParam
 from app.validators import TasksDeleteRequestHandlerValidator, TasksPostRequestHandlerValidator
 from app.models.timertask import TimerTask
 import time
+from app.models.appapi import AppAPI
 
 class TasksAPIHandler:
+
+	class Constants:
+		AccessoryIDKey = "accessory_id"
+		IDKey = "_id"
+		UserIDKey = "user_id"
 
 	tasks_factory = TimerTaskFactory()
 
@@ -13,7 +19,7 @@ class TasksAPIHandler:
 		try:
 			response = self.tasks_factory.get_tasks_for_api(params)
 		except Exception as e:
-			response = {"errors": [{"message": str(e)}]}
+			response = AppAPI.Error([str(e)]).json_object()
 		
 		if as_string:
 			return json.dumps(response)
@@ -27,16 +33,16 @@ class TasksAPIHandler:
 			validator.validate(request_body)
 
 			if validator.has_errors():
-				response = {"errors": validator.error_messages}
+				response = AppAPI.Error(validator.error_messages).json_object()
 			else:
-				object_id = str(request_body["_id"])
+				object_id = str(request_body[TasksAPIHandler.Constants.IDKey])
 				if self.tasks_factory.delete(object_id):
 					response = {"deleted": object_id}
 				else:
-					response = {"errors": ["There is not any objetc with id `" + str(object_id) + "`"]}
+					response = AppAPI.Error(["There is not any objetc with id `" + str(object_id) + "`"]).json_object()
 
 		except Exception, e:
-			response = {"errors": [{"message": str(e)}]}
+			response = AppAPI.Error([str(e)]).json_object()
 
 		if as_string:
 			return json.dumps(response)
@@ -49,7 +55,7 @@ class TasksAPIHandler:
 			task_handler_validator = TasksPostRequestHandlerValidator()
 			task_handler_validator.validate(request_body)
 			if task_handler_validator.has_errors():
-				response = {"errors": task_handler_validator.error_messages}
+				response = AppAPI.Error(task_handler_validator.error_messages).json_object()
 			else:
 				timer_task = TimerTask(request_body)
 				timer_task.creation_date = time.time()
@@ -58,7 +64,7 @@ class TasksAPIHandler:
 				response = timer_task.to_json()
 
 		except Exception, e:
-			response = {"errors": [{"message": str(e)}]}
+			response = AppAPI.Error([str(e)]).json_object()
 
 		if as_string:
 			return json.dumps(response)
