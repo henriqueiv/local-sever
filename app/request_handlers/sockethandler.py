@@ -11,7 +11,6 @@ class SocketHandler(websocket.WebSocketHandler):
         self.on_close_callback = on_close
         self.on_message_callback = on_message
         self.on_open_callback = on_open
-        print "initialize"
 
     def check_origin(self, origin):
         return True

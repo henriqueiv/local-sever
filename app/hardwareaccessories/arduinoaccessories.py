@@ -2,11 +2,6 @@ from app.models.accessory import Accessory, AccessoryTypeHumidity, AccessoryType
 import smbus
 from app.configs import ArduinoAccessoryConfig
 
-DefaultHumidityAccessoryID = 1
-DefaultTemperatureAccessoryID = 2
-DefaultCO2AccessoryID = 3
-DefaultRelay1AccessoryID = 4
-DefaultRelay2AccessoryID = 5
 
 def StringToBytes(val):
   retVal = []
@@ -34,11 +29,11 @@ class ArduinoAccessories:
 			relay2 = items[4]
 
 			accessories = [
-				Accessory("Humidity",DefaultHumidityAccessoryID, AccessoryTypeHumidity, humidity),
-				Accessory("Temperature",DefaultTemperatureAccessoryID, AccessoryTypeTemperature, temperature),
-				Accessory("CO2",DefaultCO2AccessoryID, AccessoryTypeCO2, co2),
-				Accessory("Relay 1",DefaultRelay1AccessoryID, AccessoryTypeRelay, relay1),
-				Accessory("Relay 2",DefaultRelay2AccessoryID, AccessoryTypeRelay, relay2)
+				Accessory("Humidity",None, AccessoryTypeHumidity, humidity),
+				Accessory("Temperature",None, AccessoryTypeTemperature, temperature),
+				Accessory("CO2",None, AccessoryTypeCO2, co2),
+				Accessory("Relay 1",None, AccessoryTypeRelay, relay1),
+				Accessory("Relay 2",None, AccessoryTypeRelay, relay2)
 			]
 			return accessories
 		except Exception as e:

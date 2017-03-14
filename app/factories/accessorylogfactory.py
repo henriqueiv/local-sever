@@ -50,9 +50,8 @@ class AccessoryLogFactory(AbstractFactory):
 		logs = self.table.find(find_object).limit(params.limit).sort(params.order_by, params.sort_order)
 
 		logs_json = []
-		for log in logs:
-			log["_id"] = str(log["_id"]) 
-			logs_json.append(log)
+		for mongo_log in logs:
+			logs_json.append(AccessoryLog.from_mongo_object(mongo_log).to_json())
 
 
 		response = {

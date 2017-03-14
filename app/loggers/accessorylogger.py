@@ -20,9 +20,7 @@ class AccessoryLogger:
 		self.last_log_timestamp = timestamp
 
 		accessories = self.accessory_manager.get_accessories()
-		print "Accessories: " + str(accessories)
 		for accessory in accessories:
 			self.accessory_factory.insert_or_update(accessory)
 			self.accessory_log_factory.insert(AccessoryLog(accessory, timestamp))
-			print accessory
 		pass

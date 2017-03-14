@@ -31,9 +31,9 @@ class AccessoryFactory(AbstractFactory):
 	def get_accessories_for_api(self):
 		accessories = self.table.find()
 		accessories_json = []
-		for accessory in accessories:
-			accessory["_id"] = str(accessory["_id"])
-			accessories_json.append(accessory)
+		for mongo_accessory in accessories:
+			accessory = Accessory.from_mongo_object(mongo_accessory)
+			accessories_json.append(accessory.to_json())
 
 		response = {
 			"accessories": accessories_json
@@ -42,13 +42,18 @@ class AccessoryFactory(AbstractFactory):
 		return response
 
 	def insert_or_update(self, accessory):
-		where = {"_id": ObjectId(str(accessory.id))}
+		where = None
+
+		if accessory.id is not None:
+			where = {Accessory.MongoDBFields.ID: ObjectId(str(accessory.id))}
 
 		accessory_mongo_object = accessory.mongo_json_representation()
-		if accessory_mongo_object.has_key("_id"):
-			accessory_mongo_object.pop("_id")
+		if accessory_mongo_object.has_key(Accessory.MongoDBFields.ID):
+			accessory_mongo_object.pop(Accessory.MongoDBFields.ID)
 
-		if self.table.find(where).count() > 0:
+		if where is not None and self.table.find(where).count() > 0:
 			self.table.update(where, accessory_mongo_object,True)
 		else:
 			self.table.insert(accessory_mongo_object)
+
+		accessory.id = None

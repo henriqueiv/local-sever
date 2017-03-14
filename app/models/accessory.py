@@ -8,6 +8,19 @@ AccessoryTypeCO2 = 2
 AccessoryTypeRelay = 3
 
 class Accessory(MongoDBModel):
+
+	class MongoDBFields:
+		Name = "name"
+		ID = "_id"
+		Type = "type"
+		Value = "value"
+
+	class JSONFields:
+		Name = "name"
+		ID = "_id"
+		Type = "type"
+		Value = "value"
+
 	type = AccessoryTypeUndefined
 	id = None
 	name = ""
@@ -20,18 +33,22 @@ class Accessory(MongoDBModel):
 		self.value = value
 
 	def mongo_json_representation(self):
-		object = {"name": self.name, "type": self.type, "value": self.value}
+		object = {Accessory.MongoDBFields.Name: self.name, Accessory.MongoDBFields.Type: self.type, Accessory.MongoDBFields.Value: self.value}
 		if self.id is not None:
-			object["_id"] = ObjectId(str(self.id))
+			object[Accessory.MongoDBFields.ID] = ObjectId(str(self.id))
 		return object
 
 	def to_json(self):
-		return self.mongo_json_representation()
+		object = {Accessory.JSONFields.Name: self.name, Accessory.JSONFields.Type: self.type, Accessory.JSONFields.Value: self.value}
+		if self.id is not None:
+			object[Accessory.JSONFields.ID] = str(self.id)
+		return object
 
 	@classmethod
 	def from_mongo_object(cls, mongo_object):
-		name = mongo_object["name"] if mongo_object.has_key("name") else None
-		id = ObjectId(mongo_object["_id"]) if mongo_object.has_key("_id") else None
-		type = mongo_object["type"] if mongo_object.has_key("type") else None
-		value = mongo_object["value"] if mongo_object.has_key("value") else None
+		name = mongo_object[Accessory.MongoDBFields.Name] if mongo_object.has_key(Accessory.MongoDBFields.Name) else None
+		id = mongo_object[Accessory.MongoDBFields.ID] if mongo_object.has_key(Accessory.MongoDBFields.ID) else None
+		type = mongo_object[Accessory.MongoDBFields.Type] if mongo_object.has_key(Accessory.MongoDBFields.Type) else None
+		value = mongo_object[Accessory.MongoDBFields.Value] if mongo_object.has_key(Accessory.MongoDBFields.Value) else None
+
 		return cls(name,id,type,value)
