@@ -18,6 +18,10 @@ class ServiceConfig:
 class AccessoryLoggerConfig:
 	min_interval_between_logs = None
 
+class BitsCloudClientConfig:
+	server_address = None
+	device_identifier = None
+
 
 tried_load_file = False
 if not tried_load_file:

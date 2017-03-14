@@ -14,7 +14,7 @@ class AccessoryManager:
 		accessories = self.get_accessories()
 		accessories_json = []
 		for accessory in accessories:
-			accessories_json.append({"id": accessory.id, "name": accessory.name, "type": accessory.type, "value": accessory.value})
+			accessories_json.append(accessory.to_json())
 		return accessories_json
 
 	def get_accessories(self):

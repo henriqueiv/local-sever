@@ -68,9 +68,6 @@ class SocketMessage:
         ArgumentsKey = "arguments"
         ObjectKey = "object"
 
-        URIActionIndex = 0
-        URITopicIndex = 1
-
 
     def __init__(self, socket_message):
         try:

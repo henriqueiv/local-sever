@@ -2,6 +2,7 @@ import time
 import websocket as _websocket
 import threading
 import thread
+from app.configs import BitsCloudClientConfig
 
 class BitsCloudClient:
     
@@ -19,11 +20,11 @@ class BitsCloudClient:
 
     def reconnect(self):
         _websocket.enableTrace(self.debug)
-        remote_ws = _websocket.WebSocketApp("ws://127.0.0.1:8890/ws",
-                      on_message = self.on_message_remote,
-                      on_error = self.on_error_remote,
-                      on_close = self.on_close_remote)
-        remote_ws.on_open = self.on_open_remote
+        remote_ws = _websocket.WebSocketApp(BitsCloudClientConfig.server_address,
+                      on_message = self.received_message_from_cloud,
+                      on_error = self.cloud_connection_error,
+                      on_close = self.cloud_connection_close)
+        remote_ws.on_open = self.cloud_connection_open
 
         def retry():
             if remote_ws is not None:
@@ -36,14 +37,14 @@ class BitsCloudClient:
         wst_remote.daemon = True
         wst_remote.start()
 
-    def on_message_remote(self, ws, message):
+    def received_message_from_cloud(self, ws, message):
         try:
             if self.on_message is not None:
                 self.on_message(message, ws)
         except Exception, e:
             print "error: " + str(e)
 
-    def on_error_remote(self, ws, error):
+    def cloud_connection_error(self, ws, error):
         def delay_and_retry():
             time.sleep(self.reconnect_timeout)
             self.reconnect()
@@ -53,14 +54,13 @@ class BitsCloudClient:
             a.daemon = True
             a.start()
 
-    def on_close_remote(self, ws):
+    def cloud_connection_close(self, ws):
         if self.on_close is not None:
             self.on_close(ws)
 
-    def on_open_remote(self, ws):
-        
+    def cloud_connection_open(self, ws):
         def run(*args):
-            ws.send("{\"register\": \"aaa\"}")
+            ws.send("{\"register\": \"" + BitsCloudClientConfig.device_identifier + "\"}")
 
         thread.start_new_thread(run, ())
 
