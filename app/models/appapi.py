@@ -1,12 +1,12 @@
 import json
 
 class AppAPI:
-	class Constants:
-		AccessoriesTopic = "accessories"
-		NotesTopic = "notes"
-		TasksTopic = "tasks"
-		UsersTopic = "users"
-		AccessoriesLogsTopic = "accessories_logs"
+	class Topic:
+		Accessories = "accessories"
+		Notes = "notes"
+		Tasks = "tasks"
+		Users = "users"
+		AccessoriesLogs = "accessories_logs"
 
 	class Error:
 

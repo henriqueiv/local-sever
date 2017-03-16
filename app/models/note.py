@@ -26,7 +26,7 @@ class Note(MongoDBModel):
 	accessory_log_id = None
 
 	def __init__(self, json_object = None):
-		if json_object is None:
+		if json_object is None or not isinstance(json_object, dict):
 			return
 
 		if json_object.has_key(Note.JSONField.ID):

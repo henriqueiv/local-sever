@@ -45,11 +45,11 @@ class AccessoryFactory(AbstractFactory):
 		where = None
 
 		if accessory.id is not None:
-			where = {Accessory.MongoDBFields.ID: ObjectId(str(accessory.id))}
+			where = {Accessory.MongoDBField.ID: ObjectId(str(accessory.id))}
 
 		accessory_mongo_object = accessory.mongo_json_representation()
-		if accessory_mongo_object.has_key(Accessory.MongoDBFields.ID):
-			accessory_mongo_object.pop(Accessory.MongoDBFields.ID)
+		if accessory_mongo_object.has_key(Accessory.MongoDBField.ID):
+			accessory_mongo_object.pop(Accessory.MongoDBField.ID)
 
 		if where is not None and self.table.find(where).count() > 0:
 			self.table.update(where, accessory_mongo_object,True)

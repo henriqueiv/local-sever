@@ -28,11 +28,11 @@ cloud_client.on_message = socket_api_handler.dispatch
 socket_handler_params =  {"on_close": clients_updater.remove_client, "on_message": socket_api_handler.dispatch, "on_open": clients_updater.add_client}
 app = web.Application([
     (r'/ws', SocketHandler, socket_handler_params),
-    (r'/' + AppAPI.Constants.UsersTopic, UserRequestHandler),
-    (r'/' + AppAPI.Constants.TasksTopic, TasksRequestHandler,dict(clients_updater = clients_updater)),
-    (r'/' + AppAPI.Constants.NotesTopic, NotesRequestHandler,dict(clients_updater = clients_updater)),
-    (r'/' + AppAPI.Constants.AccessoriesLogsTopic, AccessoryLogsRequestHandler),
-    (r'/' + AppAPI.Constants.AccessoriesTopic, AccessoryRequestHandler),
+    (r'/' + AppAPI.Topic.Users, UserRequestHandler),
+    (r'/' + AppAPI.Topic.Tasks, TasksRequestHandler,dict(clients_updater = clients_updater)),
+    (r'/' + AppAPI.Topic.Notes, NotesRequestHandler,dict(clients_updater = clients_updater)),
+    (r'/' + AppAPI.Topic.AccessoriesLogs, AccessoryLogsRequestHandler),
+    (r'/' + AppAPI.Topic.Accessories, AccessoryRequestHandler),
     (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     (r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
 ])

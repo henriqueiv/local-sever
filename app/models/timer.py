@@ -20,6 +20,9 @@ class Timer:
 	timezone = None
 
 	def __init__(self, json_object):
+		if json_object is None or not isinstance(json_object, dict):
+			return
+			
 		self.year = json_object[Timer.JSONField.Year] if json_object.has_key(Timer.JSONField.Year) else None
 		self.month = json_object[Timer.JSONField.Month] if json_object.has_key(Timer.JSONField.Month) else None
 		self.day = json_object[Timer.JSONField.Day] if json_object.has_key(Timer.JSONField.Day) else None

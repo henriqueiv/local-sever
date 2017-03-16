@@ -17,7 +17,7 @@ class TimerTask(MongoDBModel):
 		AccessoryID = "accessory_id"
 		Timer = "timer"
 
-	class MongoDBFields:
+	class MongoDBField:
 		ID = "_id"
 		Name = "name"
 		Action = "action"
@@ -36,6 +36,9 @@ class TimerTask(MongoDBModel):
 	user_id = None
 
 	def __init__(self, json_object):
+		if json_object is None or not isinstance(json_object, dict):
+			return
+			
 		if json_object.has_key(TimerTask.JSONField.ID):
 			self.id = ObjectId(str(json_object[TimerTask.JSONField.ID]))
 
@@ -56,19 +59,19 @@ class TimerTask(MongoDBModel):
 		return self.timer.is_on_time() or self.timer.is_late()
 
 	def mongo_json_representation(self):
-		object = {TimerTask.MongoDBFields.CreationDate: self.creation_date, TimerTask.MongoDBFields.Action: self.action, TimerTask.MongoDBFields.Name: self.name}
+		object = {TimerTask.MongoDBField.CreationDate: self.creation_date, TimerTask.MongoDBField.Action: self.action, TimerTask.MongoDBField.Name: self.name}
 
 		if self.accessory_id is not None:
-			object[TimerTask.MongoDBFields.AccessoryID] = self.accessory_id
+			object[TimerTask.MongoDBField.AccessoryID] = self.accessory_id
 
 		if self.user_id is not None:
-			object[TimerTask.MongoDBFields.UserID] = self.user_id
+			object[TimerTask.MongoDBField.UserID] = self.user_id
 
 		if self.id is not None:
-			object[TimerTask.MongoDBFields.ID] = self.id
+			object[TimerTask.MongoDBField.ID] = self.id
 		
 		if self.timer is not None:
-			object[TimerTask.MongoDBFields.Timer] = self.timer.to_json()
+			object[TimerTask.MongoDBField.Timer] = self.timer.to_json()
 		return object
 
 	def to_json(self):

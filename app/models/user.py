@@ -14,13 +14,16 @@ class User(MongoDBModel):
 		Password = "password"
 
 
-	class MongoDBFields:
+	class MongoDBField:
 		ID = "_id"
 		Name = "name"
 		Username = "username"
 		Password = "password"
 
 	def __init__(self, json_object):
+		if json_object is None or not isinstance(json_object, dict):
+			return
+			
 		self.id = ObjectId(str(json_object[User.JSONField.ID])) if json_object.has_key(User.JSONField.ID) else None
 		self.name = json_object[User.JSONField.Name] if json_object.has_key(User.JSONField.Name) else None
 		self.username = json_object[User.JSONField.Username] if json_object.has_key(User.JSONField.Username) else None
@@ -28,10 +31,10 @@ class User(MongoDBModel):
 		
 
 	def mongo_json_representation(self):
-		mongo_representation_object = {User.MongoDBFields.Name: self.name, User.MongoDBFields.Username: self.username, User.MongoDBFields.Password: self.password}
+		mongo_representation_object = {User.MongoDBField.Name: self.name, User.MongoDBField.Username: self.username, User.MongoDBField.Password: self.password}
 
 		if self.id is not None:
-			mongo_representation_object[User.MongoDBFields.ID] = self.id
+			mongo_representation_object[User.MongoDBField.ID] = self.id
 		return mongo_representation_object
 
 	def to_json(self):

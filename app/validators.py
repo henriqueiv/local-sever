@@ -9,6 +9,14 @@ class Validator:
 
     def validate(self, json_object, in_key = ""):
         self.error_messages = []
+        if json_object is None or not isinstance(json_object, dict):
+            error_message = "object not sent in correct format"
+            if len(in_key) > 0:
+                error_message = error_message + " in the `" + in_key + "` field"
+                self.error_messages.append(error_message)
+            return
+
+        self.error_messages = []
         for field in self.validate_fields:
             if not json_object.has_key(field):
                 error_message = "`" + str(field) + "` field not sent"
@@ -34,7 +42,8 @@ class TimerValidator(Validator):
         "day",
         "hour",
         "minute",
-        "seconds"
+        "seconds",
+        "timezone"
     ]
 
 class AccessoryValidator(Validator):

@@ -67,6 +67,25 @@ Endpoints:
 				}
 			}
 
+		Response:
+			{
+				"accessory_id": "58c75a7c0be44400b29ce61a",
+				"user_id": "58badd550be4444b2ffb6930", 
+				"name": "A name", 
+				"timer": {
+					"hour": "Int", 
+					"seconds": "Int", 
+					"month": "Int", 
+					"year": "Int", 
+					"timezone": "1800", 
+					"day": "Int", 
+					"minute": "Int"
+				}, 
+				"creation_date": 1489582055.321008, 
+				"action": "turn_on", 
+				"_id": "58c937e70be444a541403984"
+			}
+
 	Delete:
 		Http Request Body: {"_id": "ObjectId"}
 		Websocket: 
@@ -154,7 +173,6 @@ Endpoints:
 
 	"task": {
 		"_id": "ObjectId",
-		"uri": "String",
 		"accessory_id": "Int",
 		"timer": "Timer",
 		"name": "String",

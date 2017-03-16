@@ -143,11 +143,11 @@ class SocketAPIHandler:
 		socket_message = SocketMessage(message)
 
 		topics = {
-			AppAPI.Constants.AccessoriesTopic: self.dispatch_accessories,
-			AppAPI.Constants.NotesTopic: self.dispatch_notes,
-			AppAPI.Constants.TasksTopic: self.dispatch_tasks,
-			AppAPI.Constants.UsersTopic: self.dispatch_users,
-			AppAPI.Constants.AccessoriesLogsTopic: self.dispatch_accessory_log
+			AppAPI.Topic.Accessories: self.dispatch_accessories,
+			AppAPI.Topic.Notes: self.dispatch_notes,
+			AppAPI.Topic.Tasks: self.dispatch_tasks,
+			AppAPI.Topic.Users: self.dispatch_users,
+			AppAPI.Topic.AccessoriesLogs: self.dispatch_accessory_log
 		}
 
 		try:
@@ -156,7 +156,7 @@ class SocketAPIHandler:
 				return self.execute_read(error, sender, socket_message)
 
 			topic = socket_message.uri.topic
-
+			
 			if topic is not None and not topics.has_key(topic):
 				error = AppAPI.Error(["topic `" + topic + "` is not valid"]).json_object()
 				return self.execute_read(error, sender, socket_message)

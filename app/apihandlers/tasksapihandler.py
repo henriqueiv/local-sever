@@ -53,8 +53,9 @@ class TasksAPIHandler:
 	def create(self,request_body, as_string = False):
 		response = {}
 		try:
-			task_handler_validator = TasksPostRequestHandlerValidator()
+			task_handler_validator = TasksPostRequestHandlerValidator()	
 			task_handler_validator.validate(request_body)
+
 			if task_handler_validator.has_errors():
 				response = AppAPI.Error(task_handler_validator.error_messages).json_object()
 			else:
