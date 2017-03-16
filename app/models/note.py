@@ -33,7 +33,7 @@ class Note(MongoDBModel):
 			self.id = json_object[Note.JSONField.ID]
 
 		self.text = json_object[Note.JSONField.Text] if json_object.has_key(Note.JSONField.Text) else None
-		self.user_id = ObjectId(str(json_object[Note.JSONField.UserID])) if json_object.has_key(Note.JSONField.UserID) else None
+		self.user_id = json_object[Note.JSONField.UserID] if json_object.has_key(Note.JSONField.UserID) else None
 		self.creation_date = json_object[Note.JSONField.CreationDate] if json_object.has_key(Note.JSONField.CreationDate) else None
 		self.accessory_id = json_object[Note.JSONField.AccessoryID] if json_object.has_key(Note.JSONField.AccessoryID) else None
 		self.accessory_log_id = json_object[Note.JSONField.AccessoryLogID] if json_object.has_key(Note.JSONField.AccessoryLogID) else None

@@ -31,7 +31,7 @@ class UsersAPIHandler:
 				user = User(request_body)
 				user.id = str(self.user_factory.insert(user))
 
-				response = {Constants.Constants.UserKey: user.to_json()}
+				response = {UsersAPIHandler.Constants.UserKey: user.to_json()}
 
 		except Exception, e:
 			response = AppAPI.Error([str(e)]).json_object()
