@@ -90,3 +90,6 @@ ENV/
 
 # Config file
 app/prefs.py
+
+# Poxa vida cara
+.DS_Store
